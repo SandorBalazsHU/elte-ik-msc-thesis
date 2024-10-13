@@ -16,9 +16,10 @@ IF %ERRORLEVEL% EQU 0 (
 ) ELSE (
     :: Kérjük be a commit üzenetet
     set /p commit_message="New commit message: "
+	echo %commit_message%
 
     :: Commitolunk a megadott üzenettel
-    git add -A
+    git add .
     git commit -m %commit_message%
 
     :: Pusholás a távoli repóba
