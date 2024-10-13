@@ -19,7 +19,7 @@ IF %ERRORLEVEL% EQU 0 (
 
     :: Commitolunk a megadott üzenettel
     git add -A
-    git commit -m "%commit_message%"
+    git commit -m %commit_message%
 
     :: Pusholás a távoli repóba
     git push
