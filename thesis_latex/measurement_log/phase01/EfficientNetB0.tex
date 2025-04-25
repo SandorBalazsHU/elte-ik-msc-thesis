@@ -1,0 +1,70 @@
+A EfficientNet-B0@ImageNet1k modell tanítás nélküli tesztelésének eredménye gyári súlyokkal. Lásd a a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+
+\subsubsection{EfficientNet-B0@ImageNet1k tanítás nélkül teszt}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{EfficientNet-B0@ImageNet1k tanítás nélküli vizsgálat eredményei} \label{tab:phase01_EfficientNet-B0} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy & 0.4802 \\
+  Top-5 Accuracy & 0.8217 \\
+  Precision & 0.4137 \\
+  Recall & 0.4039 \\
+  F1-score & 0.3829 \\
+  Inference time & 28.89 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+\subsubsection{EfficientNet-B0@ImageNet1k tanítás nélkül sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase01/EfficientNet-B0_basic_conf_mat.png}
+    \caption{EfficientNet-B0@ImageNet1k tanítás nélküli sima Confusion Mátrix}
+    \label{fig:phase01_EfficientNet-B0_basic_conf_mat}
+  \end{figure}
+\subsubsection{EfficientNet-B0@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase01/EfficientNet-B0_normalised_conf_mat.png}
+    \caption{EfficientNet-B0@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
+    \label{fig:phase01_EfficientNet-B0_normalised_conf_mat}
+  \end{figure}
+\subsubsection{EfficientNet-B0@ImageNet1k tanítás nélküli részletes osztályonkénti metrikák}
+  \input{tables/phase1_EfficientNet-B0_class_table}
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA L4
+  \item GPU memória (lefoglalt): 0.96 GB
+  \item GPU memória (használt):  0.14 GB
+\end{itemize}
+\subsubsection{Legrosszabbul teljesítő osztályok}
+\begin{center}
+  \begin{longtable}{llll}
+  \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase01_EfficientNet-B0_legrosszabb_osztlyok}\\
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endhead
+  accordion & 0.09 & 0.26 & 0.14 \\
+  planetarium & 0.09 & 0.08 & 0.09 \\
+  space-shuttle & 0.15 & 0.11 & 0.12 \\
+  missile & 0.15 & 0.20 & 0.17 \\
+  maraca & 0.16 & 0.19 & 0.17 \\
+  radio-telescope & 0.21 & 0.14 & 0.17 \\
+  mountain-tent & 0.26 & 0.08 & 0.13 \\
+  bow-tie & 0.28 & 0.07 & 0.12 \\
+  barn & 0.33 & 0.12 & 0.17 \\
+  picket-fence & 0.39 & 0.06 & 0.10 \\
+  \bottomrule
+  \end{longtable}
+  \end{center}  

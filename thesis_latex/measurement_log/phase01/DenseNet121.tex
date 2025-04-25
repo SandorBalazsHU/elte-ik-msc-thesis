@@ -1,75 +1,74 @@
-A DenseNet121@ImageNet1k modell tanítás nélküli tesztelésének eredménye gyári súlyokkal. Lásd a következő ábrákat és táblázatokat a mérések eredményeihez:
-
-\begin{itemize}
-  \item Összesítő eredmények: \ref{tab:phase01_ResNet50}.~táblázat
-  \item Confusion Mátrix: \ref{fig:phase01_ResNet50_basic_conf_mat}.~ábra
-  \item Normalizált Confusion Mátrix: \ref{fig:phase01_ResNet50_normalised_conf_mat}.~ábra
-  \item Osztályonkénti statisztikák: \ref{tab:phase1_resnet50_class_table}.~táblázat
-  \item Legrosszabb osztályok: \ref{phase01_resnet50_legrosszabb_osztlyok}.~táblázat
-\end{itemize}
+A DenseNet121@ImageNet1k modell tanítás nélküli tesztelésének eredménye gyári súlyokkal. Lásd a soron következő ábrákat és táblázatokat a mérések eredményeihez.
 
 \subsubsection{DenseNet121@ImageNet1k tanítás nélkül teszt}
-  \begin{table}[H]
-    \centering
-    \begin{tabular}{|l|c|}
-      \hline
-      \textbf{Metrika} & \textbf{Érték} \\
-      \hline
-      Top-1 Accuracy & 0.4698 \\
-      Top-5 Accuracy & 0.7962 \\
-      Precision & 0.3934 \\
-      Recall & 0.3797 \\
-      F1-score & 0.3592 \\
-      Inference time & 25.21 sec \\
-      \hline
-    \end{tabular}
-    \caption{DenseNet121 @ ImageNet1k tanítás nélküli vizsgálat eredményei}
-    \label{tab:phase01_ResNet50}
-  \end{table}
+  \begin{center}
+  \begin{longtable}{lc}
+  \caption{DenseNet121 @ ImageNet1k tanítás nélküli vizsgálat eredményei}%
+  \label{tab:phase01_DenseNet121} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+
+  Top-1 Accuracy & 0.4498 \\
+  Top-5 Accuracy & 0.7806 \\
+  Precision & 0.3874 \\
+  Recall & 0.3611 \\
+  F1-score & 0.3408 \\
+  Inference time & 25.15 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
 \subsubsection{DenseNet121@ImageNet1k tanítás nélkül sima Confusion Mátrix}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/phase01/ResNet50_basic_conf_mat.png}
+    \includegraphics[width=0.7\textwidth]{images/phase01/DenseNet121_basic_conf_mat.png}
     \caption{DenseNet121@ImageNet1k tanítás nélküli sima Confusion Mátrix}
-    \label{fig:phase01_ResNet50_basic_conf_mat}
+    \label{fig:phase01_DenseNet121_basic_conf_mat}
   \end{figure}
 \subsubsection{DenseNet121@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/phase01/ResNet50_normalised_conf_mat.png}
+    \includegraphics[width=0.7\textwidth]{images/phase01/DenseNet121_normalised_conf_mat.png}
     \caption{DenseNet121@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
-    \label{fig:phase01_ResNet50_normalised_conf_mat}
+    \label{fig:phase01_DenseNet121_normalised_conf_mat}
   \end{figure}
 \subsubsection{DenseNet121@ImageNet1k tanítás nélküli részletes osztályonkénti metrikák}
-  \input{tables/phase1_resnet50_class_table}
+  \input{tables/phase1_DenseNet121_class_table}
 \subsubsection{GPU memóriahasználat}
 \begin{itemize}
   \item aktív GPU: NVIDIA A100-SXM4-40GB
-  \item GPU memória (lefoglalt): 0.96 GB
-  \item GPU memória (használt):  0.14 GB
+  \item GPU memória (lefoglalt): 1.04 GB
+  \item GPU memória (használt):  0.07 GB
 \end{itemize}
 \subsubsection{Legrosszabbul teljesítő osztályok}
-  \begin{center}
-    \begin{longtable}{llll}
-    \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase01_resnet50_legrosszabb_osztlyok}\\
-    \toprule
-    class & precision & recall & f1-score \\
-    \midrule
-    \endfirsthead
-    \toprule
-    class & precision & recall & f1-score \\
-    \midrule
-    \endhead
-    planetarium & 0.05 & 0.08 & 0.06 \\
-    maraca & 0.11 & 0.10 & 0.11 \\
-    cinema & 0.16 & 0.18 & 0.17 \\
-    bow-tie & 0.16 & 0.04 & 0.07 \\
-    space-shuttle & 0.17 & 0.14 & 0.15 \\
-    mountain-tent & 0.18 & 0.06 & 0.09 \\
-    picket-fence & 0.18 & 0.02 & 0.03 \\
-    barn & 0.25 & 0.08 & 0.12 \\
-    hay & 0.35 & 0.10 & 0.15 \\
-    patio & 0.57 & 0.09 & 0.16 \\
-    \bottomrule
-    \end{longtable}
-    \end{center}
+\begin{center}
+  \begin{longtable}{llll}
+  \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase01_DenseNet121_legrosszabb_osztlyok}\\
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endhead
+  mountain-tent & 0.05 & 0.01 & 0.01 \\
+  accordion & 0.05 & 0.15 & 0.08 \\
+  torch & 0.10 & 0.30 & 0.15 \\
+  planetarium & 0.12 & 0.16 & 0.14 \\
+  radio-telescope & 0.16 & 0.13 & 0.15 \\
+  bow-tie & 0.25 & 0.03 & 0.05 \\
+  birdhouse & 0.31 & 0.07 & 0.11 \\
+  barn & 0.45 & 0.09 & 0.15 \\
+  patio & 0.55 & 0.08 & 0.13 \\
+  picket-fence & 0.75 & 0.05 & 0.10 \\
+  \bottomrule
+  \end{longtable}
+  \end{center}

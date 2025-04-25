@@ -1,31 +1,28 @@
-A Resnet50@ImageNet1k modell tanítás nélküli tesztelésének eredménye gyári súlyokkal. Lásd a következő ábrákat és táblázatokat a mérések eredményeihez:
-
-\begin{itemize}
-  \item Összesítő eredmények: \ref{tab:phase01_ResNet50}.~táblázat
-  \item Confusion Mátrix: \ref{fig:phase01_ResNet50_basic_conf_mat}.~ábra
-  \item Normalizált Confusion Mátrix: \ref{fig:phase01_ResNet50_normalised_conf_mat}.~ábra
-  \item Osztályonkénti statisztikák: \ref{tab:phase1_resnet50_class_table}.~táblázat
-  \item Legrosszabb osztályok: \ref{phase01_resnet50_legrosszabb_osztlyok}.~táblázat
-\end{itemize}
+A Resnet50@ImageNet1k modell tanítás nélküli tesztelésének eredménye gyári súlyokkal. Lásd a a soron következő ábrákat és táblázatokat a mérések eredményeihez.
 
 \subsubsection{ResNet50@ImageNet1k tanítás nélkül teszt}
-  \begin{table}[H]
-    \centering
-    \begin{tabular}{|l|c|}
-      \hline
-      \textbf{Metrika} & \textbf{Érték} \\
-      \hline
-      Top-1 Accuracy & 0.4698 \\
-      Top-5 Accuracy & 0.7962 \\
-      Precision & 0.3934 \\
-      Recall & 0.3797 \\
-      F1-score & 0.3592 \\
-      Inference time & 25.21 sec \\
-      \hline
-    \end{tabular}
-    \caption{ResNet50 @ ImageNet1k tanítás nélküli vizsgálat eredményei}
-    \label{tab:phase01_ResNet50}
-  \end{table}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{ResNet50@ImageNet1k tanítás nélküli vizsgálat eredményei} \label{tab:phase01_ResNet50} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+
+  Top-1 Accuracy & 0.4698 \\
+  Top-5 Accuracy & 0.7962 \\
+  Precision & 0.3934 \\
+  Recall & 0.3797 \\
+  F1-score & 0.3592 \\
+  Inference time & 25.21 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
 \subsubsection{ResNet50@ImageNet1k tanítás nélkül sima Confusion Mátrix}
   \begin{figure}[H]
     \centering
