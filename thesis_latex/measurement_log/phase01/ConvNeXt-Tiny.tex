@@ -1,0 +1,73 @@
+A ConvNeXt-Tiny@ImageNet1k modell tanítás nélküli tesztelésének eredménye gyári súlyokkal. Lásd a a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+
+\subsubsection{ConvNeXt-Tiny@ImageNet1k tanítás nélkül teszt}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{ConvNeXt-Tiny@ImageNet1k tanítás nélküli vizsgálat eredményei} \label{tab:phase01_ConvNeXt-Tiny} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+
+  Top-1 Accuracy & 0.5048 \\
+  Top-5 Accuracy & 0.8471 \\
+  Precision & 0.4917 \\
+  Recall & 0.4369 \\
+  F1-score & 0.4194 \\
+  Inference time & 38.40 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+\subsubsection{ConvNeXt-Tiny@ImageNet1k tanítás nélkül sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase01/ConvNeXt-Tiny_basic_conf_mat.png}
+    \caption{ConvNeXt-Tiny@ImageNet1k tanítás nélküli sima Confusion Mátrix}
+    \label{fig:phase01_ConvNeXt-Tiny_basic_conf_mat}
+  \end{figure}
+\subsubsection{ConvNeXt-Tiny@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase01/ConvNeXt-Tiny_normalised_conf_mat.png}
+    \caption{ConvNeXt-Tiny@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
+    \label{fig:phase01_ConvNeXt-Tiny_normalised_conf_mat}
+  \end{figure}
+\subsubsection{ConvNeXt-Tiny@ImageNet1k tanítás nélküli részletes osztályonkénti metrikák}
+  \input{tables/phase1_ConvNeXt-Tiny_class_table}
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA L4
+  \item GPU memória (lefoglalt): 0.96 GB
+  \item GPU memória (használt):  0.14 GB
+\end{itemize}
+\subsubsection{Legrosszabbul teljesítő osztályok}
+\begin{center}
+  \begin{longtable}{llll}
+  \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase01_ConvNeXt-Tiny_legrosszabb_osztlyok}\\
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endhead
+  accordion & 0.07 & 0.15 & 0.09 \\
+  planetarium & 0.09 & 0.10 & 0.10 \\
+  aircraft-carrier & 0.15 & 0.05 & 0.08 \\
+  space-shuttle & 0.20 & 0.17 & 0.18 \\
+  radio-telescope & 0.22 & 0.11 & 0.15 \\
+  bow-tie & 0.36 & 0.06 & 0.10 \\
+  birdhouse & 0.48 & 0.10 & 0.17 \\
+  barn & 0.67 & 0.05 & 0.10 \\
+  picket-fence & 0.69 & 0.08 & 0.14 \\
+  groom & 0.97 & 0.10 & 0.18 \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+  
