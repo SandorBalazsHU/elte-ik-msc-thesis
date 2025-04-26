@@ -1,0 +1,73 @@
+A NASNet@ImageNet1k modell tanítás nélküli tesztelésének eredménye gyári súlyokkal. Lásd a a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+
+\subsubsection{NASNet@ImageNet1k tanítás nélkül teszt}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{NASNet@ImageNet1k tanítás nélküli vizsgálat eredményei} \label{tab:phase01_NASNet} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+
+  Top-1 Accuracy & 0.2820 \\
+  Top-5 Accuracy & 0.5408 \\
+  Precision & 0.3204 \\
+  Recall & 0.2799 \\
+  F1-score & 0.2696 \\
+  Inference time & 275.30 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+\subsubsection{NASNet@ImageNet1k tanítás nélkül sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase01/NASNet_basic_conf_mat.png}
+    \caption{NASNet@ImageNet1k tanítás nélküli sima Confusion Mátrix}
+    \label{fig:phase01_NASNet_basic_conf_mat}
+  \end{figure}
+\subsubsection{NASNet@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase01/NASNet_normalised_conf_mat.png}
+    \caption{NASNet@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
+    \label{fig:phase01_NASNet_normalised_conf_mat}
+  \end{figure}
+\subsubsection{NASNet@ImageNet1k tanítás nélküli részletes osztályonkénti metrikák}
+  \input{tables/phase1_NASNet_class_table}
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA L4
+  \item GPU memória (lefoglalt): 7.20 GB
+  \item GPU memória (használt):  0.41 GB
+\end{itemize}
+\subsubsection{Legrosszabbul teljesítő osztályok}
+\begin{center}
+  \begin{longtable}{llll}
+  \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase01_NASNet_legrosszabb_osztlyok}\\
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endhead
+  ping-pong-ball & 0.02 & 0.04 & 0.03 \\
+  matchstick & 0.02 & 0.78 & 0.05 \\
+  space-shuttle & 0.03 & 0.05 & 0.04 \\
+  torch & 0.03 & 0.06 & 0.04 \\
+  maraca & 0.05 & 0.04 & 0.05 \\
+  grand-piano & 0.08 & 0.05 & 0.06 \\
+  steel-drum & 0.09 & 0.05 & 0.06 \\
+  picket-fence & 0.12 & 0.04 & 0.06 \\
+  accordion & 0.12 & 0.04 & 0.06 \\
+  bow-tie & 0.25 & 0.03 & 0.05 \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+  

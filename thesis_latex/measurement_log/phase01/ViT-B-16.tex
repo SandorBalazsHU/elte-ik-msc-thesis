@@ -1,0 +1,74 @@
+A ViT-B-16@ImageNet1k modell tanítás nélküli tesztelésének eredménye gyári súlyokkal. Lásd a a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+
+\subsubsection{ViT-B-16@ImageNet1k tanítás nélkül teszt}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{ViT-B-16@ImageNet1k tanítás nélküli vizsgálat eredményei} \label{tab:phase01_ViT-B-16} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+
+  Top-1 Accuracy & 0.5308 \\
+  Top-5 Accuracy & 0.8582 \\
+  Precision & 0.4629 \\
+  Recall & 0.4419 \\
+  F1-score & 0.4307 \\
+  Inference time & 92.13 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+\subsubsection{ViT-B-16@ImageNet1k tanítás nélkül sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase01/ViT-B-16_basic_conf_mat.png}
+    \caption{ViT-B-16@ImageNet1k tanítás nélküli sima Confusion Mátrix}
+    \label{fig:phase01_ViT-B-16_basic_conf_mat}
+  \end{figure}
+\subsubsection{ViT-B-16@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase01/ViT-B-16_normalised_conf_mat.png}
+    \caption{ViT-B-16@ImageNet1k tanítás nélküli normalizált Confusion Mátrix}
+    \label{fig:phase01_ViT-B-16_normalised_conf_mat}
+  \end{figure}
+\subsubsection{ViT-B-16@ImageNet1k tanítás nélküli részletes osztályonkénti metrikák}
+  \input{tables/phase1_ViT-B-16_class_table}
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA L4
+  \item GPU memória (lefoglalt): 3.2 GB
+  \item GPU memória (használt):  0.25 GB
+\end{itemize}
+\subsubsection{Legrosszabbul teljesítő osztályok}
+\begin{center}
+  \begin{longtable}{llll}
+  \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase01_ViT-B-16_legrosszabb_osztlyok}\\
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endhead
+  accordion & 0.08 & 0.32 & 0.13 \\
+  cinema & 0.15 & 0.25 & 0.19 \\
+  beacon & 0.20 & 0.15 & 0.17 \\
+  planetarium & 0.20 & 0.18 & 0.19 \\
+  oxygen-mask & 0.24 & 0.15 & 0.19 \\
+  aircraft-carrier & 0.27 & 0.15 & 0.20 \\
+  radio-telescope & 0.30 & 0.13 & 0.18 \\
+  mountain-tent & 0.32 & 0.10 & 0.15 \\
+  barn & 0.33 & 0.09 & 0.14 \\
+  car-mirror & 0.35 & 0.13 & 0.19 \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+  
+  
