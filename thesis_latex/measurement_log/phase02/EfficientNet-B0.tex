@@ -1,0 +1,172 @@
+A EfficientNet-B0 modell sb-photothemes-imagenet114 adathalmazon teljes tanítással történt tesztelésének eredménye. Lásd a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+
+\subsubsection{EfficientNet-B0 teljes tanítás folyamata}
+\begin{itemize} 
+	\item Epoch 1/10 - train: 2259/2259 [03:18<00:00, 11.40it/s]
+	\item Epoch 1/10 - val: 282/282 [00:24<00:00, 11.68it/s]
+	\item Epoch 1: Train loss=1.7197, acc=0.5629 Val loss=1.1634, acc=0.6676
+	\item Epoch 2/10 - train: 2259/2259 [03:15<00:00, 11.58it/s]
+	\item Epoch 2/10 - val: 282/282 [00:24<00:00, 11.32it/s]
+	\item Epoch 2: Train loss=1.0839, acc=0.6881 Val loss=1.0030, acc=0.7094
+	\item Epoch 3/10 - train: 2259/2259 [03:16<00:00, 11.49it/s]
+	\item Epoch 3/10 - val: 282/282 [00:24<00:00, 11.49it/s]
+	\item Epoch 3: Train loss=0.8694, acc=0.7429 Val loss=0.9497, acc=0.7295
+	\item Epoch 4/10 - train: 2259/2259 [03:18<00:00, 11.39it/s]
+	\item Epoch 4/10 - val: 282/282 [00:24<00:00, 11.50it/s]
+	\item Epoch 4: Train loss=0.7178, acc=0.7834 Val loss=0.9296, acc=0.7429
+	\item Epoch 5/10 - train: 2259/2259 [03:16<00:00, 11.47it/s]
+	\item Epoch 5/10 - val: 282/282 [00:24<00:00, 11.52it/s]
+	\item Epoch 5: Train loss=0.6023, acc=0.8154 Val loss=0.9135, acc=0.7558
+	\item Epoch 6/10 - train: 2259/2259 [03:17<00:00, 11.46it/s]
+	\item Epoch 6/10 - val: 282/282 [00:24<00:00, 11.47it/s]
+	\item Epoch 6: Train loss=0.5112, acc=0.8407 Val loss=0.9244, acc=0.7586
+	\item Epoch 7/10 - train: 2259/2259 [03:16<00:00, 11.52it/s]
+	\item Epoch 7/10 - val: 282/282 [00:24<00:00, 11.32it/s]
+	\item Epoch 7: Train loss=0.4349, acc=0.8640 Val loss=0.9506, acc=0.7630
+	\item Epoch 8/10 - train: 2259/2259 [03:15<00:00, 11.53it/s]
+	\item Epoch 8/10 - val: 282/282 [00:24<00:00, 11.50it/s]
+	\item Epoch 8: Train loss=0.3823, acc=0.8796 Val loss=0.9799, acc=0.7661
+	\item Epoch 9/10 - train: 2259/2259 [03:16<00:00, 11.51it/s]
+	\item Epoch 9/10 - val: 282/282 [00:24<00:00, 11.45it/s]
+	\item Epoch 9: Train loss=0.3299, acc=0.8954 Val loss=1.0093, acc=0.7684
+	\item Epoch 10/10 - train: 2259/2259 [03:17<00:00, 11.45it/s]
+	\item Epoch 10/10 - val: 282/282 [00:24<00:00, 11.31it/s]
+	\item Epoch 10: Train loss=0.2928, acc=0.9066 Val loss=1.0443, acc=0.7658
+\end{itemize}
+
+\subsubsection{EfficientNet-B0 teljes tanítás folyamata}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/EfficientNet-B0_learning_curve.png}
+    \caption{EfficientNet-B0 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_EfficientNet-B0_learning_curves}
+  \end{figure}
+
+\subsubsection{EfficientNet-B0 teljes tanítás utáni eredményei}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{EfficientNet-B0 teljes tanítás utáni vizsgálati eredményei} \label{tab:phase02_EfficientNet-B0} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy & 0.7649 \\
+  Top-5 Accuracy & 0.9421 \\
+  Precision & 0.7130 \\
+  Recall & 0.6950 \\
+  F1-score & 0.7001 \\
+  Inference time & 25.26 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
+\subsubsection{EfficientNet-B0 eredményeinek összehasonlítása}
+  \begin{center}
+  \begin{longtable}{l c c}
+  \caption{EfficientNet-B0 eredményeinek összehasonlítása} \label{tab:phase02_EfficientNet-B0_compare} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy  & 0.4802 & 0.7649 \\
+  Top-5 Accuracy & 0.8217 & 0.9421 \\
+  Precision & 0.4137 & 0.7130 \\
+  Recall & 0.4039 & 0.6950 \\
+  F1-score & 0.3829 & 0.7001 \\
+  Inference time & 28.89 sec & 25.26 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
+\subsubsection{EfficientNet-B0 eredményeinek összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/EfficientNet-B0_compare01.png}
+    \caption{EfficientNet-B0 eredményeinek összehasonlítása}
+    \label{fig:EfficientNet-B0_compare01}
+  \end{figure}
+
+\subsubsection{EfficientNet-B0 eredményeinek összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/EfficientNet-B0_compare02.png}
+    \caption{EfficientNet-B0 eredményeinek összehasonlítása}
+    \label{fig:EfficientNet-B0_compare02}
+  \end{figure}
+
+\subsubsection{EfficientNet-B0 teljes tanítás utáni sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/EfficientNet-B0_basic_conf_mat.png}
+    \caption{EfficientNet-B0 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_EfficientNet-B0_basic_conf_mat}
+  \end{figure}
+
+  \subsubsection{EfficientNet-B0 Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/EfficientNet-B0_basic_conf_mat_compare.png}
+    \caption{EfficientNet-B0 sima Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_EfficientNet-B0_basic_conf_mat_compare}
+  \end{figure}
+
+  \subsubsection{EfficientNet-B0 teljes tanítás utáni normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/EfficientNet-B0_normalised_conf_mat.png}
+    \caption{EfficientNet-B0 teljes tanítás utáni normalizált Confusion Mátrix}
+    \label{fig:phase02_EfficientNet-B0_normalised_conf_mat}
+  \end{figure}
+
+  \subsubsection{EfficientNet-B0 normalizált Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/EfficientNet-B0_normalised_conf_mat_compare.png}
+    \caption{EfficientNet-B0 normalizált Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_EfficientNet-B0_normalised_conf_mat_compare}
+  \end{figure}
+
+\subsubsection{EfficientNet-B0 teljes tanítás utáni részletes osztályonkénti metrikák}
+  \input{tables/phase2_EfficientNet-B0_class_table}
+
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA A100-SXM4-40GB
+  \item GPU memória (lefoglalt): 1.0 GB
+  \item GPU memória (használt):  0.21 GB
+\end{itemize}
+
+\subsubsection{Legrosszabbul teljesítő osztályok}
+\begin{center}
+  \begin{longtable}{llll}
+  \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase02_EfficientNet-B0_legrosszabb_osztlyok}\\
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endhead
+  traffic-light & 0.45 & 0.38 & 0.41 \\
+  harmonica & 0.54 & 0.44 & 0.48 \\
+  neck-brace & 0.54 & 0.54 & 0.54 \\
+  accordion & 0.54 & 0.28 & 0.37 \\
+  maraca & 0.54 & 0.28 & 0.37 \\
+  crutch & 0.55 & 0.46 & 0.50 \\
+  sax & 0.55 & 0.49 & 0.52 \\
+  marimba & 0.56 & 0.38 & 0.45 \\
+  grand-piano & 0.56 & 0.51 & 0.53 \\
+  beacon & 0.69 & 0.44 & 0.53 \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+  
