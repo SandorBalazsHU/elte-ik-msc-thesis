@@ -1,4 +1,6 @@
-\documentclass[]{elteikthesis}[2024/04/26]
+\documentclass[	
+  noindent
+]{elteikthesis}[2024/04/26]
 
 \usepackage{booktabs}
 
@@ -117,6 +119,8 @@
 
 \chapter{Az ismert modellek tesztelése}
   \section{I.Mérési fázis: Modellek tesztelése tanítás nélkül}
+  Az első mérési fázis. A hét ismert modell tanítás nélküli eredeti élsúlyokkal történő vizsgálata történt meg a saját sb-photothemes-imagenet114 osztályozású adathalmazomon ami összesen 180750 képet tartalmaz 114 imagenet osztályba sorolva ahol nincs 300 képnél kisebb kategória Train, Val, Test halmazokra osztva 80, 10, 10 arányban. Így a Test halmaz 18172 képet tartalmaz szintén 114 kategóriára osztva. Ezen történt a hét ismert modell első fázisú tesztelése saját tanítás nélküli eredeti ImageNet1k-n előtanított súlyokkal. Nézzük most ennek a vizsgáltnak az eredményeit.
+
   \subsection{ResNet50 modell tanítás nélküli tesztelése}
     \input{measurement_log/phase01/ResNet50.tex}
   \subsection{DenseNet121 modell tanítás nélküli tesztelése}
@@ -128,10 +132,35 @@
   \subsection{ViT-B-16 modell tanítás nélküli tesztelése}
     \input{measurement_log/phase01/ViT-B-16.tex}
   \subsection{Inception-v3 modell tanítás nélküli tesztelése}
+    \input{measurement_log/phase01/Inception-v3.tex}
+  \subsection{NASNet modell tanítás nélküli tesztelése}
     \input{measurement_log/phase01/NASNet.tex}
-  \subsection{Inception-v3 modell tanítás nélküli tesztelése}
-    \input{measurement_log/phase01/NASNet.tex}
-\chapter{A saját modellek tesztelése}
+
+\section{I. Mérési fázis: Összefoglaló}
+  \input{measurement_log/phase01/summary.tex}
+
+
+  \section{II.Mérési fázis: Modellek tesztelése teljes tanítással}
+  A második mérési fázis. A hét ismert modellt ezúttal teljes tanítás után vizsgáltam. Az első fázis alap mérése után a második fázisban mind a hét modellt 10 epoch-on keresztül tanítottam a saját sb-photothemes-imagenet114 modellem tanítóhalmazán ami 144556 114 osztályra bontott képet tartalmaz és a tanítás közben az adathalmazom 18022 elemű szintén 114 osztályt tartalmazó validációs halmazán validáltam.
+  A tanítást követően az első fázissal megeggyező módon lefuttattam az adathalmazom teszt halmazán ami 18172 képet és szintén 114 osztályt tartalmaz. Ennek a vizsgálatnak az eredményei olvashatók az alábbiakban.
+
+  \subsection{ResNet50 modell tesztelése teljes tanítássa}
+    \input{measurement_log/phase02/ResNet50.tex}
+%  \subsection{DenseNet121 tesztelése teljes tanítássa}
+%    \input{measurement_log/phase02/DenseNet121.tex}
+%  \subsection{EfficientNet-B0 tesztelése teljes tanítássa}
+%    \input{measurement_log/phase02/EfficientNetB0.tex}
+%  \subsection{ConvNeXt-Tiny tesztelése teljes tanítássa}
+%    \input{measurement_log/phase02/ConvNeXt-Tiny.tex}
+%  \subsection{ViT-B-16 tesztelése teljes tanítássa}
+%    \input{measurement_log/phase02/ViT-B-16.tex}
+%  \subsection{Inception-v3 tesztelése teljes tanítássa}
+%    \input{measurement_log/phase02/Inception-v3.tex}
+%  \subsection{NASNet tesztelése teljes tanítássa}
+%    \input{measurement_log/phase02/NASNet.tex}
+
+%\section{II. Mérési fázis: Összefoglaló}
+%  \input{measurement_log/phase02/summary.tex}
 
 \listoffigures
 \listoftables

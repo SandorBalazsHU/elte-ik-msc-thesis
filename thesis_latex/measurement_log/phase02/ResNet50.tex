@@ -1,0 +1,103 @@
+A Resnet50 modell sb-photothemes-imagenet114 adathalmazon teljes tanítással történt tesztelésének eredménye. Lásd a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+\subsubsection{ResNet50 teljes tanítás folyamata}
+\begin{itemize} 
+	\item Epoch 1/10 - train: 2259/2259 [03:29<00:00, 10.77it/s]
+	\item Epoch 1/10 - val: 282/282 [00:24<00:00, 11.42it/s]
+	\item Epoch 1: Train loss=1.4328, acc=0.6180, Val loss=1.0452, acc=0.6961, speed=10.77it/s
+	\item Epoch 2/10 - train: 2259/2259 [03:29<00:00, 10.80it/s]
+	\item Epoch 2/10 - val: 282/282 [00:24<00:00, 11.60it/s]
+	\item Epoch 2: Train loss=0.7961, acc=0.7653, Val loss=0.9251, acc=0.7359, speed=10.80it/s
+	\item Epoch 3/10 - train: 2259/2259 [03:29<00:00, 10.79it/s]
+	\item Epoch 3/10 - val: 282/282 [00:24<00:00, 11.48it/s]
+	\item Epoch 3: Train loss=0.5039, acc=0.8470, Val loss=0.9222, acc=0.7480, speed=10.79it/s
+	\item Epoch 4/10 - train: 2259/2259 [03:29<00:00, 10.79it/s]
+	\item Epoch 4/10 - val: 282/282 [00:24<00:00, 11.42it/s]
+	\item Epoch 4: Train loss=0.3260, acc=0.9004, Val loss=1.0148, acc=0.7506, speed=10.79it/s
+	\item Epoch 5/10 - train: 2259/2259 [03:29<00:00, 10.79it/s]
+	\item Epoch 5/10 - val: 282/282 [00:24<00:00, 11.52it/s]
+	\item Epoch 5: Train loss=0.2325, acc=0.9274, Val loss=1.0780, acc=0.7561, speed=10.79it/s
+	\item Epoch 6/10 - train: 2259/2259 [03:29<00:00, 10.79it/s]
+	\item Epoch 6/10 - val: 282/282 [00:24<00:00, 11.51it/s]
+	\item Epoch 6: Train loss=0.1836, acc=0.9437, Val loss=1.1245, acc=0.7534, speed=10.79it/s
+	\item Epoch 7/10 - train: 2259/2259 [03:29<00:00, 10.79it/s]
+	\item Epoch 7/10 - val: 282/282 [00:24<00:00, 11.36it/s]
+	\item Epoch 7: Train loss=0.1537, acc=0.9534, Val loss=1.1788, acc=0.7522, speed=10.79it/s
+	\item Epoch 8/10 - train: 2259/2259 [03:29<00:00, 10.78it/s]
+	\item Epoch 8/10 - val: 282/282 [00:24<00:00, 11.34it/s]
+	\item Epoch 8: Train loss=0.1356, acc=0.9584, Val loss=1.2189, acc=0.7509, speed=10.78it/s
+	\item Epoch 9/10 - train: 2259/2259 [03:29<00:00, 10.78it/s]
+	\item Epoch 9/10 - val: 282/282 [00:24<00:00, 11.45it/s]
+	\item Epoch 9: Train loss=0.1232, acc=0.9621, Val loss=1.2363, acc=0.7509, speed=10.78it/s
+	\item Epoch 10/10 - train: 2259/2259 [03:29<00:00, 10.79it/s]
+	\item Epoch 10/10 - val: 282/282 [00:24<00:00, 11.54it/s]
+	\item Epoch 10: Train loss=0.1144, acc=0.9651, Val loss=1.2761, acc=0.7517, speed=10.79it/s
+\end{itemize}
+
+\subsubsection{ResNet50 teljes tanítás utáni eredményei}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{ResNet50 ResNet50 teljes tanítás utáni vizsgálati eredményei} \label{tab:phase02_ResNet50} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy & 0.4698 \\
+  Top-5 Accuracy & 0.7962 \\
+  Precision & 0.3934 \\
+  Recall & 0.3797 \\
+  F1-score & 0.3592 \\
+  Inference time & 25.21 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+\subsubsection{ResNet50 teljes tanítás utáni sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase02/ResNet50_basic_conf_mat.png}
+    \caption{ResNet50 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_ResNet50_basic_conf_mat}
+  \end{figure}
+\subsubsection{ResNet50 teljes tanítás utáni normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase02/ResNet50_normalised_conf_mat.png}
+    \caption{ResNet50 teljes tanítás utáni normalizált Confusion Mátrix}
+    \label{fig:phase02_ResNet50_normalised_conf_mat}
+  \end{figure}
+\subsubsection{ResNet50 teljes tanítás utáni részletes osztályonkénti metrikák}
+  \input{tables/phase1_resnet50_class_table}
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA A100-SXM4-40GB
+  \item GPU memória (lefoglalt): 0.96 GB
+  \item GPU memória (használt):  0.14 GB
+\end{itemize}
+\subsubsection{Legrosszabbul teljesítő osztályok}
+  \begin{center}
+    \begin{longtable}{llll}
+    \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase02_resnet50_legrosszabb_osztlyok}\\
+    \toprule
+    class & precision & recall & f1-score \\
+    \midrule
+    \endfirsthead
+    \toprule
+    class & precision & recall & f1-score \\
+    \midrule
+    \endhead
+    planetarium & 0.05 & 0.08 & 0.06 \\
+    maraca & 0.11 & 0.10 & 0.11 \\
+    cinema & 0.16 & 0.18 & 0.17 \\
+    bow-tie & 0.16 & 0.04 & 0.07 \\
+    space-shuttle & 0.17 & 0.14 & 0.15 \\
+    mountain-tent & 0.18 & 0.06 & 0.09 \\
+    picket-fence & 0.18 & 0.02 & 0.03 \\
+    barn & 0.25 & 0.08 & 0.12 \\
+    hay & 0.35 & 0.10 & 0.15 \\
+    patio & 0.57 & 0.09 & 0.16 \\
+    \bottomrule
+    \end{longtable}
+    \end{center}
