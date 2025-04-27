@@ -1,0 +1,171 @@
+A DenseNet121 modell sb-photothemes-imagenet114 adathalmazon teljes tanítással történt tesztelésének eredménye. Lásd a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+
+\subsubsection{DenseNet121 teljes tanítás folyamata}
+\begin{itemize} 
+  \item Epoch 1/10 - train: 2259/2259 [04:29<00:00,  8.38it/s]
+  \item Epoch 1/10 - val: 282/282 [00:24<00:00, 11.34it/s]
+  \item Epoch 1: Train loss=1.6432, acc=0.5788, Val loss=1.2331, acc=0.6573
+  \item Epoch 2/10 - train: 2259/2259 [04:29<00:00,  8.39it/s]
+  \item Epoch 2/10 - val: 282/282 [00:24<00:00, 11.36it/s]
+  \item Epoch 2: Train loss=1.0401, acc=0.7057, Val loss=1.0652, acc=0.7020
+  \item Epoch 3/10 - train: 2259/2259 [04:30<00:00,  8.36it/s]
+  \item Epoch 3/10 - val: 282/282 [00:24<00:00, 11.38it/s]
+  \item Epoch 3: Train loss=0.7765, acc=0.7751, Val loss=0.9971, acc=0.7206
+  \item Epoch 4/10 - train: 2259/2259 [04:30<00:00,  8.36it/s]
+  \item Epoch 4/10 - val: 282/282 [00:26<00:00, 10.57it/s]
+  \item Epoch 4: Train loss=0.5863, acc=0.8264, Val loss=1.0337, acc=0.7208
+  \item Epoch 5/10 - train: 2259/2259 [04:30<00:00,  8.35it/s]
+  \item Epoch 5/10 - val: 282/282 [00:24<00:00, 11.36it/s]
+  \item Epoch 5: Train loss=0.4442, acc=0.8663, Val loss=1.0095, acc=0.7380
+  \item Epoch 6/10 - train: 2259/2259 [04:29<00:00,  8.37it/s]
+  \item Epoch 6/10 - val: 282/282 [00:24<00:00, 11.30it/s]
+  \item Epoch 6: Train loss=0.3490, acc=0.8949, Val loss=1.0286, acc=0.7421
+  \item Epoch 7/10 - train: 2259/2259 [04:29<00:00,  8.39it/s]
+  \item Epoch 7/10 - val: 282/282 [00:24<00:00, 11.38it/s]
+  \item Epoch 7: Train loss=0.2790, acc=0.9152, Val loss=1.0950, acc=0.7380
+  \item Epoch 8/10 - train: 2259/2259 [04:29<00:00,  8.37it/s]
+  \item Epoch 8/10 - val: 282/282 [00:25<00:00, 11.25it/s]
+  \item Epoch 8: Train loss=0.2366, acc=0.9282, Val loss=1.1248, acc=0.7423
+  \item Epoch 9/10 - train: 2259/2259 [04:30<00:00,  8.34it/s]
+  \item Epoch 9/10 - val: 282/282 [00:25<00:00, 11.17it/s]
+  \item Epoch 9: Train loss=0.2048, acc=0.9372, Val loss=1.1491, acc=0.7373
+  \item Epoch 10/10 - train: 2259/2259 [04:29<00:00,  8.37it/s]
+  \item Epoch 10/10 - val: 282/282 [00:25<00:00, 11.20it/s]
+  \item Epoch 10: Train loss=0.1791, acc=0.9451, Val loss=1.1960, acc=0.7377
+  \end{itemize}
+
+\subsubsection{DenseNet121 teljes tanítás folyamata}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/DenseNet121_learning_curve.png}
+    \caption{DenseNet121 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_DenseNet121_learning_curves}
+  \end{figure}
+
+\subsubsection{DenseNet121 teljes tanítás utáni eredményei}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{DenseNet121 teljes tanítás utáni vizsgálati eredményei} \label{tab:phase02_DenseNet121} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy & 0.7400 \\
+  Top-5 Accuracy & 0.9266 \\
+  Precision & 0.6811 \\
+  Recall & 0.6808 \\
+  F1-score & 0.6696 \\
+  Inference time & 25.23 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
+\subsubsection{DenseNet121 eredményeinek összehasonlítása}
+  \begin{center}
+  \begin{longtable}{l c c}
+  \caption{DenseNet121 eredményeinek összehasonlítása} \label{tab:phase02_DenseNet121_compare} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy  & 0.4498 & 0.7400 \\
+  Top-5 Accuracy & 0.7806 & 0.9266 \\
+  Precision & 0.3874 & 0.6811 \\
+  Recall & 0.3611 & 0.6680 \\
+  F1-score & 0.3408 & 0.6696 \\
+  Inference time & 25.15 & 25.23 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
+\subsubsection{DenseNet121 eredményeinek összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    %\includegraphics[width=1.0\textwidth]{images/phase02/DenseNet121_compare01.png}
+    \caption{DenseNet121 eredményeinek összehasonlítása}
+    \label{fig:DenseNet121_compare01}
+  \end{figure}
+
+\subsubsection{DenseNet121 eredményeinek összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    %\includegraphics[width=1.0\textwidth]{images/phase02/DenseNet121_compare02.png}
+    \caption{DenseNet121 eredményeinek összehasonlítása}
+    \label{fig:DenseNet121_compare02}
+  \end{figure}
+
+\subsubsection{DenseNet121 teljes tanítás utáni sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/DenseNet121_basic_conf_mat.png}
+    \caption{DenseNet121 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_DenseNet121_basic_conf_mat}
+  \end{figure}
+
+  \subsubsection{DenseNet121 Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/DenseNet121_basic_conf_mat_compare.png}
+    \caption{DenseNet121 sima Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_DenseNet121_basic_conf_mat_compare}
+  \end{figure}
+
+  \subsubsection{DenseNet121 teljes tanítás utáni normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/DenseNet121_normalised_conf_mat.png}
+    \caption{DenseNet121 teljes tanítás utáni normalizált Confusion Mátrix}
+    \label{fig:phase02_DenseNet121_normalised_conf_mat}
+  \end{figure}
+
+  \subsubsection{DenseNet121 normalizált Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/DenseNet121_normalised_conf_mat_compare.png}
+    \caption{DenseNet121 normalizált Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_DenseNet121_normalised_conf_mat_compare}
+  \end{figure}
+
+\subsubsection{DenseNet121 teljes tanítás utáni részletes osztályonkénti metrikák}
+  \input{tables/phase2_DenseNet121_class_table}
+
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA A100-SXM4-40GB
+  \item GPU memória (lefoglalt): 1.5 GB
+  \item GPU memória (használt):  0.09 GB
+\end{itemize}
+
+\subsubsection{Legrosszabbul teljesítő osztályok}
+\begin{center}
+  \begin{longtable}{llll}
+  \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase02_DenseNet121_legrosszabb_osztlyok}\\
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Class & Precision & Recall & F1-score \\
+  \midrule
+  \endhead
+  maraca & 0.38 & 0.42 & 0.40 \\
+  crutch & 0.40 & 0.54 & 0.46 \\
+  accordion & 0.41 & 0.30 & 0.35 \\
+  bow-tie & 0.41 & 0.60 & 0.49 \\
+  wig & 0.46 & 0.54 & 0.50 \\
+  harmonica & 0.48 & 0.46 & 0.47 \\
+  beacon & 0.51 & 0.47 & 0.49 \\
+  aircraft-carrier & 0.52 & 0.36 & 0.42 \\
+  marimba & 0.57 & 0.41 & 0.47 \\
+  neck-brace & 0.62 & 0.42 & 0.50 \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
