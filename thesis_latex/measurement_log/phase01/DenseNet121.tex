@@ -9,12 +9,10 @@ A DenseNet121 modell tanítás nélküli tesztelésének eredménye gyári súly
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
   \endfirsthead
-
   \toprule
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
   \endhead
-
   Top-1 Accuracy & 0.4498 \\
   Top-5 Accuracy & 0.7806 \\
   Precision & 0.3874 \\
@@ -32,6 +30,7 @@ A DenseNet121 modell tanítás nélküli tesztelésének eredménye gyári súly
     \caption{DenseNet121 tanítás nélküli sima Confusion Mátrix}
     \label{fig:phase01_DenseNet121_basic_conf_mat}
   \end{figure}
+
 \subsubsection{DenseNet121 tanítás nélküli normalizált Confusion Mátrix}
   \begin{figure}[H]
     \centering
@@ -39,14 +38,17 @@ A DenseNet121 modell tanítás nélküli tesztelésének eredménye gyári súly
     \caption{DenseNet121 tanítás nélküli normalizált Confusion Mátrix}
     \label{fig:phase01_DenseNet121_normalised_conf_mat}
   \end{figure}
+
 \subsubsection{DenseNet121 tanítás nélküli részletes osztályonkénti metrikák}
   \input{tables/phase1_DenseNet121_class_table}
+
 \subsubsection{GPU memóriahasználat}
 \begin{itemize}
   \item aktív GPU: NVIDIA A100-SXM4-40GB
   \item GPU memória (lefoglalt): 1.04 GB
   \item GPU memória (használt):  0.07 GB
 \end{itemize}
+
 \subsubsection{Legrosszabbul teljesítő osztályok}
 \begin{center}
   \begin{longtable}{llll}

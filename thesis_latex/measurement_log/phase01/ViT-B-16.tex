@@ -8,12 +8,10 @@ A ViT-B-16 modell tanítás nélküli tesztelésének eredménye gyári súlyokk
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
   \endfirsthead
-
   \toprule
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
   \endhead
-
   Top-1 Accuracy & 0.5308 \\
   Top-5 Accuracy & 0.8582 \\
   Precision & 0.4629 \\
@@ -23,6 +21,7 @@ A ViT-B-16 modell tanítás nélküli tesztelésének eredménye gyári súlyokk
   \bottomrule
   \end{longtable}
   \end{center}
+
 \subsubsection{ViT-B-16 tanítás nélkül sima Confusion Mátrix}
   \begin{figure}[H]
     \centering
@@ -30,6 +29,7 @@ A ViT-B-16 modell tanítás nélküli tesztelésének eredménye gyári súlyokk
     \caption{ViT-B-16 tanítás nélküli sima Confusion Mátrix}
     \label{fig:phase01_ViT-B-16_basic_conf_mat}
   \end{figure}
+
 \subsubsection{ViT-B-16 tanítás nélküli normalizált Confusion Mátrix}
   \begin{figure}[H]
     \centering
@@ -37,14 +37,17 @@ A ViT-B-16 modell tanítás nélküli tesztelésének eredménye gyári súlyokk
     \caption{ViT-B-16 tanítás nélküli normalizált Confusion Mátrix}
     \label{fig:phase01_ViT-B-16_normalised_conf_mat}
   \end{figure}
+
 \subsubsection{ViT-B-16 tanítás nélküli részletes osztályonkénti metrikák}
   \input{tables/phase1_ViT-B-16_class_table}
+
 \subsubsection{GPU memóriahasználat}
 \begin{itemize}
   \item aktív GPU: NVIDIA L4
   \item GPU memória (lefoglalt): 3.2 GB
   \item GPU memória (használt):  0.25 GB
 \end{itemize}
+
 \subsubsection{Legrosszabbul teljesítő osztályok}
 \begin{center}
   \begin{longtable}{llll}

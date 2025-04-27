@@ -8,12 +8,10 @@ A Resnet50 modell tanítás nélküli tesztelésének eredménye gyári súlyokk
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
   \endfirsthead
-
   \toprule
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
   \endhead
-
   Top-1 Accuracy & 0.4698 \\
   Top-5 Accuracy & 0.7962 \\
   Precision & 0.3934 \\
@@ -23,6 +21,7 @@ A Resnet50 modell tanítás nélküli tesztelésének eredménye gyári súlyokk
   \bottomrule
   \end{longtable}
   \end{center}
+
 \subsubsection{ResNet50 tanítás nélkül sima Confusion Mátrix}
   \begin{figure}[H]
     \centering
@@ -30,6 +29,7 @@ A Resnet50 modell tanítás nélküli tesztelésének eredménye gyári súlyokk
     \caption{ResNet50 tanítás nélküli sima Confusion Mátrix}
     \label{fig:phase01_ResNet50_basic_conf_mat}
   \end{figure}
+
 \subsubsection{ResNet50 tanítás nélküli normalizált Confusion Mátrix}
   \begin{figure}[H]
     \centering
@@ -37,14 +37,17 @@ A Resnet50 modell tanítás nélküli tesztelésének eredménye gyári súlyokk
     \caption{ResNet50 tanítás nélküli normalizált Confusion Mátrix}
     \label{fig:phase01_ResNet50_normalised_conf_mat}
   \end{figure}
+
 \subsubsection{ResNet50 tanítás nélküli részletes osztályonkénti metrikák}
   \input{tables/phase1_resnet50_class_table}
+
 \subsubsection{GPU memóriahasználat}
 \begin{itemize}
   \item aktív GPU: NVIDIA A100-SXM4-40GB
   \item GPU memória (lefoglalt): 0.96 GB
   \item GPU memória (használt):  0.14 GB
 \end{itemize}
+
 \subsubsection{Legrosszabbul teljesítő osztályok}
   \begin{center}
     \begin{longtable}{llll}

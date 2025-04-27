@@ -44,7 +44,7 @@ A Resnet50 modell sb-photothemes-imagenet114 adathalmazon teljes tanítással t�
 \subsubsection{ResNet50 teljes tanítás utáni eredményei}
   \begin{center}
   \begin{longtable}{l c}
-  \caption{ResNet50 ResNet50 teljes tanítás utáni vizsgálati eredményei} \label{tab:phase02_ResNet50} \\
+  \caption{ResNet50 teljes tanítás utáni vizsgálati eredményei} \label{tab:phase02_ResNet50} \\
   \toprule
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
@@ -63,6 +63,28 @@ A Resnet50 modell sb-photothemes-imagenet114 adathalmazon teljes tanítással t�
   \end{longtable}
   \end{center}
 
+  \subsubsection{ResNet50 eredményeinek összehasonlítása}
+  \begin{center}
+  \begin{longtable}{l c c}
+  \caption{ResNet50 eredményeinek összehasonlítása} \label{tab:phase02_ResNet50_compare} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy  & 0.4698 & 0.7553 \\
+  Top-5 Accuracy & 0.7962 & 0.9351 \\
+  Precision & 0.3934 & 0.7110 \\
+  Recall & 0.3797 & 0.6808 \\
+  F1-score & 0.3592 & 0.6908 \\
+  Inference time & 25.21 & 25.11 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
 \subsubsection{ResNet50 teljes tanítás utáni sima Confusion Mátrix}
   \begin{figure}[H]
     \centering
@@ -71,11 +93,27 @@ A Resnet50 modell sb-photothemes-imagenet114 adathalmazon teljes tanítással t�
     \label{fig:phase02_ResNet50_basic_conf_mat}
   \end{figure}
 
-\subsubsection{ResNet50 teljes tanítás utáni normalizált Confusion Mátrix}
+  \subsubsection{ResNet50 Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ResNet50_basic_conf_mat_compare.png}
+    \caption{ResNet50 sima Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_ResNet50_basic_conf_mat_compare}
+  \end{figure}
+
+  \subsubsection{ResNet50 teljes tanítás utáni normalizált Confusion Mátrix}
   \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/phase02/ResNet50_normalised_conf_mat.png}
     \caption{ResNet50 teljes tanítás utáni normalizált Confusion Mátrix}
+    \label{fig:phase02_ResNet50_normalised_conf_mat}
+  \end{figure}
+
+  \subsubsection{ResNet50 normalizált Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ResNet50_normalised_conf_mat_compare.png}
+    \caption{ResNet50 normalizált Confusion Mátrixok összehasonlítása}
     \label{fig:phase02_ResNet50_normalised_conf_mat}
   \end{figure}
 

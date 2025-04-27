@@ -8,12 +8,10 @@ A ConvNeXt-Tiny modell tanítás nélküli tesztelésének eredménye gyári sú
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
   \endfirsthead
-
   \toprule
   \textbf{Metrika} & \textbf{Érték} \\
   \midrule
   \endhead
-
   Top-1 Accuracy & 0.5048 \\
   Top-5 Accuracy & 0.8471 \\
   Precision & 0.4917 \\
@@ -23,6 +21,7 @@ A ConvNeXt-Tiny modell tanítás nélküli tesztelésének eredménye gyári sú
   \bottomrule
   \end{longtable}
   \end{center}
+
 \subsubsection{ConvNeXt-Tiny tanítás nélkül sima Confusion Mátrix}
   \begin{figure}[H]
     \centering
@@ -30,6 +29,7 @@ A ConvNeXt-Tiny modell tanítás nélküli tesztelésének eredménye gyári sú
     \caption{ConvNeXt-Tiny tanítás nélküli sima Confusion Mátrix}
     \label{fig:phase01_ConvNeXt-Tiny_basic_conf_mat}
   \end{figure}
+
 \subsubsection{ConvNeXt-Tiny tanítás nélküli normalizált Confusion Mátrix}
   \begin{figure}[H]
     \centering
@@ -37,14 +37,17 @@ A ConvNeXt-Tiny modell tanítás nélküli tesztelésének eredménye gyári sú
     \caption{ConvNeXt-Tiny tanítás nélküli normalizált Confusion Mátrix}
     \label{fig:phase01_ConvNeXt-Tiny_normalised_conf_mat}
   \end{figure}
+
 \subsubsection{ConvNeXt-Tiny tanítás nélküli részletes osztályonkénti metrikák}
   \input{tables/phase1_ConvNeXt-Tiny_class_table}
+
 \subsubsection{GPU memóriahasználat}
 \begin{itemize}
   \item aktív GPU: NVIDIA L4
   \item GPU memória (lefoglalt): 2.1 GB
   \item GPU memória (használt):  0.15 GB
 \end{itemize}
+
 \subsubsection{Legrosszabbul teljesítő osztályok}
 \begin{center}
   \begin{longtable}{llll}
