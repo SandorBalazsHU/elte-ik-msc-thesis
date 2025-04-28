@@ -1,0 +1,172 @@
+A Inception-v3 modell sb-photothemes-imagenet114 adathalmazon teljes tanítással történt tesztelésének eredménye. Lásd a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+
+\subsubsection{Inception-v3 teljes tanítás folyamata}
+\begin{itemize} 
+	\item Epoch 1/10 - train: 2259/2259 [05:35<00:00,  6.72it/s]
+	\item Epoch 1/10 - val: 282/282 [00:33<00:00,  8.52it/s]
+	\item Epoch 1: Train loss=2.1448, acc=0.6042 Val loss=1.1183, acc=0.6850
+	\item Epoch 2/10 - train: 2259/2259 [05:34<00:00,  6.74it/s]
+	\item Epoch 2/10 - val: 282/282 [00:33<00:00,  8.52it/s]
+	\item Epoch 2: Train loss=1.2943, acc=0.7373 Val loss=0.9889, acc=0.7210
+	\item Epoch 3/10 - train: 2259/2259 [05:35<00:00,  6.74it/s]
+	\item Epoch 3/10 - val: 282/282 [00:32<00:00,  8.55it/s]
+	\item Epoch 3: Train loss=0.9102, acc=0.8097 Val loss=0.9692, acc=0.7399
+	\item Epoch 4/10 - train: 2259/2259 [05:35<00:00,  6.74it/s]
+	\item Epoch 4/10 - val: 282/282 [00:33<00:00,  8.53it/s]
+	\item Epoch 4: Train loss=0.6552, acc=0.8592 Val loss=1.0133, acc=0.7404
+	\item Epoch 5/10 - train: 2259/2259 [05:35<00:00,  6.73it/s]
+	\item Epoch 5/10 - val: 282/282 [00:32<00:00,  8.57it/s]
+	\item Epoch 5: Train loss=0.4818, acc=0.8953 Val loss=1.0527, acc=0.7486
+	\item Epoch 6/10 - train: 2259/2259 [05:35<00:00,  6.73it/s]
+	\item Epoch 6/10 - val: 282/282 [00:33<00:00,  8.49it/s]
+	\item Epoch 6: Train loss=0.3864, acc=0.9153 Val loss=1.1098, acc=0.7539
+	\item Epoch 7/10 - train: 2259/2259 [05:35<00:00,  6.74it/s]
+	\item Epoch 7/10 - val: 282/282 [00:32<00:00,  8.58it/s]
+	\item Epoch 7: Train loss=0.3178, acc=0.9298 Val loss=1.1535, acc=0.7513
+	\item Epoch 8/10 - train: 2259/2259 [05:35<00:00,  6.74it/s]
+	\item Epoch 8/10 - val: 282/282 [00:33<00:00,  8.47it/s]
+	\item Epoch 8: Train loss=0.2772, acc=0.9386 Val loss=1.1772, acc=0.7514
+	\item Epoch 9/10 - train: 2259/2259 [05:35<00:00,  6.74it/s]
+	\item Epoch 9/10 - val: 282/282 [00:32<00:00,  8.57it/s]
+	\item Epoch 9: Train loss=0.2435, acc=0.9464 Val loss=1.2565, acc=0.7496
+	\item Epoch 10/10 - train: 2259/2259 [05:35<00:00,  6.73it/s]
+	\item Epoch 10/10 - val: 282/282 [00:33<00:00,  8.50it/s]
+	\item Epoch 10: Train loss=0.2234, acc=0.9502 Val loss=1.2737, acc=0.7524
+\end{itemize}
+
+\subsubsection{Inception-v3 teljes tanítás folyamata}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/Inception-v3_learning_curve.png}
+    \caption{Inception-v3 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_Inception-v3_learning_curves}
+  \end{figure}
+
+\subsubsection{Inception-v3 teljes tanítás utáni eredményei}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{Inception-v3 teljes tanítás utáni vizsgálati eredményei} \label{tab:phase02_Inception-v3} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy & 0.7518 \\
+  Top-5 Accuracy & 0.9320 \\
+  Precision & 0.6963 \\
+  Recall & 0.6787 \\
+  F1-score & 0.6908 \\
+  Inference time & 25.11 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
+\subsubsection{Inception-v3 eredményeinek összehasonlítása}
+  \begin{center}
+  \begin{longtable}{l c c}
+  \caption{Inception-v3 eredményeinek összehasonlítása} \label{tab:phase02_Inception-v3_compare} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy  & 0.4763 & 0.7518 \\
+  Top-5 Accuracy & 0.8008 & 0.9320 \\
+  Precision & 0.3833 & 0.6963 \\
+  Recall & 0.3896 & 0.6787 \\
+  F1-score & 0.3683 & 0.6827 \\
+  Inference time & 38.06 sec & 33.62 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
+\subsubsection{Inception-v3 eredményeinek összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/Inception-v3_compare01.png}
+    \caption{Inception-v3 eredményeinek összehasonlítása}
+    \label{fig:Inception-v3_compare01}
+  \end{figure}
+
+\subsubsection{Inception-v3 eredményeinek összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/Inception-v3_compare02.png}
+    \caption{Inception-v3 eredményeinek összehasonlítása}
+    \label{fig:Inception-v3_compare02}
+  \end{figure}
+
+\subsubsection{Inception-v3 teljes tanítás utáni sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/Inception-v3_basic_conf_mat.png}
+    \caption{Inception-v3 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_Inception-v3_basic_conf_mat}
+  \end{figure}
+
+  \subsubsection{Inception-v3 Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/Inception-v3_basic_conf_mat_compare.png}
+    \caption{Inception-v3 sima Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_Inception-v3_basic_conf_mat_compare}
+  \end{figure}
+
+  \subsubsection{Inception-v3 teljes tanítás utáni normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/Inception-v3_normalised_conf_mat.png}
+    \caption{Inception-v3 teljes tanítás utáni normalizált Confusion Mátrix}
+    \label{fig:phase02_Inception-v3_normalised_conf_mat}
+  \end{figure}
+
+  \subsubsection{Inception-v3 normalizált Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/Inception-v3_normalised_conf_mat_compare.png}
+    \caption{Inception-v3 normalizált Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_Inception-v3_normalised_conf_mat_compare}
+  \end{figure}
+
+\subsubsection{Inception-v3 teljes tanítás utáni részletes osztályonkénti metrikák}
+  \input{tables/phase2_Inception-v3_class_table}
+
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA A100-SXM4-40GB
+  \item GPU memória (lefoglalt): 1.3 GB
+  \item GPU memória (használt):  0.32 GB
+\end{itemize}
+
+\subsubsection{Legrosszabbul teljesítő osztályok}
+  \begin{center}
+    \begin{longtable}{llll}
+    \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase02_Inception-v3_legrosszabb_osztlyok}\\
+    \toprule
+    Class & Precision & Recall & F1-score \\
+    \midrule
+    \endfirsthead
+    \toprule
+    Class & Precision & Recall & F1-score \\
+    \midrule
+    \endhead
+    traffic-light & 0.32 & 0.43 & 0.37 \\
+    accordion & 0.38 & 0.28 & 0.32 \\
+    boathouse & 0.46 & 0.58 & 0.52 \\
+    marimba & 0.47 & 0.48 & 0.48 \\
+    maraca & 0.49 & 0.27 & 0.35 \\
+    torch & 0.49 & 0.53 & 0.51 \\
+    sax & 0.50 & 0.32 & 0.39 \\
+    crutch & 0.58 & 0.47 & 0.52 \\
+    harmonica & 0.61 & 0.33 & 0.43 \\
+    neck-brace & 0.62 & 0.44 & 0.51 \\
+    \bottomrule
+    \end{longtable}
+  \end{center}
+  
