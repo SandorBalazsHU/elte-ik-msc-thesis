@@ -1,0 +1,110 @@
+Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből álló sb-photothemes180k ImageNet1k cimkék szerint címkézett adathalmazon tanítottam, ahol 114 kategória van ebben a második vizsgálati fázisban a 144000 kategorizált tanító és 18000 validáló kép segítségével végeztem teljes tanítást 10 epoch-on keresztül, majd a 18000 képet tartalmazó teszt halmazon teszteltem le a modelleket ugyanazon amin az első fázisban a tanítás nélküli teszteket is végeztem. 
+
+\subsection{Összefoglaló táblázat a második fázis mért értékeiről.}
+    \begin{center}
+        \begin{longtable}{lllllll}
+        \caption{Összefoglaló táblázat a második fázis mért értékeiről}\label{tab:phase2_summary_table_01}\\
+        \toprule
+        Modell & Top-1 & Top-5 & Precision & Recall & F1 & Time(s) \\
+        \midrule
+        \endfirsthead
+        \toprule
+        Modell & Top-1 & Top-5 & Precision & Recall & F1 & Time(s) \\
+        \midrule
+        \endhead
+        NASNet & 0.7626 & 0.9470 & 0.7180 & 0.6875 & 0.6955 & 25.11 \\
+        ConvNeXt-Tiny & 0.7624 & 0.9357 & 0.7168 & 0.6841 & 0.6947 & 25.67 \\
+        EfficientNet-B0 & 0.7649 & 0.9421 & 0.7130 & 0.6950 & 0.7001 & 25.26 \\
+        ResNet50 & 0.7553 & 0.9351 & 0.7110 & 0.6808 & 0.6908 & 25.11 \\
+        Inception-v3 & 0.7518 & 0.9320 & 0.6963 & 0.6787 & 0.6908 & 25.11 \\
+        ViT-B/16 & 0.7414 & 0.9257 & 0.6935 & 0.6636 & 0.6730 & 42.40 \\
+        DenseNet121 & 0.7400 & 0.9266 & 0.6811 & 0.6808 & 0.6696 & 25.23 \\
+        \bottomrule
+        \end{longtable}
+    \end{center}
+
+\subsection{Összehasonlító táblázat az első és a második fázis mért értékeiről.}
+    \begin{center}
+        \begin{longtable}{lllll}
+        \caption{Összehasonlító táblázat az első és a második fázis mért értékeiről – Alapvető metrikák}\label{tab:phase2_summary_table_02_basic}\\
+        \toprule
+        Modell & Top-1 (PT) & Top-1 (FT) & Top-5 (PT) & Top-5 (FT) \\
+        \midrule
+        \endfirsthead
+        \toprule
+        Modell & Top-1 (PT) & Top-1 (FT) & Top-5 (PT) & Top-5 (FT) \\
+        \midrule
+        \endhead
+        ConvNeXt-Tiny & 0.5048 & 0.7624 & 0.8471 & 0.9357 \\
+        EfficientNet-B0 & 0.4802 & 0.7649 & 0.8217 & 0.9421 \\
+        ResNet50 & 0.4698 & 0.7553 & 0.7962 & 0.9351 \\
+        Inception-v3 & 0.4763 & 0.7518 & 0.8008 & 0.9320 \\
+        ViT-B-16 & 0.5308 & 0.7414 & 0.8582 & 0.9257 \\
+        DenseNet121 & 0.4498 & 0.7400 & 0.7806 & 0.9266 \\
+        \bottomrule
+        \end{longtable}
+    \end{center}
+    
+
+    \begin{center}
+        \begin{longtable}{lllll}
+        \caption{Összehasonlító táblázat az első és a második fázis mért értékeiről – Pontosság és visszahívás}\label{tab:phase2_summary_table_02_precision_recall}\\
+        \toprule
+        Modell & Precision (PT) & Precision (FT) & Recall (PT) & Recall (FT) \\
+        \midrule
+        \endfirsthead
+        \toprule
+        Modell & Precision (PT) & Precision (FT) & Recall (PT) & Recall (FT) \\
+        \midrule
+        \endhead
+        ConvNeXt-Tiny & 0.4917 & 0.7168 & 0.4369 & 0.6841 \\
+        EfficientNet-B0 & 0.4137 & 0.7130 & 0.4039 & 0.6950 \\
+        ResNet50 & 0.3934 & 0.7110 & 0.3797 & 0.6808 \\
+        Inception-v3 & 0.3833 & 0.6963 & 0.3896 & 0.6787 \\
+        ViT-B-16 & 0.4629 & 0.6935 & 0.4419 & 0.6636 \\
+        DenseNet121 & 0.3874 & 0.6811 & 0.3611 & 0.6680 \\
+        \bottomrule
+        \end{longtable}
+    \end{center}
+        
+
+    \begin{center}
+        \begin{longtable}{lllll}
+        \caption{Összehasonlító táblázat az első és a második fázis mért értékeiről – F1 és idő}\label{tab:phase2_summary_table_02_f1_time}\\
+        \toprule
+        Modell & F1 (PT) & F1 (FT) & Time (PT) & Time (FT) \\
+        \midrule
+        \endfirsthead
+        \toprule
+        Modell & F1 (PT) & F1 (FT) & Time (PT) & Time (FT) \\
+        \midrule
+        \endhead
+        ConvNeXt-Tiny & 0.4194 & 0.6947 & 38.40s & 25.67s \\
+        EfficientNet-B0 & 0.3829 & 0.7001 & 28.89s & 25.26s \\
+        ResNet50 & 0.3592 & 0.6908 & 25.21s & 25.11s \\
+        Inception-v3 & 0.3683 & 0.6827 & 38.06s & 33.62s \\
+        ViT-B-16 & 0.4307 & 0.6908 & 92.13s & 42.40s \\
+        DenseNet121 & 0.3408 & 0.6696 & 25.15s & 25.23s \\
+        \bottomrule
+        \end{longtable}
+    \end{center}
+
+
+
+
+\subsection{A második fázis rövid szöveges értékelése}
+A második mérési fázis során a SBphotothemes180k [ImageNet114] adathalmazon végzett teljes tanítási folyamat után a különböző modellek teljesítményét értékeltük. Az alábbi megállapítások születtek:
+
+EfficientNet-B0 érte el a legmagasabb Top-1 pontosságot (76.49\%) és F1-score-t (70.01\%), miközben az inference ideje is versenyképes maradt. Ez alátámasztja az EfficientNet architektúra hatékonyságát és pontosságát, különösen a korlátozott erőforrásokkal rendelkező környezetekben.
+
+NASNet kiemelkedett a Top-5 pontosság terén (94.70\%) és a legmagasabb precizitást (71.80\%) érte el, ami a modell mély és összetett architektúrájának köszönhető. Azonban az inference ideje megegyezett más modellekével, ami azt jelzi, hogy a komplexitás nem feltétlenül jár együtt hosszabb feldolgozási idővel.
+
+ConvNeXt-Tiny és ResNet50 modellek kiegyensúlyozott teljesítményt mutattak, mind a pontosság, mind az inference idő tekintetében. Ez teszi őket megbízható választássá általános célú alkalmazásokhoz.
+
+ViT-B/16, bár transformer alapú modellként ígéretes, a jelenlegi adathalmazon nem tudta felülmúlni a CNN alapú modelleket. Az inference ideje is jelentősen hosszabb volt, ami korlátozhatja a valós idejű alkalmazásokban való használatát.
+
+Inception-v3 stabil teljesítményt nyújtott, különösen az F1-score (69.08\%) és az inference idő (25.11 sec) tekintetében, ami a modell érettségét és optimalizáltságát tükrözi.
+
+DenseNet121 hasonlóan jó eredményeket ért el, különösen a recall értékben (68.08\%), ami a modell hatékony információáramlását és mély kapcsolatokat kihasználó architektúráját mutatja.
+
+Összefoglalva, a teljes tanítási folyamat jelentős javulást eredményezett minden modell esetében a tanítás nélküli állapothoz képest. Az eredmények alapján az EfficientNet-B0 és a NASNet modellek kiemelkednek a pontosság és hatékonyság terén, míg a ConvNeXt-Tiny és a ResNet50 modellek megbízható és kiegyensúlyozott teljesítményt nyújtanak. A választás során figyelembe kell venni az alkalmazás specifikus igényeit, beleértve a pontosságot, a feldolgozási időt és az erőforrás-korlátokat.
