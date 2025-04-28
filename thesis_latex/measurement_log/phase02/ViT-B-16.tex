@@ -1,0 +1,170 @@
+A ViT-B-16 modell sb-photothemes-imagenet114 adathalmazon teljes tanítással történt tesztelésének eredménye. Lásd a soron következő ábrákat és táblázatokat a mérések eredményeihez.
+\subsubsection{ViT-B-16 teljes tanítás folyamata}
+\begin{itemize} 
+	\item Epoch 1/10 - train: 2259/2259 [16:01<00:00,  2.35it/s]
+	\item Epoch 1/10 - val: 282/282 [00:42<00:00,  6.70it/s]
+	\item Epoch 1: Train loss=1.2851, acc=0.6443 Val loss=1.1000, acc=0.6794
+	\item Epoch 2/10 - train: 2259/2259 [16:00<00:00,  2.35it/s]
+	\item Epoch 2/10 - val: 282/282 [00:42<00:00,  6.69it/s]
+	\item Epoch 2: Train loss=0.8488, acc=0.7472 Val loss=0.9895, acc=0.7195
+	\item Epoch 3/10 - train: 2259/2259 [16:00<00:00,  2.35it/s]
+	\item Epoch 3/10 - val: 282/282 [00:42<00:00,  6.68it/s]
+	\item Epoch 3: Train loss=0.6250, acc=0.8080 Val loss=0.9986, acc=0.7340
+	\item Epoch 4/10 - train: 2259/2259 [16:01<00:00,  2.35it/s]
+	\item Epoch 4/10 - val: 282/282 [00:42<00:00,  6.67it/s]
+	\item Epoch 4: Train loss=0.4766, acc=0.8511 Val loss=1.0406, acc=0.7300
+	\item Epoch 5/10 - train: 2259/2259 [16:01<00:00,  2.35it/s]
+	\item Epoch 5/10 - val: 282/282 [00:42<00:00,  6.68it/s]
+	\item Epoch 5: Train loss=0.3783, acc=0.8815 Val loss=1.0650, acc=0.7371
+	\item Epoch 6/10 - train: 2259/2259 [16:01<00:00,  2.35it/s]
+	\item Epoch 6/10 - val: 282/282 [00:42<00:00,  6.67it/s]
+	\item Epoch 6: Train loss=0.3202, acc=0.9000 Val loss=1.1107, acc=0.7365
+	\item Epoch 7/10 - train: 2259/2259 [16:01<00:00,  2.35it/s]
+	\item Epoch 7/10 - val: 282/282 [00:42<00:00,  6.67it/s]
+	\item Epoch 7: Train loss=0.2771, acc=0.9137 Val loss=1.1609, acc=0.7377
+	\item Epoch 8/10 - train: 2259/2259 [16:01<00:00,  2.35it/s]
+	\item Epoch 8/10 - val: 282/282 [00:42<00:00,  6.67it/s]
+	\item Epoch 8: Train loss=0.2482, acc=0.9230 Val loss=1.1802, acc=0.7378
+	\item Epoch 9/10 - train: 2259/2259 [16:01<00:00,  2.35it/s]
+	\item Epoch 9/10 - val: 282/282 [00:42<00:00,  6.67it/s]
+	\item Epoch 9: Train loss=0.2237, acc=0.9297 Val loss=1.2074, acc=0.7470
+	\item Epoch 10/10 - train: 2259/2259 [16:01<00:00,  2.35it/s]
+	\item Epoch 10/10 - val: 282/282 [00:42<00:00,  6.67it/s]
+	\item Epoch 10: Train loss=0.2083, acc=0.9355 Val loss=1.2559, acc=0.7426
+\end{itemize}
+
+\subsubsection{ViT-B-16 teljes tanítás folyamata}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ViT-B-16_learning_curve.png}
+    \caption{ViT-B-16 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_ViT-B-16_learning_curves}
+  \end{figure}
+
+\subsubsection{ViT-B-16 teljes tanítás utáni eredményei}
+  \begin{center}
+  \begin{longtable}{l c}
+  \caption{ViT-B-16 teljes tanítás utáni vizsgálati eredményei} \label{tab:phase02_ViT-B-16} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Érték} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy & 0.7414 \\
+  Top-5 Accuracy & 0.9257 \\
+  Precision & 0.6935 \\
+  Recall & 0.6636 \\
+  F1-score & 0.6730 \\
+  Inference time & 42.40 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
+\subsubsection{ViT-B-16 eredményeinek összehasonlítása}
+  \begin{center}
+  \begin{longtable}{l c c}
+  \caption{ViT-B-16 eredményeinek összehasonlítása} \label{tab:phase02_ViT-B-16_compare} \\
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Metrika} & \textbf{Pretrained} & \textbf{Fine-tuned} \\
+  \midrule
+  \endhead
+  Top-1 Accuracy  & 0.5308 & 0.7414 \\
+  Top-5 Accuracy & 0.8582 & 0.9257 \\
+  Precision & 0.4629 & 0.6935 \\
+  Recall & 0.4419 & 0.6636 \\
+  F1-score & 0.4307 & 0.6908 \\
+  Inference time & 92.13 sec & 42.40 sec \\
+  \bottomrule
+  \end{longtable}
+  \end{center}
+
+\subsubsection{ViT-B-16 eredményeinek összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ViT-B-16_compare01.png}
+    \caption{ViT-B-16 eredményeinek összehasonlítása}
+    \label{fig:ViT-B-16_compare01}
+  \end{figure}
+
+\subsubsection{ViT-B-16 eredményeinek összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ViT-B-16_compare02.png}
+    \caption{ViT-B-16 eredményeinek összehasonlítása}
+    \label{fig:ViT-B-16_compare02}
+  \end{figure}
+
+\subsubsection{ViT-B-16 teljes tanítás utáni sima Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ViT-B-16_basic_conf_mat.png}
+    \caption{ViT-B-16 teljes tanítás utáni sima Confusion Mátrix}
+    \label{fig:phase02_ViT-B-16_basic_conf_mat}
+  \end{figure}
+
+  \subsubsection{ViT-B-16 Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ViT-B-16_basic_conf_mat_compare.png}
+    \caption{ViT-B-16 sima Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_ViT-B-16_basic_conf_mat_compare}
+  \end{figure}
+
+  \subsubsection{ViT-B-16 teljes tanítás utáni normalizált Confusion Mátrix}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ViT-B-16_normalised_conf_mat.png}
+    \caption{ViT-B-16 teljes tanítás utáni normalizált Confusion Mátrix}
+    \label{fig:phase02_ViT-B-16_normalised_conf_mat}
+  \end{figure}
+
+  \subsubsection{ViT-B-16 normalizált Confusion Mátrixok összehasonlítása}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase02/ViT-B-16_normalised_conf_mat_compare.png}
+    \caption{ViT-B-16 normalizált Confusion Mátrixok összehasonlítása}
+    \label{fig:phase02_ViT-B-16_normalised_conf_mat_compare}
+  \end{figure}
+
+\subsubsection{ViT-B-16 teljes tanítás utáni részletes osztályonkénti metrikák}
+  \input{tables/phase2_ViT-B-16_class_table}
+
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA A100-SXM4-40GB
+  \item GPU memória (lefoglalt): 1.09 GB
+  \item GPU memória (használt):  0.29 GB
+\end{itemize}
+
+\subsubsection{Legrosszabbul teljesítő osztályok}
+  \begin{center}
+    \begin{longtable}{llll}
+    \caption{Legrosszabbul teljesítő osztályok}\label{tab:phase02_ViT-B-16_legrosszabb_osztlyok}\\
+    \toprule
+    Class & Precision & Recall & F1-score \\
+    \midrule
+    \endfirsthead
+    \toprule
+    Class & Precision & Recall & F1-score \\
+    \midrule
+    \endhead
+    sax & 0.38 & 0.41 & 0.39 \\
+    harmonica & 0.42 & 0.52 & 0.46 \\
+    car-mirror & 0.42 & 0.49 & 0.45 \\
+    maraca & 0.42 & 0.28 & 0.34 \\
+    beacon & 0.45 & 0.55 & 0.49 \\
+    accordion & 0.46 & 0.26 & 0.33 \\
+    crutch & 0.47 & 0.42 & 0.44 \\
+    torch & 0.51 & 0.48 & 0.50 \\
+    marimba & 0.53 & 0.35 & 0.42 \\
+    planetarium & 0.63 & 0.44 & 0.51 \\
+    \bottomrule
+    \end{longtable}
+  \end{center}
