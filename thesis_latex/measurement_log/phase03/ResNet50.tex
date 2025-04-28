@@ -1,0 +1,178 @@
+A Resnet50 iteratív tanításának eredményei négy lépésben először 1000 majd 5000 azután 10000 végül pedig 25000 képes halmazon. Ezelet a lépéseket 1k, 5k 10k 25k rövidítésekkel fogom jelölni.
+
+%1K-----------------------------------------------------------------------------
+\subsubsection{1k adathalmazon történő tanítás lépései Resnet50 modellen.}
+  \begin{itemize} 
+    \item Epoch 1/10 - train: 15/15 [00:06<00:00, 2.15it/s]
+    \item Epoch 1: Train loss=4.7268, acc=0.0143 Val loss=4.6176, acc=0.0545
+    \item Epoch 2/10 - train: 15/15 [00:04<00:00, 3.13it/s]
+    \item Epoch 2: Train loss=4.2507, acc=0.4265 Val loss=4.3277, acc=0.1355
+    \item Epoch 3/10 - train: 15/15 [00:04<00:00, 3.12it/s]
+    \item Epoch 3: Train loss=3.6435, acc=0.7050 Val loss=3.9273, acc=0.1929
+    \item Epoch 4/10 - train: 15/15 [00:04<00:00, 3.10it/s]
+    \item Epoch 4: Train loss=2.9406, acc=0.8432 Val loss=3.6216, acc=0.2660
+    \item Epoch 5/10 - train: 15/15 [00:04<00:00, 3.10it/s]
+    \item Epoch 5: Train loss=2.2647, acc=0.9090 Val loss=3.3172, acc=0.2780
+    \item Epoch 6/10 - train: 15/15 [00:04<00:00, 3.09it/s]
+    \item Epoch 6: Train loss=1.6587, acc=0.9178 Val loss=3.0913, acc=0.3027
+    \item Epoch 7/10 - train: 15/15 [00:04<00:00, 3.05it/s]
+    \item Epoch 7: Train loss=1.1541, acc=0.9561 Val loss=2.8877, acc=0.3070
+    \item Epoch 8/10 - train: 15/15 [00:04<00:00, 3.07it/s]
+    \item Epoch 8: Train loss=0.7962, acc=0.9792 Val loss=2.8046, acc=0.3179
+    \item Epoch 9/10 - train: 15/15 [00:04<00:00, 3.08it/s]
+    \item Epoch 9: Train loss=0.5309, acc=0.9912 Val loss=2.7045, acc=0.3295
+    \item Epoch 10/10 - train: 15/15 [00:04<00:00, 3.07it/s]
+    \item Epoch 10: Train loss=0.3352, acc=0.9967 Val loss=2.7344, acc=0.3036
+  \end{itemize}
+
+\subsubsection{1k adathalmazon történő tanítás grafikonja Resnet50 modellen.}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase03/phase03_ResNet50_1K_learning_curve.png}
+    \caption{1k adathalmazon történő tanítás grafikonja Resnet50 modellen.}
+    \label{fig:phase03_ResNet50_1K_learning_curve}
+  \end{figure}
+
+  \subsubsection{1k adathalmazon történő tanítás eredményei.}
+  \begin{center}
+    \begin{longtable}{l c}
+    \caption{1k tanítás ResNet50-en.} \label{tab:phase03_ResNet50_1k} \\
+    \toprule
+    \textbf{Metrika} & \textbf{Érték} \\
+    \midrule
+    \endfirsthead
+    \toprule
+    \textbf{Metrika} & \textbf{Érték} \\
+    \midrule
+    \endhead
+    Top-1 Accuracy & 0.3022 \\
+    Top-5 Accuracy & 0.6505 \\
+    Precision      & 0.2851 \\
+    Recall         & 0.3149 \\
+    F1-score       & 0.2820 \\
+    Inference time & 31.49 sec \\
+    \bottomrule
+    \end{longtable}
+  \end{center}
+
+
+%5K-----------------------------------------------------------------------------
+\subsubsection{5k adathalmazon történő tanítás lépései Resnet50 modellen.}
+  \begin{itemize} 
+    \item Epoch 1/10 - train: 77/77 [00:25<00:00,  3.07it/s]
+    \item Epoch 1: Train loss=4.2541, acc=0.1336 Val loss=2.9191, acc=0.3120
+    \item Epoch 2/10 - train: 77/77 [00:25<00:00,  3.08it/s]
+    \item Epoch 2: Train loss=2.4980, acc=0.4419 Val loss=2.2629, acc=0.4149
+    \item Epoch 3/10 - train: 77/77 [00:25<00:00,  3.08it/s]
+    \item Epoch 3: Train loss=1.5075, acc=0.6589 Val loss=2.1996, acc=0.4065
+    \item Epoch 4/10 - train: 77/77 [00:25<00:00,  3.07it/s]
+    \item Epoch 4: Train loss=0.8867, acc=0.8315 Val loss=2.0922, acc=0.4397
+    \item Epoch 5/10 - train: 77/77 [00:25<00:00,  3.08it/s]
+    \item Epoch 5: Train loss=0.4669, acc=0.9247 Val loss=2.0961, acc=0.4400
+    \item Epoch 6/10 - train: 77/77 [00:25<00:00,  3.08it/s]
+    \item Epoch 6: Train loss=0.2292, acc=0.9753 Val loss=2.0989, acc=0.4490
+    \item Epoch 7/10 - train: 77/77 [00:25<00:00,  3.07it/s]
+    \item Epoch 7: Train loss=0.1167, acc=0.9914 Val loss=2.1723, acc=0.4536
+    \item Epoch 8/10 - train: 77/77 [00:25<00:00,  3.08it/s]
+    \item Epoch 8: Train loss=0.0653, acc=0.9955 Val loss=2.1871, acc=0.4492
+    \item Epoch 9/10 - train: 77/77 [00:25<00:00,  3.07it/s]
+    \item Epoch 9: Train loss=0.0356, acc=0.9988 Val loss=2.2443, acc=0.4525
+    \item Epoch 10/10 - train: 77/77 [00:25<00:00,  3.08it/s]
+    \item Epoch 10: Train loss=0.0250, acc=0.9992 Val loss=2.2541, acc=0.4598
+  \end{itemize}
+
+\subsubsection{5k adathalmazon történő tanítás grafikonja Resnet50 modellen.}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase03/phase03_ResNet50_5K_learning_curve.png}
+    \caption{5k adathalmazon történő tanítás grafikonja Resnet50 modellen.}
+    \label{fig:phase03_ResNet50_5K_learning_curve}
+  \end{figure}
+
+
+\subsubsection{5k adathalmazon történő tanítás eredményei.}
+  \begin{center}
+    \begin{longtable}{l c}
+    \caption{5k tanítás ResNet50-en.} \label{tab:phase03_ResNet50_5k} \\
+    \toprule
+    \textbf{Metrika} & \textbf{Érték} \\
+    \midrule
+    \endfirsthead
+    \toprule
+    \textbf{Metrika} & \textbf{Érték} \\
+    \midrule
+    \endhead
+    Top-1 Accuracy & 0.4603 \\
+    Top-5 Accuracy & 0.7766 \\
+    Precision      & 0.4254 \\
+    Recall         & 0.4762 \\
+    F1-score       & 0.4325 \\
+    Inference time & 31.72 sec \\
+    \bottomrule
+    \end{longtable}
+  \end{center}
+
+%10K-----------------------------------------------------------------------------
+\subsubsection{10k adathalmazon történő tanítás lépései Resnet50 modellen.}
+
+
+\subsubsection{10k adathalmazon történő tanítás grafikonja Resnet50 modellen.}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase03/phase03_ResNet50_10K_learning_curve.png}
+    \caption{10k adathalmazon történő tanítás grafikonja Resnet50 modellen.}
+    \label{fig:phase03_ResNet50_5K_learning_curve}
+  \end{figure}
+
+
+\subsubsection{5k adathalmazon történő tanítás eredményei.}
+
+
+%25K-----------------------------------------------------------------------------
+\subsubsection{25k adathalmazon történő tanítás lépései Resnet50 modellen.}
+
+
+\subsubsection{25k adathalmazon történő tanítás grafikonja Resnet50 modellen.}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase03/phase03_ResNet50_25K_learning_curve.png}
+    \caption{25k adathalmazon történő tanítás grafikonja Resnet50 modellen.}
+    \label{fig:phase03_ResNet50_25K_learning_curve}
+  \end{figure}
+
+
+\subsubsection{25k adathalmazon történő tanítás eredményei.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{ResNet50 tanítás nélküli részletes osztályonkénti metrikák}
+  %\input{tables/phase1_resnet50_class_table}
+
+\subsubsection{GPU memóriahasználat}
+\begin{itemize}
+  \item aktív GPU: NVIDIA A100-SXM4-40GB
+  \item GPU memória (lefoglalt): 0.96 GB
+  \item GPU memória (használt):  0.14 GB
+\end{itemize}
