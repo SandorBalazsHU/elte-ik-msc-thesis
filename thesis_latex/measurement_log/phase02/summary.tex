@@ -23,6 +23,46 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \end{longtable}
     \end{center}
 
+\subsection{Top 1 pontosságok összehasonlítása teljes tanítás után.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_top1.png}
+        \caption{Top 1 pontosságok összehasonlítása teljes tanítás után.}
+        \label{fig:phase02_summary_top1}
+    \end{figure}
+
+\subsection{F1 értékek összehasonlítása teljes tanítás után.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_f1.png}
+        \caption{F1 értékek összehasonlítása teljes tanítás után.}
+        \label{fig:phase02_summary_top1}
+    \end{figure}
+
+\subsection{Futási idők összehasonlítása teljes tanítás után a teszt halmazon.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_time.png}
+        \caption{Futási idők összehasonlítása teljes tanítás után a teszt halmazon.}
+        \label{fig:phase02_summary_time}
+    \end{figure}
+
+\subsection{Top 1 és Top 5 pontosságok összehasonlítása teljes tanítás után a teszt halmazon.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_top1vstop5.png}
+        \caption{Top 1 és Top 5 pontosságok összehasonlítása teljes tanítás után a teszt halmazon.}
+        \label{fig:phase02_summary_top1vstop5}
+    \end{figure}
+
+\subsection{Precision, Recall és F1 összehasonlítása teljes tanítás után a teszt halmazon.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_prec_rec_f1.png}
+        \caption{Precision, Recall és F1 összehasonlítása teljes tanítás után a teszt halmazon.}
+        \label{fig:phase02_summary_prec_rec_f1}
+    \end{figure}
+
 \subsection{Összehasonlító táblázat az első és a második fázis mért értékeiről.}
     \begin{center}
         \begin{longtable}{lllll}
@@ -89,22 +129,106 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \end{longtable}
     \end{center}
 
+    \subsection{Top 1 és Top 5 pontosság összehasonlítása Pretrained és a Finetuned mérések között.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_top1_vs_top5_pre_vs_fine.png}
+        \caption{Top 1 és Top 5 pontosság összehasonlítása Pretrained és a Finetuned mérések között.}
+        \label{fig:phase02_summary_top1_vs_top5_pre_vs_fine}
+    \end{figure}
 
+\subsection{Precision és Recall összehasonlítása Pretrained és a Finetuned mérések között.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_prec_vs_rec_pre_vs_fine.png}
+        \caption{Precision és Recall összehasonlítása Pretrained és a Finetuned mérések között.}
+        \label{fig:phase02_summary_prec_vs_rec_pre_vs_fine}
+    \end{figure}
 
+\subsection{F1 score összehasonlítása Pretrained és a Finetuned mérések között.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_F1_pre_vs_fine.png}
+        \caption{F1 score összehasonlítása Pretrained és a Finetuned mérések között.}
+        \label{fig:phase02_summary_F1_pre_vs_fine}
+    \end{figure}
+
+\subsection{A Precision és a Fine-tuned modellek értékelése}
+    A fenti eredmények alapján megállapítható, hogy a finomhangolt (fine-tuned) modellek jelentős teljesítményjavulást mutatnak a kiindulási, előképzett (pretrained) állapothoz képest. Különösen az EfficientNet-B0 és a ConvNeXt-Tiny modellek emelkednek ki, amelyek a legmagasabb Top-1 és Top-5 pontosságot érték el a finomhangolás után.
+
+    A Precision, Recall és F1-score metrikák szintén javulást mutatnak minden modell esetében a finomhangolás hatására. Ez arra utal, hogy a modellek nemcsak pontosabbak lettek, hanem jobban képesek felismerni a releváns jellemzőket az adathalmazon.
+
+    Az inference idő tekintetében a ViT-B-16 modell jelentősen hosszabb időt igényel
+
+\subsection{Tanítási ciklusok elemzése}
+Általános megfigyelések:
+Tanítási pontosságban (Train Accuracy) ResNet50 (96.51\%) és ConvNeXt-Tiny (95.77\%) szerepeltek kiemelkedően.
+Validációs pontosságban (Validation Accuracy) az EfficientNet-B0 (76.58\%) és NASNet (75.98\%) mutatták a legjobb eredményt.
+A legtöbb modellnél overfitting (túlilleszkedés) jelentkezett: a Train Loss nagyon lecsökkent, miközben a Val Loss magas maradt (1 körül vagy felette).
+NASNet csak 3 epoch alatt futott, mégis a legjobb vagy közel legjobb validációs eredményt érte el, ami hatékony tanulásra utal.
+ViT-B/16 (Vision Transformer) és Inception-v3 bár jól tanultak (magas train acc), a validációs loss alapján nem tudtak igazán generalizálni.
+
+Modellenként:
+ResNet50: 
+Nagyon erős tanítási eredmény, de látványos overfitting.
+DenseNet121: 
+Stabil fejlődés, viszont a validációs eredmény nem nőtt jelentősen a vége felé.
+EfficientNet-B0: 
+Legjobb tradeoff: relatíve jó tanulás + legjobb validáció.
+ConvNeXt-Tiny: 
+Nagyon jól tanult, de a validáció során hullámzó teljesítményt mutatott.
+ViT-B/16: 
+Transformer alapú architektúra itt nem volt erősebb, mint a CNN-ek.
+Inception-v3: 
+Stabil, de szintén overfitting jelei.
+NASNet: 
+Gyors, kevés epoch alatti hatékony tanulás. Figyelemre méltóan jó validációs pontosság.
+
+\subsection{A Train és Validation loss alakulása modellenként.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase2_summary_learning_stat_last_01.png}
+        \caption{A Train és Validation loss alakulása modellenként.}
+        \label{fig:phase2_summary_learning_stat_last_01.png}
+    \end{figure}
+
+\subsection{A Train és Validation accuracy alakulása modellenként.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase2_summary_learning_stat_last_02.png}
+        \caption{A Train és Validation accuracy alakulása modellenként.}
+        \label{fig:phase2_summary_learning_stat_last_02.png}
+    \end{figure}
+
+\subsection{A Train és Validation loss alakulása modellenként epoch-ok szerint.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase2_summary_learning_stat_full_01.png}
+        \caption{A Train és Validation loss alakulása modellenként epoch-ok szerint.}
+        \label{fig:phase2_summary_learning_stat_last_01.png}
+    \end{figure}
+
+\subsection{A Train és Validation accuracy alakulása modellenként epoch-ok szerint.}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/phase02/phase2_summary_learning_stat_full_02.png}
+        \caption{A Train és Validation accuracy alakulása modellenként epoch-ok szerint.}
+        \label{fig:phase2_summary_learning_stat_last_02.png}
+    \end{figure}
 
 \subsection{A második fázis rövid szöveges értékelése}
-A második mérési fázis során a SBphotothemes180k [ImageNet114] adathalmazon végzett teljes tanítási folyamat után a különböző modellek teljesítményét értékeltük. Az alábbi megállapítások születtek:
+    A második mérési fázis során a SBphotothemes180k [ImageNet114] adathalmazon végzett teljes tanítási folyamat után a különböző modellek teljesítményét értékeltük. Az alábbi megállapítások születtek:
 
-EfficientNet-B0 érte el a legmagasabb Top-1 pontosságot (76.49\%) és F1-score-t (70.01\%), miközben az inference ideje is versenyképes maradt. Ez alátámasztja az EfficientNet architektúra hatékonyságát és pontosságát, különösen a korlátozott erőforrásokkal rendelkező környezetekben.
+    EfficientNet-B0 érte el a legmagasabb Top-1 pontosságot (76.49\%) és F1-score-t (70.01\%), miközben az inference ideje is versenyképes maradt. Ez alátámasztja az EfficientNet architektúra hatékonyságát és pontosságát, különösen a korlátozott erőforrásokkal rendelkező környezetekben.
 
-NASNet kiemelkedett a Top-5 pontosság terén (94.70\%) és a legmagasabb precizitást (71.80\%) érte el, ami a modell mély és összetett architektúrájának köszönhető. Azonban az inference ideje megegyezett más modellekével, ami azt jelzi, hogy a komplexitás nem feltétlenül jár együtt hosszabb feldolgozási idővel.
+    NASNet kiemelkedett a Top-5 pontosság terén (94.70\%) és a legmagasabb precizitást (71.80\%) érte el, ami a modell mély és összetett architektúrájának köszönhető. Azonban az inference ideje megegyezett más modellekével, ami azt jelzi, hogy a komplexitás nem feltétlenül jár együtt hosszabb feldolgozási idővel.
 
-ConvNeXt-Tiny és ResNet50 modellek kiegyensúlyozott teljesítményt mutattak, mind a pontosság, mind az inference idő tekintetében. Ez teszi őket megbízható választássá általános célú alkalmazásokhoz.
+    ConvNeXt-Tiny és ResNet50 modellek kiegyensúlyozott teljesítményt mutattak, mind a pontosság, mind az inference idő tekintetében. Ez teszi őket megbízható választássá általános célú alkalmazásokhoz.
 
-ViT-B/16, bár transformer alapú modellként ígéretes, a jelenlegi adathalmazon nem tudta felülmúlni a CNN alapú modelleket. Az inference ideje is jelentősen hosszabb volt, ami korlátozhatja a valós idejű alkalmazásokban való használatát.
+    ViT-B/16, bár transformer alapú modellként ígéretes, a jelenlegi adathalmazon nem tudta felülmúlni a CNN alapú modelleket. Az inference ideje is jelentősen hosszabb volt, ami korlátozhatja a valós idejű alkalmazásokban való használatát.
 
-Inception-v3 stabil teljesítményt nyújtott, különösen az F1-score (69.08\%) és az inference idő (25.11 sec) tekintetében, ami a modell érettségét és optimalizáltságát tükrözi.
+    Inception-v3 stabil teljesítményt nyújtott, különösen az F1-score (69.08\%) és az inference idő (25.11 sec) tekintetében, ami a modell érettségét és optimalizáltságát tükrözi.
 
-DenseNet121 hasonlóan jó eredményeket ért el, különösen a recall értékben (68.08\%), ami a modell hatékony információáramlását és mély kapcsolatokat kihasználó architektúráját mutatja.
+    DenseNet121 hasonlóan jó eredményeket ért el, különösen a recall értékben (68.08\%), ami a modell hatékony információáramlását és mély kapcsolatokat kihasználó architektúráját mutatja.
 
-Összefoglalva, a teljes tanítási folyamat jelentős javulást eredményezett minden modell esetében a tanítás nélküli állapothoz képest. Az eredmények alapján az EfficientNet-B0 és a NASNet modellek kiemelkednek a pontosság és hatékonyság terén, míg a ConvNeXt-Tiny és a ResNet50 modellek megbízható és kiegyensúlyozott teljesítményt nyújtanak. A választás során figyelembe kell venni az alkalmazás specifikus igényeit, beleértve a pontosságot, a feldolgozási időt és az erőforrás-korlátokat.
+    Összefoglalva, a teljes tanítási folyamat jelentős javulást eredményezett minden modell esetében a tanítás nélküli állapothoz képest. Az eredmények alapján az EfficientNet-B0 és a NASNet modellek kiemelkednek a pontosság és hatékonyság terén, míg a ConvNeXt-Tiny és a ResNet50 modellek megbízható és kiegyensúlyozott teljesítményt nyújtanak. A választás során figyelembe kell venni az alkalmazás specifikus igényeit, beleértve a pontosságot, a feldolgozási időt és az erőforrás-korlátokat.
