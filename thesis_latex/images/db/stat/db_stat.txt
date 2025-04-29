@@ -1,0 +1,5 @@
+Tulajdonság,Érték
+Fájlok száma,180750
+Összes fájlméret (MB),9672.07
+Átlagos fájlméret (MB),0.05
+Fájltípus,.jpg

@@ -1,34 +1,22 @@
 \documentclass[
-	%parspace, % Add vertical space between paragraphs
-	%noindent, % No indentation of first lines in each paragraph
-	%nohyp, % No hyphenation of words
-	%twoside, % Double sided format
-	%draft, % Quicker draft compilation without rendering images
-	%final, % Set final to hide todos
+	noindent
 ]{elteikthesis}[2024/04/26]
 
-% The minted package is also supported for source highlighting
-% See elteikthesis_minted.tex for example
-%\usepackage[newfloat]{minted}
-
-% Document's metadata
-\title{Dolgozat címe} % title
-\date{2024} % year of defense
+\title{Fotográfiai témafelismerés neurális hálózatokkal nagy adathalmazon.} 
+\date{2025}
 
 % Author's metadata
-\author{Hallgató Hanga}
-\degree{programtervező informatikus BSc}
+\author{Sándor Balázs}
+\degree{Programtervező informatikus MSc}
 
 % Superivsor(s)' metadata
-\supervisor{Témavezető Tamás} % internal supervisor's name
-\affiliation{egyetemi tanársegéd} % internal supervisor's affiliation
-%\extsupervisor{Külső Kornél} % external supervisor's name
-%\extaffiliation{informatikai igazgató} % external supervisor's affiliation
+\supervisor{Dr. Kiss Attila Elemér}
+\affiliation{Habilitált docens tanszékvezető}
 
 % University's metadata
 \university{Eötvös Loránd Tudományegyetem} % university's name
 \faculty{Informatikai Kar} % faculty's name
-\department{Programozáselmélet és Szoftvertechnológiai\\ Tanszék} % department's name
+\department{ Információs rendszerek Tanszék} % department's name
 \city{Budapest} % city
 \logo{elte_cimer_szines} % logo
 
@@ -40,42 +28,42 @@
 
 % Set document language
 \documentlang{hungarian}
-%\documentlang{english}
 
-% List of todos (not in the final document)
-%\listoftodos[\todolabel]
 
 % Title page (mandatory)
 \maketitle
-% Topic declaration page (mandatory) - can also be attached instead
-%\includepdf{temabejelento.pdf}
+
+% Topic declaration page (mandatory)
+\includepdf{temabejelento.pdf}
 
 % Table of contents (mandatory)
 \tableofcontents
 \cleardoublepage
 
-% Main content
-\input{content/intro.tex}
-\cleardoublepage
+% Main content--------------------------------------------------
+\input{content/01_abstract.tex}
 
-\input{content/user.tex}
-\cleardoublepage
+\input{content/02_introduction.tex}
 
-\input{content/impl.tex}
-\cleardoublepage
+\input{content/03_database.tex}
 
-\input{content/sum.tex}
-\cleardoublepage
+\input{content/XX_summary.tex}
 
-% Acknowledgements (optional) - in case your thesis received funding or would like to express special thanks to someone
-\chapter*{\acklabel}
-\addcontentsline{toc}{chapter}{\acklabel}
-Amennyiben a szakdolgozati / diplomamunka projekted pénzügyi támogatást kapott egy projektből vagy az egyetemtől, jellemzően kötelező feltüntetni a dolgozatban is. A dolgozat elkészítéséhez segítséget nyújtó oktatók, hallgatótársak, kollégák felé is nyilvánítható külön köszönet.
 
-% Appendices (optional) - useful for detailed information in long tables, many and/or large figures, etc.
-\appendix
-\input{content/sim.tex}
-\cleardoublepage
+
+%\input{content/intro.tex}
+%\cleardoublepage
+
+%\input{content/user.tex}
+%\cleardoublepage
+
+%\input{content/impl.tex}
+%\cleardoublepage
+
+%\input{content/sum.tex}
+%\cleardoublepage
+
+% Main content END--------------------------------------------------
 
 % Bibliography (mandatory)
 \phantomsection
@@ -95,26 +83,17 @@ Amennyiben a szakdolgozati / diplomamunka projekted pénzügyi támogatást kapo
 \listoftables
 \cleardoublepage
 
-% List of algorithms (optional) - useful over 3-5 algorithms
-\phantomsection
-\addcontentsline{toc}{chapter}{\lstalgorithmlabel}
-\listofalgorithms
-\cleardoublepage
-
 % List of codes (optional) - useful over 3-5 code samples
 \phantomsection
 \addcontentsline{toc}{chapter}{\lstcodelabel}
 \lstlistoflistings
 \cleardoublepage
 
-% List of symbols (optional)
-%\printnomenclature
-
 \appendix
 
 % --- Melléklet A kezdete ---
-\chapter*{Melléklet A: Mérési napló}
-\addcontentsline{toc}{chapter}{Melléklet A: Mérési napló}
-\includepdf[pages=-]{measurement_log.pdf}
+%\chapter*{Melléklet A: Mérési napló}
+%\addcontentsline{toc}{chapter}{Melléklet A: Mérési napló}
+%\includepdf[pages=-]{measurement_log.pdf}
 
 \end{document}
