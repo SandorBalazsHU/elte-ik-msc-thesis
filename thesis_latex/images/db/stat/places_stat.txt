@@ -1,0 +1,152 @@
+PS D:\diplomamunka\CNN_DB\scripts> python .\folder_analizer_2.py
+📂 Elérhető mappák a 'db' könyvtárban:
+  1. imagenet_sorted_db
+  2. imagenet_splitted_db
+  3. sorted_db
+  4. splitted_db
+  5. unsorted_db
+🔎 Add meg a kiválasztott mappa sorszámát: 3
+📂 Talált almappák száma: 121
+📦 Fájlok számolása: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 121/121 [00:10<00:00, 11.00it/s]
+Kategóriaeloszlás – Összesen 180750 kép
+
+  📁 Mappa                 🧮 Képszám
+ ─────────────────────────────────────
+  stage                         24404
+  sky                           13092
+  orchestra_pit                  9962
+  arena                          6460
+  music_studio                   4032
+  airfield                       3996
+  florist_shop                   3824
+  field_road                     3524
+  discotheque                    3116
+  heliport                       2934
+  botanical_garden               2844
+  canal                          2597
+  lake                           2524
+  forest                         2390
+  wheat_field                    2257
+  orchard                        2141
+  nursing_home                   2096
+  television_studio              2000
+  church                         1979
+  catacomb                       1964
+  village                        1849
+  park                           1820
+  beauty_salon                   1809
+  veterinarians_office           1788
+  promenade                      1644
+  vegetable_garden               1491
+  ballroom                       1466
+  beer_garden                    1465
+  runway                         1447
+  basement                       1410
+  pub                            1400
+  bridge                         1385
+  cockpit                        1379
+  harbor                         1351
+  elevator                       1308
+  science_museum                 1283
+  hangar                         1250
+  campus                         1239
+  forest_path                    1226
+  elevator_shaft                 1200
+  aquarium                       1179
+  museum                         1176
+  ice_floe                       1173
+  field                          1171
+  junkyard                       1116
+  plaza                          1104
+  fountain                        997
+  rainforest                      964
+  pier                            911
+  lagoon                          892
+  corn_field                      885
+  palace                          872
+  movie_theater                   870
+  archive                         864
+  server_room                     860
+  zen_garden                      842
+  tree_farm                       823
+  jewelry_shop                    806
+  tower                           802
+  bakery                          766
+  classroom                       760
+  amphitheater                    758
+  roof_garden                     757
+  berth                           737
+  amusement_park                  716
+  bamboo_forest                   715
+  tree_house                      704
+  parking_lot                     693
+  hospital_room                   666
+  dorm_room                       664
+  driveway                        659
+  natural_history_museum          659
+  beach                           653
+  delicatessen                    646
+  tundra                          643
+  picnic_area                     642
+  auditorium                      636
+  kennel                          633
+  army_base                       631
+  marsh                           628
+  dressing_room                   625
+  railroad_track                  612
+  beer_hall                       602
+  bar                             598
+  medina                          598
+  booth                           594
+  conference_center               587
+  ice_shelf                       587
+  mosque                          573
+  raft                            568
+  landfill                        564
+  repair_shop                     563
+  street                          562
+  cemetery                        542
+  highway                         540
+  sandbox                         537
+  home_theater                    535
+  art_school                      533
+  ice_cream_parlor                528
+  creek                           516
+  desert                          504
+  playground                      504
+  alley                           497
+  art_gallery                     493
+  banquet_hall                    480
+  physics_laboratory              480
+  islet                           475
+  vineyard                        475
+  fishpond                        474
+  hayfield                        455
+  snowfield                       455
+  engine_room                     448
+  lecture_room                    435
+  bazaar                          418
+  watering_hole                   416
+  swamp                           406
+  pet_shop                        403
+  auto_factory                    396
+  water_tower                     393
+  forest_road                     382
+  pond                            378
+
+D:\diplomamunka\CNN_DB\scripts\folder_analizer_2.py:92: UserWarning: Glyph 128201 (\N{CHART WITH DOWNWARDS TREND}) missing from font(s) DejaVu Sans.
+  plt.tight_layout()
+C:\Users\sandorbalazs\AppData\Local\Programs\Python\Python310\lib\tkinter\__init__.py:839: UserWarning: Glyph 128201 (\N{CHART WITH DOWNWARDS TREND}) missing from font(s) DejaVu Sans.
+  func(*args)
+C:\Users\sandorbalazs\AppData\Local\Programs\Python\Python310\lib\tkinter\__init__.py:1921: UserWarning: Glyph 128201 (\N{CHART WITH DOWNWARDS TREND}) missing from font(s) DejaVu Sans.
+  return self.func(*args)
+
+📊 Bővített statisztikai összefoglaló:
+  🧮 Átlag: 1493.80
+  📍 Medián: 760.0
+  📉 Szórás: 2650.96
+  🔀 Aszimmetria (skewness): 6.36
+  ⚖️ Gini-index: 0.5110
+  🔢 Entropia: 4.1766
+  ❌ Üres kategóriák száma: 0
+  ⚠️ 300 alatti kategóriák száma: 0

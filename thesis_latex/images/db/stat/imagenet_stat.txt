@@ -1,0 +1,143 @@
+📂 Elérhető mappák a 'db' könyvtárban:
+  1. imagenet_sorted_db
+  2. imagenet_splitted_db
+  3. sorted_db
+  4. splitted_db
+  5. unsorted_db
+🔎 Add meg a kiválasztott mappa sorszámát: 1
+📂 Talált almappák száma: 114
+📦 Fájlok számolása: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 114/114 [00:12<00:00,  9.03it/s]
+Kategóriaeloszlás – Összesen 180750
+                kép
+
+  📁 Mappa             🧮 Képszám
+ ─────────────────────────────────
+  stage                     33788
+  warplane                   8705
+  lakeside                   8003
+  electric_guitar            6863
+  microphone                 5951
+  balloon                    3366
+  valley                     2950
+  seashore                   2882
+  groom                      2838
+  pot                        2540
+  gondola                    2265
+  bee                        2115
+  spotlight                  2012
+  hip                        1944
+  projector                  1564
+  jersey                     1527
+  daisy                      1483
+  wing                       1467
+  Egyptian_cat               1443
+  patio                      1429
+  park_bench                 1428
+  oxygen_mask                1423
+  plate                      1417
+  oscilloscope               1416
+  restaurant                 1399
+  suit                       1396
+  palace                     1383
+  neck_brace                 1363
+  worm_fence                 1358
+  pole                       1347
+  hoopskirt                  1337
+  matchstick                 1261
+  suspension_bridge          1259
+  drumstick                  1253
+  earthstar                  1203
+  mountain_tent              1203
+  volcano                    1184
+  limousine                  1178
+  projectile                 1170
+  picket_fence               1169
+  parachute                  1165
+  birdhouse                  1149
+  torch                      1148
+  monastery                  1114
+  sax                        1113
+  candle                     1110
+  barn                       1098
+  radio_telescope            1075
+  ladybug                    1072
+  tabby                      1065
+  binder                     1045
+  hen-of-the-woods           1042
+  crutch                     1038
+  cellular_telephone         1032
+  vault                      1027
+  cabbage_butterfly          1005
+  buckeye                    1002
+  prison                      997
+  bubble                      989
+  harmonica                   987
+  pier                        962
+  obelisk                     945
+  ant                         943
+  paddle                      922
+  fountain                    920
+  ping-pong_ball              899
+  assault_rifle               898
+  maraca                      892
+  book_jacket                 886
+  dome                        844
+  dock                        831
+  space_shuttle               827
+  steel_drum                  827
+  mobile_home                 822
+  sandbar                     817
+  missile                     812
+  airliner                    795
+  theater_curtain             795
+  ear                         794
+  sweatshirt                  792
+  marimba                     785
+  swimming_trunks             779
+  tank                        772
+  bell_cote                   761
+  rapeseed                    756
+  dragonfly                   742
+  library                     734
+  hay                         716
+  harvester                   705
+  wig                         687
+  vestment                    684
+  menu                        673
+  car_mirror                  667
+  bow_tie                     657
+  streetcar                   650
+  mountain_bike               649
+  gown                        648
+  grand_piano                 625
+  snowplow                    620
+  planetarium                 615
+  beacon                      608
+  altar                       577
+  breakwater                  574
+  traffic_light               567
+  cardoon                     544
+  cannon                      541
+  triumphal_arch              538
+  cinema                      503
+  greenhouse                  502
+  drum                        476
+  accordion                   461
+  boathouse                   423
+  aircraft_carrier            383
+  church                      350
+
+D:\diplomamunka\CNN_DB\scripts\folder_analizer_2.py:92: UserWarning: Glyph 128201 (\N{CHART WITH DOWNWARDS TREND}) missing from font(s) DejaVu Sans.
+  plt.tight_layout()
+C:\Users\sandorbalazs\AppData\Local\Programs\Python\Python310\lib\tkinter\__init__.py:839: UserWarning: Glyph 128201 (\N{CHART WITH DOWNWARDS TREND}) missing from font(s) DejaVu Sans.
+  func(*args)
+
+📊 Bővített statisztikai összefoglaló:
+  🧮 Átlag: 1585.53
+  📍 Medián: 999.5
+  📉 Szórás: 3293.05
+  🔀 Aszimmetria (skewness): 8.41
+  ⚖️ Gini-index: 0.4675
+  🔢 Entropia: 4.0923
+  ❌ Üres kategóriák száma: 0
+  ⚠️ 300 alatti kategóriák száma: 0
