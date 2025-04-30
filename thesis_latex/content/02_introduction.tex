@@ -29,3 +29,55 @@
         \subsection{A konvolúciós neurális hálózatok mint megoldás}
 
         \subsection{Képadatbázisok mint tanító eszközök}
+
+    \section{Irodalomkutatás}
+        A diplomamunka elkészítése során elsősorban a képzés során végzett Bevezetés a gépi tanulásba, Gépi tanulás alapjai Python-ban és Deep Learning kurzusokon tanultakra támaszkodtam, de a munka kezdete előtt olvastam a felhasznált modelleket bemutató cikkeket, survey cikkeket és a témába vágó egyéb írásokat. Ebben a részben ezeket szeretném bemutatni. (A felhasznált irodalmak listája a projekt GitHub könyvtárában is megtalálható.)
+
+        \subsection{A metrikák}
+        Az alkalmazott metrikák megértésében és kiválasztásában nagy segítségemre volt az "Image Classification with Convolutional Neural Networks"\cite{article_cnn_metrics} című írás.
+
+        \subsection{Áttekintő írások}
+            Az irodalomkutatást áttekintő művek keresésével és értelmezésével kezdtem.
+            \begin{itemize}
+                \item "A Survey of Convolutional Neural Networks: Analysis, Applications, and Prospects"\cite{article_cnn_survey}
+                \item "Review of deep learning: concepts, CNN architectures, challenges, applications, future directions"\cite{ardicle_dl_survey}
+                \item "Understanding Deep Convolutional Networks"\cite{article_cnn_math}
+                \item "Benchmarking Neural Network Training Algorithms"\cite{article_benchmarking}
+            \end{itemize}
+
+        \subsection{A modellek és adathalmazok cikkei}
+            Természetesen nagyon nagy segítséget jelentettek a felhasznált modelleket és kategorizálásokat ismertető írások.
+            Ezek az írások a következőek:
+            \begin{itemize} 
+                \item A ResNet50 modell ismertetése.\cite{article_resnet50}
+                \item DenseNet121 modell ismertetése.\cite{article_densenet}
+                \item EfficientNet-B0 modell ismertetése.\cite{article_efficientnet}
+                \item ConvNeXt-Tiny modell ismertetése.\cite{article_convnext}
+                \item ViT-B/16 modell ismertetése.\cite{article_vit_b16}
+                \item Inception-v3 modell ismertetése.\cite{article_inception_v3}
+                \item NASNet modell ismertetése.\cite{article_nasnet}
+                \item ImageNet1K osztályozás ismertetése.\cite{article_ImageNet1K}
+                \item Places365 osztályozás ismertetése.\cite{article_places365}
+            \end{itemize}
+        
+        \subsection{Optimalizációs módszerek}
+            Amikor az új modellt terveztem több optimalizációs megoldásnak is utánanéztem. Az alábbiakban az ezekhez tartozó irodalmakat sorolom fel.
+            \begin{itemize}
+                \item GELU (Gaussian Error Linear Unit) aktivációs függvény\cite{article_GELU}
+                \item Layer Normalization\cite{article_LayerNorm}
+                \item Dropout regulárizáció\cite{article_dropaut}
+                \item Batch Normalization (BatchNorm)\cite{article_BatchNorm}
+                \item Adaptive Average Pooling (AdaptiveAvgPool2d)\cite{article_AdaptiveAvgPool2d}
+            \end{itemize}
+        
+        \subsection{Egyéb irodalom}
+            A további cikkek és írások amiket áttekintettem a munka megkezdése előtt az alábbiak:
+            \begin{itemize}
+                \item "A Survey on Deep Transfer Learning and Beyond"\cite{article_Survey_Deep_Transfer}
+                \item "Landscape photo classification mechanism for context-aware photography support system" \cite{article_Landscape_photo_classification}
+                \item "Photo Content Classification Using Convolutional Neural Network" \cite{article_Photo_Content_Classification}
+                \item "An Analysis Of Convolutional Neural Networks For Image Classification"\cite{article_cnn_image_class}
+        \end{itemize}
+        
+
+
