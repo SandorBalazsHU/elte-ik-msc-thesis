@@ -9,63 +9,91 @@
         A képzés során hamar szembesültem azzal, hogy a gépi tanulási rendszerek fejlesztésének egyik legnagyobb akadálya a minőségi, kellően címkézett adathalmazok hiánya. Ekkor tudatosult bennem, hogy az elmúlt évtizedek során saját magam által készített és gondosan karbantartott fotótár egyedülálló lehetőséget kínál egy valós, természetes környezetből származó adathalmaz kialakítására. Ez a felismerés adta a jelen diplomamunka ötletét: saját fotógyűjteményemet felhasználva egy neurális hálózatokkal végzett képosztályozási vizsgálatot hajtottam végre, amely egyszerre kapcsolódik szakmai érdeklődésemhez és személyes szenvedélyemhez is.
         \cleardoublepage
 
-    \section{Elérhetőség}
-        A munka során fotos volt számomra, hogy minden lépést gondosan dokumentáljak és az összes adatot, a finomhangolt modelleket és az adatbázis építéshez, valamint a tanításhoz és mérésekhez készített szoftvereket elérhetővé tegyem.
+        \section{Elérhetőség}
 
-        Mivel a projekt során igen nagy méretű fájlok keletkeztek - összesen 48,5GB -, így ezek az egyetemi OneDrive fiókom segítségével kerültek megosztásra.
-
-        A projekt OneDrive mappájának elérhetősége:
-
+        A munka során kiemelt figyelmet fordítottam arra, hogy minden lépést gondosan dokumentáljak, és az összes létrejött adatot – beleértve a képadatbázisokat, a finomhangolt modelleket, valamint az adatfeldolgozáshoz, tanításhoz és értékeléshez készített szoftvereket – átlátható és hozzáférhető módon elérhetővé tegyem.
+        
+        Tekintettel arra, hogy a projekt során keletkezett fájlok összmérete meghaladja a 48,5 GB-ot, ezek megosztása az egyetemi OneDrive tárhelyem segítségével történt.
+        
+        \vspace{0.5em}
+        \noindent\textbf{A projekt OneDrive mappájának elérhetősége:} \\
         \url{https://ikelte-my.sharepoint.com/:f:/g/personal/sabuaai\_inf\_elte\_hu/ElwbJQikJ7VJqM1u5lmhhNMBq0\_falCiRZTuLwoimmdrpA?e=hGFCxI}
         
-
-        Az elkészült szoftverek a projekt GitHub könyvtárában találhatóak, ennek mérete nem olyan jelentős, de sok fájlt tartalmaz.
+        \vspace{1em}
+        Az elkészült szoftverek – köztük a Jupyter notebook-ok, Python és Bash szkriptek – a projekt GitHub tárhelyén érhetők el. A repository viszonylag kis méretű, de struktúrája révén sok, részletes dokumentációval ellátott fájlt tartalmaz.
         
-        A projekt GitHub repository-ja:
-
-        \url{https://github.com/SandorBalazsHU/elte-ik-msc-thesis}  
+        \begin{note}
+        A Jupyter notebook-ok megtekinthetők közvetlenül a GitHub felületén, vagy szerkeszthetők a Visual Studio Code segítségével is.
+        \end{note}
+        
+        \vspace{0.5em}
+        \noindent\textbf{A projekt GitHub repository-jának elérhetősége:} \\
+        \url{https://github.com/SandorBalazsHU/elte-ik-msc-thesis}        
 
         \subsection{Adatok elérhetősége}
-        Az elkészült adatbázis a projekt OneDrive mappájában találhatóak. A megosztott OneDrive mappa felépítése az alábbi:
 
+        A diplomamunkához készített és használt képadatbázisok, valamint a tanításhoz előkészített fájlok elérhetők a projekt dedikált OneDrive-mappájában. A megosztott tárhely strukturált felépítésének célja, hogy a különböző feldolgozottsági szintű adatkészletek könnyen hozzáférhetők és újrahasznosíthatók legyenek.
+        
+        A OneDrive-könyvtár főbb állományai:
+        
         \begin{itemize}
-            \item fine\_tuned\_models.zip - 1,14GB -  Ebben találhatóak a feltanított modellek
-            \item sbphotothemes180k.zip - 9,48GB - Ebben található a rendezetlen képhalmaz
-            \item sbphotothemes180k\_imagenet114.zip - 9,48GB - Ebben található az ImaageNet1k alapján 114 osztályra szortírozott képhalmaz.
-            \item sbphotothemes180k\_imagenet114\_split\_80\_10\_10.zip - 9,48GB - Ebben található az ImaageNet1k alapján 114 osztályra szortírozott képhalmaz 80-10-10 Train, Val, Test felosztása tanításra készen.
-            \item sbphotothemes180k\_places121.zip - 9,48GB - Ebben található a Places365 alapján 121 osztályra szortírozott képhalmaz.
-            \item sbphotothemes180k\_places121\_split\_80\_10\_10.zip - 9,48GB - Ebben található a Places365 alapján 121 osztályra szortírozott képhalmaz 80-10-10 Train, Val, Test felosztása tanításra készen.
+            \item \textbf{fine\_tuned\_models.zip} (1,14 GB) – A különböző hálózati architektúrákon végzett teljes finomhangolás eredményeként létrejött modellek tömörített formában.
+            
+            \item \textbf{sbphotothemes180k.zip} (9,48 GB) – Az eredeti, rendezetlen, nyers képhalmaz, amely az SBphotothemes180k névre hallgató adatbázis alapját képezi.
+            
+            \item \textbf{sbphotothemes180k\_imagenet114.zip} (9,48 GB) – Az SBphotothemes180k adatbázis ImageNet1K címkerendszer alapján szortírozott változata, 114 kategóriába rendezve.
+            
+            \item \textbf{sbphotothemes180k\_imagenet114\_split\_80\_10\_10.zip} (9,48 GB) – Az előző adatbázis 80–10–10 százalékos arányban szétválasztott tanító, validáló és tesztelő halmazokra bontva, közvetlen tanításra alkalmas formában.
+            
+            \item \textbf{sbphotothemes180k\_places121.zip} (9,48 GB) – A képhalmaz Places365 címkerendszer szerint 121 kategóriába rendezve.
+            
+            \item \textbf{sbphotothemes180k\_places121\_split\_80\_10\_10.zip} (9,48 GB) – Az előző adatbázis tanításra előkészített változata, szintén 80–10–10 arányú Train–Val–Test bontásban.
         \end{itemize}
         
         \subsection{Finomhangolt modellek elérhetősége}
-        Minden modell amin teljes finomhangolást végeztem a teljes tanítóhalmazon mentésre került további vizsgálatokhoz. Ezek a OneDrive könyvtár alábbi mappájában érhetőek el:
-
+        
+        A projekt során minden, a teljes tanítóhalmazon végzett finomhangolás eredménye mentésre került, lehetővé téve a későbbi vizsgálatokat, összehasonlításokat és újrafelhasználást. Ezek a modellek szintén a OneDrive tárhelyen érhetők el:
+        
         \begin{itemize}
-            \item fine\_tuned\_models.zip - 1,14GB -  Ebben találhatóak a feltanított modellek
+            \item \textbf{fine\_tuned\_models.zip} (1,14 GB) – A zip-állomány a projekt során finomhangolt összes modell bináris fájljait tartalmazza.
         \end{itemize}
-
-        Ebben a tömörített könyvtárban a fájlok nevei egyértelműen jelzik, hogy melyik fájl melyik finomhangolt modellt tartalmazza.
+        
+        A fájlnevek egységes és beszédes elnevezési konvenciót követnek, így egyértelműen beazonosítható, hogy az adott állomány melyik neurális hálózati modell és címkézési rendszer alapján végzett tanítás eredményeként készült.
 
         \subsection{Programkódok elérhetősége}
-        A projekthez készült számos Jupyter notebook, python és bash szkript rendezett formában a projekt GitHub könyvtárában érhető el. A könyvtár felépítése a következő:
 
+        A diplomamunka elkészítése során számos Jupyter notebook, Python- és Bash-alapú szkript készült, amelyek a projekt során végzett adatfeldolgozási, tanítási és kiértékelési lépéseket valósítják meg. Ezek a kódok átlátható és rendszerezett formában érhetők el a projekt GitHub-tárhelyén. A könyvtárszerkezet kialakításánál elsődleges szempont volt az olvashatóság, az átláthatóság és a könnyű navigáció.
+        
+        A GitHub-repozitórium fő mappái az alábbiak:
+        
         \begin{itemize}
-            \item literature - Az összegyűjtött irodalmat tartalmazó mappa
-            \item notebooks  - A tanításhoz és vizsgálatokhoz használt GoogleColab nootbook-ok. Ezek minden elvégzett lépést részletesen dokumentálnak. Nem csak a programkódot, hanem az eredményeket és a kommenteket is rendezett fogmában rögzítik. A négy vizsgálati fázishoz 1-1 mappa tartozik és az adatbázis építéshez egy külön db nevű mappa. Az eredmény összegző notebook-ok is itt találhatóak.
-            \item scripts - Ebben a mappában találhatóak az elkészült egyéb segédprogramok. A cnn mappában a modellekhez és a vizsgálatokhoz kötődő elkészített szoftverek találhatóak, a db mappában pedig az adatbázis építéshez készített kódok szerepelnek.
-            \item thesis-latex - Ebben a mappában található a jelen dokumentum LaTeX kódja és a beszúrt ábrák.
+            \item \textbf{literature} – Az irodalomkutatás során összegyűjtött szakirodalmi anyagokat tartalmazza.
+            
+            \item \textbf{notebooks} – A Google Colab környezethez készült notebookok, amelyek részletesen dokumentálják az elvégzett lépéseket. A programkód mellett az eredmények és megjegyzések is jól strukturáltan szerepelnek. Minden vizsgálati fázishoz külön mappa tartozik, valamint egy \texttt{db} nevű mappa az adatbázis építésének és elemzésének lépéseit tartalmazza. Az eredmények összegzésére szolgáló notebookok szintén itt találhatók.
+            
+            \item \textbf{scripts} – Ebben a mappában találhatók az elkészült segédprogramok. A \texttt{cnn} alkönyvtár a neurális hálózati modellekhez és vizsgálatokhoz kapcsolódó kódokat tartalmazza, míg a \texttt{db} mappa az adatbázis előállításához használt szkripteket foglalja magában.
+            
+            \item \textbf{thesis-latex} – A diplomamunka szövegének LaTeX-alapú forráskódja, valamint a beillesztett ábrák találhatók itt.
         \end{itemize}
-
-        A mellékelt, projekt közben elkészített szoftverek részletes bemutatása a Melléklet B: Szoftverek részben található.
+        
+        A notebookok közvetlenül megtekinthetők a GitHub felületén, illetve Visual Studio Code vagy JupyterLab segítségével teljes funkcionalitással is futtathatók és szerkeszthetők.
+        
+        A projekt során készült szoftverek részletes leírása és technikai bemutatása a \textit{Melléklet B: Szoftverek} részben található.        
 
     \section{Mellékletek}
-        A munka során minden lépésnél tudatosan olyan programokat készítettem melyek segítségével a lehető legtöbb metrikát rögzítettem és minden metrikáról vizualizációt is készítettem. Ez az anyag terjedelmében túlságosan hosszú a diplomamunkához, így mellékleteket készítettem amikbe elhelyeztem a mérési adatokat és vizualizációikat szépen formázott és rendezett alakban, valamint egy másik mellékletben bemutattam az elkészített szoftvereket részletesen, kiemelve azok érdekesebb részleteit.
-        Ezek a mellékletek az alábbiak.:
+        A dolgozat elkészítése során minden lépésnél tudatosan olyan szoftveres eszközöket fejlesztettem, amelyek lehetővé tették a mérésekhez kapcsolódó metrikák részletes és pontos rögzítését, valamint azok szemléletes vizualizációját. A keletkezett adatmennyiség és ábrák száma azonban jelentősen meghaladja a diplomamunka terjedelmi korlátait, ezért az eredményeket külön mellékletekben helyeztem el.
 
+        Az egyik melléklet a mérések teljes dokumentációját, nyers adatait és azok grafikus megjelenítését tartalmazza rendezett és jól áttekinthető formában. Egy másik mellékletben az általam készített szoftvereket mutatom be részletesen, külön figyelmet fordítva a fontosabb implementációs megoldásokra és az érdekesebb technikai megvalósításokra.
+        
+        Az elkészült mellékletek a következők:
+    
         \subsection{Melléklet A: Mérési napló}
-            A mérési napló a diplomamunka melléklete ami minden a munka során elvégzett mérést és ezek eredményeit teljes terjedelmében tartalmazza.
-            Az adatbázis és annak építésének ismertetése, a mérések menete, az alkalmazott metrikák leírása és a modellek ismertetése a diplomamunka adott fejezében található.
-            A mérési napló a tiszta mérési adatokat és ezek vizualizácóit tartalmazza.
+        A mérési napló a diplomamunka mellékleteként szolgál, és a munka során végzett valamennyi mérés részletes dokumentációját tartalmazza. Az adatbázis felépítésének és struktúrájának ismertetése, a mérések pontos menete, az alkalmazott értékelési metrikák és a vizsgált modellek jellemzése a dolgozat vonatkozó fejezeteiben olvasható.
+        
+        Ebben a mellékletben a mérések eredményei nyers, de rendezett formában kerültek rögzítésre. A metrikák (Top-1, Top-5 pontosság, Precision, Recall, F1-score stb.) mellett szerepelnek a modellek teljesítményének vizuális megjelenítései is, grafikonok és táblázatok formájában. A jobb áttekinthetőség érdekében minden mérési sorozat után rövid, szöveges összefoglaló is készült, amely kiemeli a legfontosabb tapasztalatokat és tendenciákat.
+        
+        A mérési napló célja a teljes átláthatóság és reprodukálhatóság biztosítása, valamint az, hogy a részletes adatokhoz való hozzáférés segítse az eredmények értelmezését és további elemzését.
+        
 
         \subsection{Melléklet B: Szoftverek}
             A diplomamunka során elkészített szoftverek központi szerepet játszottak az adatfeldolgozásban, a tanítási és tesztelési folyamatok automatizálásában, valamint a mért adatok kiértékelésében. A teljes munkafolyamat Python nyelven készült, Jupyter notebookok, PyTorch keretrendszer, valamint a matplotlib, seaborn, pandas és numpy könyvtárak használatával. A modellek betanítása és kiértékelése saját fejlesztésű kódbázison történt, amely lehetővé tette az egyedi igények szerinti metrika- és grafikon-előállítást.
@@ -128,49 +156,49 @@
         A diplomamunka elkészítése során elsősorban a képzés során végzett Bevezetés a gépi tanulásba, Gépi tanulás alapjai Python-ban és Deep Learning kurzusokon tanultakra támaszkodtam, de a munka kezdete előtt olvastam a felhasznált modelleket bemutató cikkeket, survey cikkeket és a témába vágó egyéb írásokat. Ebben a részben ezeket szeretném bemutatni. (A felhasznált irodalmak listája a projekt GitHub könyvtárában is megtalálható.)
 
         \subsection{A metrikák}
-        Az alkalmazott metrikák megértésében és kiválasztásában nagy segítségemre volt az "Image Classification with Convolutional Neural Networks"\cite{article\_cnn\_metrics} című írás.
+        Az alkalmazott metrikák megértésében és kiválasztásában nagy segítségemre volt az "Image Classification with Convolutional Neural Networks"\cite{article_cnn_metrics} című írás.
 
         \subsection{Áttekintő írások}
             Az irodalomkutatást áttekintő művek keresésével és értelmezésével kezdtem.
             \begin{itemize}
-                \item "A Survey of Convolutional Neural Networks: Analysis, Applications, and Prospects"\cite{article\_cnn\_survey}
-                \item "Review of deep learning: concepts, CNN architectures, challenges, applications, future directions"\cite{ardicle\_dl\_survey}
-                \item "Understanding Deep Convolutional Networks"\cite{article\_cnn\_math}
-                \item "Benchmarking Neural Network Training Algorithms"\cite{article\_benchmarking}
+                \item "A Survey of Convolutional Neural Networks: Analysis, Applications, and Prospects"\cite{article_cnn_survey}
+                \item "Review of deep learning: concepts, CNN architectures, challenges, applications, future directions"\cite{ardicle_dl_survey}
+                \item "Understanding Deep Convolutional Networks"\cite{article_cnn_math}
+                \item "Benchmarking Neural Network Training Algorithms"\cite{article_benchmarking}
             \end{itemize}
 
         \subsection{A modellek és adathalmazok cikkei}
             Természetesen nagyon nagy segítséget jelentettek a felhasznált modelleket és kategorizálásokat ismertető írások.
             Ezek az írások a következőek:
             \begin{itemize} 
-                \item A ResNet50 modell ismertetése.\cite{article\_resnet50}
-                \item DenseNet121 modell ismertetése.\cite{article\_densenet}
-                \item EfficientNet-B0 modell ismertetése.\cite{article\_efficientnet}
-                \item ConvNeXt-Tiny modell ismertetése.\cite{article\_convnext}
-                \item ViT-B/16 modell ismertetése.\cite{article\_vit\_b16}
-                \item Inception-v3 modell ismertetése.\cite{article\_inception\_v3}
-                \item NASNet modell ismertetése.\cite{article\_nasnet}
-                \item ImageNet1K osztályozás ismertetése.\cite{article\_ImageNet1K}
-                \item Places365 osztályozás ismertetése.\cite{article\_places365}
+                \item A ResNet50 modell ismertetése.\cite{article_resnet50}
+                \item DenseNet121 modell ismertetése.\cite{article_densenet}
+                \item EfficientNet-B0 modell ismertetése.\cite{article_efficientnet}
+                \item ConvNeXt-Tiny modell ismertetése.\cite{article_convnext}
+                \item ViT-B/16 modell ismertetése.\cite{article_vit_b16}
+                \item Inception-v3 modell ismertetése.\cite{article_inception_v3}
+                \item NASNet modell ismertetése.\cite{article_nasnet}
+                \item ImageNet1K osztályozás ismertetése.\cite{article_ImageNet1K}
+                \item Places365 osztályozás ismertetése.\cite{article_places365}
             \end{itemize}
         
         \subsection{Optimalizációs módszerek}
             Amikor az új modellt terveztem több optimalizációs megoldásnak is utánanéztem. Az alábbiakban az ezekhez tartozó irodalmakat sorolom fel.
             \begin{itemize}
-                \item GELU (Gaussian Error Linear Unit) aktivációs függvény\cite{article\_GELU}
-                \item Layer Normalization\cite{article\_LayerNorm}
-                \item Dropout regulárizáció\cite{article\_dropaut}
-                \item Batch Normalization (BatchNorm)\cite{article\_BatchNorm}
-                \item Adaptive Average Pooling (AdaptiveAvgPool2d)\cite{article\_AdaptiveAvgPool2d}
+                \item GELU (Gaussian Error Linear Unit) aktivációs függvény\cite{article_GELU}
+                \item Layer Normalization\cite{article_LayerNorm}
+                \item Dropout regulárizáció\cite{article_dropaut}
+                \item Batch Normalization (BatchNorm)\cite{article_BatchNorm}
+                \item Adaptive Average Pooling (AdaptiveAvgPool2d)\cite{article_AdaptiveAvgPool2d}
             \end{itemize}
         
         \subsection{Egyéb irodalom}
             A további cikkek és írások amiket áttekintettem a munka megkezdése előtt az alábbiak:
             \begin{itemize}
-                \item "A Survey on Deep Transfer Learning and Beyond"\cite{article\_Survey\_Deep\_Transfer}
-                \item "Landscape photo classification mechanism for context-aware photography support system" \cite{article\_Landscape\_photo\_classification}
-                \item "Photo Content Classification Using Convolutional Neural Network" \cite{article\_Photo\_Content\_Classification}
-                \item "An Analysis Of Convolutional Neural Networks For Image Classification"\cite{article\_cnn\_image\_class}
+                \item "A Survey on Deep Transfer Learning and Beyond"\cite{article_Survey_Deep_Transfer}
+                \item "Landscape photo classification mechanism for context-aware photography support system" \cite{article_Landscape_photo_classification}
+                \item "Photo Content Classification Using Convolutional Neural Network" \cite{article_Photo_Content_Classification}
+                \item "An Analysis Of Convolutional Neural Networks For Image Classification"\cite{article_cnn_image_class}
         \end{itemize}
         
 
