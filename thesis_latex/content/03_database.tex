@@ -12,27 +12,90 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
 
 %ITT TARTOK----------------------
 
-\section{A forrásképek}
-A képadatbázis építése közben számos saját fejlesztésű segédprogram készült, amelyek automatizálták és nyomon követhetővé tették az egyes lépéseket. Ezek a programok nemcsak a képfeldolgozásért, hanem a statisztikai elemzésekért, vizualizációkért és a kategóriaeloszlás értékeléséért is felelősek. A fejezet hátralévő részében részletesen bemutatom az egyes lépéseket, a megvalósított pipeline-t, a feldolgozási logikát, valamint az e szakaszban keletkezett eredményeket és tapasztalatokat.
+    \section{A forrásképek}
+        A saját képadatbázis összeállításának alapját egy több mint húsz évet felölelő, személyes fotóarchívum képezte, amely 2004-től egészen 2025-ig tartalmaz felvételeket. Ez az anyag tematikailag rendkívül változatos: megtalálhatók benne természetfotók, utazási és városképek, tájképek, légifotók, eseménydokumentációk, koncertek, valamint egyéb élethelyzeteket rögzítő képsorozatok is. Az archívum sokfélesége nemcsak témában, hanem technikai szempontból is igen kiterjedt.
+
+        Az évek során több különböző fényképezőgép és eszköztípus került használatba, az egyszerűbb mobiltelefonos kameráktól kezdve a felső kategóriás digitális tükörreflexes (DSLR) fényképezőgépekig. Ennek következtében a képek felbontása, dinamikatartománya, színmélysége és általános minősége is jelentős változatosságot mutat. A fotók egy része JPEG formátumban, más részük pedig NEF (Nikon RAW) formátumban készült. A NEF fájlok különösen értékesek voltak a feldolgozás során, mivel nyers adatformátumként teljes kontrollt biztosítottak a képfeldolgozás minden lépése felett, és tartalmazták a részletes EXIF metaadatokat is.
+
+        Az archívum heterogenitása - amely a képek tartalmi és technikai sokszínűségéből fakad - különösen értékes alapot nyújtott egy erős és jól generalizáló tanítóadatbázis felépítéséhez. A képek eltérő műfajai, kompozíciós megközelítései, fényviszonyai és feldolgozási módjai gazdag vizuális mintázatot biztosítottak, amely elősegítette a modellek robusztus tanulását és a széles körű adaptáció lehetőségét. A forrásanyag e sokoldalúsága egyúttal kihívást is jelentett a képek feldolgozása, egységesítése és osztályozása során, amelyet gondosan megtervezett konverziós és előfeldolgozási lépésekkel oldottam meg.
+
+        Összességében elmondható, hogy a saját fotóarchívum kiváló alapanyagot biztosított a tanítóadatbázis összeállításához, mivel mennyiségében, témagazdagságában és technikai részletességében egyaránt alkalmas volt arra, hogy a képosztályozási feladathoz megbízható és reprezentatív adatforrást nyújtson.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1.0\textwidth]{images/db/db/images_examples.png}
+            \caption{Minta kép a rendezés nélküli kiinduló fotók változatosságáról.}
+            \label{fig:01_unordered_photos}
+        \end{figure}
 
         \subsection{Motiváció}
-        A képadatbázis építése közben számos saját fejlesztésű segédprogram készült, amelyek automatizálták és nyomon követhetővé tették az egyes lépéseket. Ezek a programok nemcsak a képfeldolgozásért, hanem a statisztikai elemzésekért, vizualizációkért és a kategóriaeloszlás értékeléséért is felelősek. A fejezet hátralévő részében részletesen bemutatom az egyes lépéseket, a megvalósított pipeline-t, a feldolgozási logikát, valamint az e szakaszban keletkezett eredményeket és tapasztalatokat.
-
+            A konvolúciós neurális hálózatok (CNN-ek) hatékony tanításához elengedhetetlen a nagy mennyiségű és kellően változatos adathalmaz megléte. A mesterséges intelligenciával, gépi tanulással és képfeldolgozással foglalkozó irodalom rendszeresen kiemeli, hogy a modell általánosító képessége nagymértékben függ az adatok sokszínűségétől és reprezentativitásától. A jelen munka egyik alapvető célkitűzése egy ilyen adathalmaz létrehozása volt, amely lehetővé teszi mély neurális hálózatok tanítását különféle vizuális kategóriák felismerésére.
+            
+            A kiindulási pontot saját, hosszú évek alatt épített fotóarchívumom jelentette, amely 2004-től kezdődően több tízezer képet tartalmaz, a legkülönbözőbb témákban. Ezek között megtalálhatók természetfotók, városképek, utazások, események, koncertek, légi felvételek és sok más egyéb műfaj. A képek változatos eszközökkel - mobiltelefonokkal, kompakt és digitális tükörreflexes fényképezőgépekkel - készültek, ennek megfelelően különböző technikai jellemzőkkel és vizuális stílusokkal rendelkeznek. Ez a heterogenitás ideális alapot biztosított a neurális hálózatok számára szükséges vizuális diverzitás megteremtéséhez.
+            
+            A saját fotóarchívum felhasználása nemcsak technikai szempontból kínált előnyöket, hanem személyes motivációt is jelentett. A fotózás számomra nem pusztán hobbi, hanem egy olyan kreatív tevékenység, amely szorosan kapcsolódik a vizuális gondolkodásmódomhoz. Mind a grafikai munkák, mind a számítógépes látás területén szerzett tapasztalataim megerősítették bennem azt az elhatározást, hogy a diplomamunka során saját képi világomat és technikai eszköztáramat felhasználva hozzak létre egy értékes és jól strukturált tanítóadatbázist.
+            
+            Ez a megközelítés lehetőséget teremtett arra, hogy a személyes érdeklődés és a tudományos célkitűzések szorosan összekapcsolódjanak, valamint hogy az adathalmaz kialakítása ne csupán technikai feladat, hanem egyben kreatív és rendszerszemléletű tervezési folyamat is legyen.
+        
         \subsection{Források}
-        A képadatbázis építése közben számos saját fejlesztésű segédprogram készült, amelyek automatizálták és nyomon követhetővé tették az egyes lépéseket. Ezek a programok nemcsak a képfeldolgozásért, hanem a statisztikai elemzésekért, vizualizációkért és a kategóriaeloszlás értékeléséért is felelősek. A fejezet hátralévő részében részletesen bemutatom az egyes lépéseket, a megvalósított pipeline-t, a feldolgozási logikát, valamint az e szakaszban keletkezett eredményeket és tapasztalatokat.
+            A tanítóadatbázis létrehozásához kizárólag saját készítésű fényképeket használtam fel. A képek az elmúlt húsz év során készültek különféle alkalmakon: kirándulások, utazások, koncertek, repülőnapok, múzeumlátogatások, rendezvények, valamint iskolai és egyetemi projektek keretében. A fotók lefedik a legkülönfélébb témákat, a természetfotóktól kezdve az urbánus környezeten, eseményfotózáson, építészeti részleteken és tárgyfotókon át egészen a kulturális és technikai kiállításokon készült felvételekig.
+            
+            Minden kép saját készítésű, a szerzői jog kizárólagosan engem illet. A felvételek minden esetben legálisan, nyilvánosan fotózható helyszíneken vagy külön engedéllyel történtek, teljes mértékben megfelelve az adott helyszínek vonatkozó szabályozásainak. A képekhez tartozó metaadatok (például EXIF-információk) szintén saját eszközeimmel és feldolgozási láncommal kerültek kinyerésre és megőrzésre.
+            
+            A forrásként szolgáló képállomány ilyen formában nemcsak jogilag biztonságos és etikus választás, hanem szakmailag is kiváló kiindulópontot jelentett az adatbázisépítéshez, hiszen lehetővé tette a teljes feldolgozási folyamat és az osztályozási szempontok feletti teljes kontrollt.
+            
+    \section{A forrásadatbázis elemzése}
+        \subsection{Darabszámok és méretek}
+            A forrásképeket redundánsan tárolom két darab, egyenként 2~TB kapacitású merevlemezen. A képek strukturált módon, mappákba rendezve kerültek eltárolásra, ahol a mappa neve tartalmazza a készítés dátumát, helyszínét és a témára utaló kulcsszót. Jelenleg a két tároló tartalma nem teljesen azonos, így az átvizsgált és kategorizált képmennyiség 3{,}01~TB, amely összesen 425\,010 fotóból áll.
+            
+            A képek átlagos mérete körülbelül 8~MB volt. Az adathalmaz feldolgozása során kézi, majd gépi szűrés segítségével eltávolítottam az ismétlődő képeket, így végül 180\,750 egyedi fotót azonosítottam. Ezen képek konvertálása, átméretezése, tömörítése és középre vágása után jött létre a végső adatbázis, amely 9{,}44~GB méretű lett. 
+            
+            Mivel az eredeti képek átlagosan körülbelül 7~MB méretűek voltak, míg az előkészített képek átlagosan 44~kB méretűek, így az összesített adattömörítési arány meghaladja a 60\%-ot. Ez a tömörítés jelentős tárhely-megtakarítást jelentett, miközben a neurális hálózatokhoz szükséges releváns vizuális információ megmaradt.
+            
+            \subsection{Tematikus kategóriák}
+            
+            A saját fotóarchívum alapján készült adatbázis egyik legfontosabb jellemzője a tartalmi sokszínűség. Az adatok rendkívül heterogén témákból és műfajokból származnak, amely nemcsak a hálózat tanítását támogatja hatékonyan, hanem elősegíti a generalizálhatóbb, robusztusabb modell kialakulását is.
+            
+            A képek a következő főbb tematikus kategóriákba sorolhatók:
+            
+            \begin{itemize}
+                \item Természetfotó
+                \item Makrofotó
+                \item Asztrofotó
+                \item Rendezvényfotó
+                \item Koncertek, zenei események
+                \item Repülőfotó és légifotó
+                \item Múzeumok, kiállítások
+                \item Technológiai témák
+                \item Tájképek, városképek
+                \item Absztrakt és kreatív fotók
+                \item Utcai jelenetek, utcaképek
+                \item Portréfotók
+                \item Építészeti felvételek
+                \item Utazási fotók
+                \item Egyéb vegyes témák
+            \end{itemize}
+            
+            A kategorizálás során először automatikus kulcsszavas és képi hasonlóságon alapuló csoportosítást alkalmaztam, amelyet manuális felülvizsgálat és korrekció követett. A kisebb kategóriákat szükség esetén összevontam, az irreleváns vagy nem informatív osztályokat pedig eltávolítottam. A végső osztályozási rendszer így kiegyensúlyozott és jól használható lett a konvolúciós neurális hálózatok tanításához.
+            
+    \section{Adatbázis tervezett szerkezete}
 
-    \section{Forrás adathalmaz elemzése}
-
-        \subsection{Darabszámok}
-
-        \subsection{Méretek}
-
-        \subsection{Kategóriák}
-
-    \section{Adatbázis szerkezete}
-
-        \subsection{Képméret, formátum}
-
+        \subsection{Képméret és formátum kiválasztása}
+            A képadatbázis egységesítésének egyik kulcsfontosságú lépése a képek méretének és formátumának meghatározása volt. A döntést alapvetően a konvolúciós neurális hálózatok (CNN-ek) működésének követelményei, valamint a számítási teljesítmény és az adathatékonyság szempontjai határozták meg.
+            
+            A legtöbb klasszikus mélytanulási architektúra, mint például a VGG, ResNet vagy MobileNet, fix bemeneti mérettel dolgozik, amely jellemzően $224\times224$ pixel. Ez a méret nemcsak kompatibilitási okokból vált szabvánnyá, hanem azért is, mert megfelelő kompromisszumot kínál a részletgazdagság és a feldolgozási igények között. A nagyobb képméretek ugyan több vizuális információt hordozhatnak, de jelentősen növelik a számítási költségeket, különösen nagy adathalmaz esetén, míg a kisebb képméretek sok esetben már információvesztéssel járhatnak.
+            
+            A jelen munkában alkalmazott modellek - mivel előtanított architektúrákra (pl. ResNet) épülnek - kizárólag a szabványos $224\times224$ pixeles bemenetekkel működnek megfelelően. Ennek megfelelően az adatbázis képeit úgy dolgoztam fel, hogy az eredeti oldalarány megtartása mellett, középpontos vágással kerültek átméretezésre. Ez a módszer biztosította, hogy a képek vizuálisan kiegyensúlyozottak maradjanak, miközben illeszkedtek a modellek bemeneti követelményeihez.
+            
+            A képek formátumát tekintve a JPEG lett a választott tömörítési szabvány, mégpedig 80-as minőségi fokozattal. Ez az érték jól kiegyensúlyozza a képminőséget és a tárhelyhasználatot: a tömörítés mértéke nem jár észrevehető minőségromlással, ugyanakkor jelentős mértékben csökkenti a tárolt adatok méretét - különösen több tízezer kép esetén ez gigabájtos nagyságrendű megtakarítást eredményez. A választott tömörítési szint nem befolyásolja negatívan a neurális hálózatok tanulási teljesítményét, ugyanakkor hatékonyabbá teszi az adathalmaz kezelését és betöltését.
+            
+            A képméret és formátum kiválasztása tehát tudatos döntés eredménye volt, amely figyelembe vette a mélytanulási modellek elvárásait, a rendszer teljesítménykorlátait, valamint az adathatékonyság szempontjait.
+            
+            \begin{flushright}
+            \small
+            Források: \cite{article_Size_Matters_for_CNN_Classifiers}, \cite{article_Learning_to_Resize_Images_for_Computer_Vision_Tasks}
+            \end{flushright}
+   
         \subsection{Osztályozás}
 
         \subsection{Kategóriák}

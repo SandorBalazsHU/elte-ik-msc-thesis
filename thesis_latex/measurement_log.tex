@@ -90,12 +90,76 @@
       \end{enumerate}
 
 \chapter{Az adathalmazok elemzése}
+  Ebben a fejezetben az adatbázis készítési folyamat közben keletkezett adatokat olvashatjuk a nyers adathalmaz jellemzésétől a kész adathalmaz tulajdonságaiig.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/db/db/images_examples.png}
+    \caption{Minta a rendezés nélküli fotókból.}
+    \label{fig:01_unordered_photos}
+  \end{figure}
+
   \section{A nyers adatok}
+    A kiinduló nyers adathalmaz tulajdonságai ami a saját fotóarchívumom jellemzése.
+
     \subsection{Forrás}
+    Teljesen saját készítésű képek változatos térben, időben és témában.
+    \begin{itemize}
+      \item Idő: 2004-2025
+      \item Fotó típusok:
+        \begin{itemize}
+          \item Természetfotó
+          \item Makrofotó
+          \item Asztrofotó
+          \item Rendezvényfotó
+          \item Zene
+          \item Koncertek
+          \item Repülőfotó
+          \item Múzeumok 
+          \item Technológia
+          \item Légifotó
+          \item Tájfotó
+          \item Absztrakt fotó
+          \item Utcakép
+          \item Portré
+          \item Építészet
+          \item Városkép
+          \item Utazás
+          \item Egyéb
+        \end{itemize}
+    \end{itemize}
+
     \subsection{Méret és darabszám}
+      Az eredeti adatbázis nagyon nagy méretű és elemszámú, az ismétlődések szűrése és a témaszűrés után kaptuk a véglekes adathalmazt. Ezek paraméterei a következőek:
+      \begin{itemize}
+        \item Bemeneti képek száma: 425010 db
+        \item Bemeneti képek mérete: 3.01 TB
+        \item Az átlagos képméret: 7 MB
+      \end{itemize}
+
   \section{A tisztított adatok}
-    \subsection{Tisztítás és tömörítés}
-    \subsection{Méret és darabszám}
+    Az adattisztítás utáni adatok tulajdonságai.
+
+    \subsection{Tisztítás és válogatás}
+      \begin{itemize}
+        \item Kiválasztott egyedi képek mennyisége: 180750 db
+        \item Kiválasztott egyedi képek mérete: 1,35 TB
+        \item Az átlagos képméret: 7 MB
+        \item Képarány 3:2
+        \item Átlagos képméret 2048px szélesség.
+        \item Fájltípusok: .NEF, .jpg
+      \end{itemize}
+
+    \subsection{Méret és tömörítés}
+      Az adatbázis készítés során alkalmazott konverziók és eredményük:
+      \begin{itemize}
+        \item Az adatbázis elemszáma: 180750 db
+        \item Egységes új képméret 224px*224px
+        \item Tömörítés: JPG 80
+        \item A méretezéssel és vágással elért tömörítési arány: 60%
+        \item Az átlagos új képméret: 44kb
+      \end{itemize}
+
   \section{EXIF statisztika}
     \subsection{Fényképezőgép gyártók}
     \subsection{Fényképezőgép modellek}
