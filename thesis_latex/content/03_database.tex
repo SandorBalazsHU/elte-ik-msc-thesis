@@ -165,8 +165,6 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             
             Ez a struktúra jól illeszkedik a legtöbb betöltő és augmentáló könyvtár (például \texttt{torchvision.datasets.ImageFolder}) működéséhez, és lehetővé teszi az adatok gyors és hatékony feldolgozását, illetve a kategóriák közötti világos szétválasztást. A mappák elnevezése megegyezik az ImageNet-1K osztályozás alapján kialakított végleges kategórianévvel, így az adatbázis jól értelmezhető, újrahasznosítható és könnyen bővíthető marad.
 
-%ITT TARTOK----------------------
-
     \section{Előfeldolgozás}
 
         Az adatbázis szerkezetének és kategóriarendszerének meghatározása után a létrehozás konkrét lépéseinek részletes bemutatása következik. E szakasz az előfeldolgozási fázisra fókuszál, amely során az eredeti képarchívumból kiindulva megtörtént az adatok kiválogatása, átmásolása, előkészítése és az elsődleges konverziók végrehajtása.
@@ -181,42 +179,145 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
 
         A technikai folyamat során fontos szempont volt az adattárolók védelme és a hatékony adatkezelés. Egy 100 GB-os köteg SSD-re másolása körülbelül 30 percet vett igénybe, míg az adott köteg teljes feldolgozása (konverzió, átméretezés, vágás, tömörítés, átnevezés) további nagyjából 15 percet. Így egy köteg teljes feldolgozása körülbelül egy órát igényelt. Ez a kötegelési stratégia lehetővé tette, hogy az adatok gyors elérésű és jól kontrollált környezetben kerüljenek feldolgozásra, anélkül, hogy veszélyeztettem volna az eredeti archívum integritását vagy a merevlemezek épségét.
 
-
-%EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
     \section{Saját feldolgozó futószalag}
-        Már a munka elején nyilvánvalóvá vált, hogy egy jól ismételhető szkriptekkel ellátott eljárásrendre lesz szükség. Ezt ismertetem az alábbiakban. 
+        Már a projekt kezdeti szakaszában egyértelművé vált, hogy az adatok hatékony és konzisztens feldolgozása érdekében szükség van egy automatizált, jól skálázható, kötegelt feldolgozási rendszerre. A következőkben bemutatom az általam kialakított egyedi „adatfeldolgozó futószalag” felépítését és működését.
 
-        \subsection{Tulajdonságok}
+        \subsection{Főbb jellemzők és technikai háttér}
+            A rendszer tervezésének egyik alapvető követelménye a párhuzamosan, több mappán is működni képes kötegelt feldolgozás volt, amely lehetővé tette a nagy mennyiségű kép gyors átalakítását és előkészítését.
 
-        \subsection{Szkript futószalag}
+            A feldolgozási folyamatokat egy Windows operációs rendszert futtató, középkategóriás teljesítményű munkaállomáson hajtottam végre, amely az alábbi konfigurációval rendelkezett:
 
-            \subsubsection{Konvertálás}
+            \begin{itemize}
+                \item \textbf{CPU}: Intel Core i7-10750H (6 mag / 12 szál, 2.6 GHz alapsebességgel)
+                \item \textbf{RAM}: 16 GB
+                \item \textbf{GPU}: NVIDIA GTX 1650 Ti
+            \end{itemize}
 
-            \subsubsection{Méretezés}
+            A feldolgozás során Windows batch fájlokat és Python szkripteket használtam, amelyek együttműködve végezték el az egyes lépéseket. Fontos megjegyezni, hogy a lokális GPU kapacitása csupán kisebb modellek (pl. ResNet18) tanítására volt alkalmas. Komplexebb modellek futtatása — például ConvNeXt vagy ResNet50 — csak felhőalapú környezetben (Google Cloud, NVIDIA L4 vagy A100 GPU-kon) volt lehetséges. Ezek részleteiről a későbbi fejezetekben számolok be.
 
-            \subsubsection{Vágás}
+        \subsection{A futószalag felépítése és működése}
+            A feldolgozási futószalag az alábbi lépésekből állt, melyeket minden 100 GB-os adatcsomagra külön végrehajtottam:
 
-            \subsubsection{Átnevezés}
+            \begin{enumerate}
+                \item \textbf{Forrásfájlok átmásolása:} Az eredeti képek egy többrétegű könyvtárstruktúrából kerültek átmásolásra SSD-meghajtóra. Ez a lépés egyrészt a redundáns adattárolás biztonságát őrizte meg, másrészt a feldolgozás sebességét jelentősen növelte.
+                
+                \item \textbf{Párhuzamos konverzió:} Egy Windows batch és Python alapú, multimappás feldolgozásra képes, kötegelt párhuzamos szkript átméretezte a képeket a kívánt 224×224 pixeles méretre, és a megfelelő tömörítéssel JPG formátumba konvertálta őket.
+                
+                \item \textbf{MD5 hash alapú átnevezés:} A következő szkript minden képfájlt egyedi MD5 hash alapján nevezett át, így biztosítva a fájlnevek egyediségét és az esetleges duplikátumok kiszűrését.
+                
+                \item \textbf{Képösszegző másolás (sumcopy):} Végül a „sumcopy” nevű szkript összegyűjtötte a feldolgozott képeket, és a végső célmappába másolta azokat a további feldolgozáshoz.
+            \end{enumerate}
 
-            \subsubsection{Ismétlődés szűrése}
+            Ez a négy lépés alkotta az előfeldolgozási futószalag első szakaszát, amelyet ismételten végrehajtottam az archívum teljes feldolgozásáig. Az így létrehozott képkészlet már egységes méretű, formátumú és redundanciamentes, de még kategorizálatlan állapotban állt rendelkezésre.
 
-            \subsubsection{Kategorizálás}
+            A következő lépésben az adatok automatikus és kézi osztályozása, valamint a végső utófeldolgozás következett. E szakaszokat a következőkben részletezem.
 
-            \subsubsection{Csomagolás, véglegesítés}
+        \subsection{A képfeldolgozó futószalag}
+            Tekintsük most át az előbb megismert képfeldolgozó futószalag elemeit részleteiben.
 
-        \subsection{Performancia}
+        \subsection{Konvertálás, Méretezés, Vágás}
 
+            A képkonverziót egy saját fejlesztésű, \texttt{convert.bat + convert\_runner.py} nevű szkript végezte, amely Windows batch és Python alapon működő, multimappás kötegelt párhuzamos feldolgozásra képes rendszerként lett kialakítva. Feladata a képek egységes átméretezése \texttt{224×224} pixelre, valamint megfelelő tömörítéssel történő konvertálása \texttt{JPG} formátumba.
+            
+            A folyamat első lépéseként a szkript listázza az adott mappában található képfájlokat, majd minden képre külön feldolgozási folyamatot indít, két lépésben:
+            
+            \begin{itemize}
+            \item Az \textbf{IrfanView} eszközzel történik a nyers képfájlok (pl. NEF formátum) konvertálása és méretezése.
+            \item Ezt követően az \textbf{ImageMagick} segítségével történik a középpontos, 1:1 oldalarányú képkivágás.
+            \end{itemize}
+            
+            A két eszköz kombinálására azért volt szükség, mert:
+            \begin{itemize}
+            \item Az \texttt{ImageMagick} nem minden esetben kezelte megbízhatóan a \texttt{NEF} formátumot,
+            \item Az \texttt{IrfanView} viszont nem biztosított precíz középpontos kivágást.
+            \end{itemize}
+            
+            A szkript futtatását egy Python program végezte, amely rekurzívan indította el a \texttt{convert.bat} szkriptet minden egyes almappára, lehetővé téve ezzel a több szálon futó, párhuzamos konverziót.
+            
+            A rendszer teljesítménye rendkívül hatékonynak bizonyult: a többmagos CPU-teljesítményt teljes mértékben kihasználta, és magas képfeldolgozási sebességet ért el. Az alábbi táblázatok részletesen bemutatják az egyes műveletek időigényét és a teljes rendszer átlagos teljesítményét.
+            
+            \vspace{1em}
+            \begin{table}[H]
+            \centering
+            \caption{Képkonverziós műveletek időigénye és optimalizálhatósága}
+            \begin{tabular}{|l|c|l|}
+            \hline
+            \textbf{Művelet} & \textbf{Átlagos idő} & \textbf{Lehetőség a gyorsításra?} \\
+            \hline
+            NEF $\rightarrow$ JPG konverzió & $\sim$35–45 ms & IrfanView optimalizálva \\
+            Átméretezés & $\sim$10–20 ms & ImageMagick CPU-teljesítményen \\
+            Kézi overhead & $\sim$2–3 s / futás & Teljesen automatizálható \\
+            \hline
+            \end{tabular}
+            \end{table}
+            
+            \vspace{1em}
+            \begin{table}[H]
+            \centering
+            \caption{Átlagos feldolgozási teljesítmény}
+            \begin{tabular}{|l|c|}
+            \hline
+            \textbf{Sebességmutató} & \textbf{Érték} \\
+            \hline
+            Képenkénti feldolgozási idő & \textbf{52,6 ms} \\
+            Átlagos képfeldolgozási sebesség & \textbf{$\sim$19,0 kép / másodperc} \\
+            Konverziós sávszélesség (becsült) & \textbf{$\sim$1,27 MB/s} (65 KB/kép mellett) \\
+            10 000 kép becsült ideje & \textbf{$\sim$10,4 perc} \\
+            150 000 kép becsült ideje & \textbf{$\sim$2 óra 36 perc} \\
+            \hline
+            \end{tabular}
+            \end{table}
+            
+            \vspace{1em}
+            
+            A következő ábra egy mappa feldolgozását mutatja be, amely során a \texttt{convert.bat} és a \texttt{convert\_runner.py} működött együtt a konverziós feladatok elvégzésére:
+            
+            \begin{figure}[H]
+            \centering
+            \includegraphics[width=1.0\textwidth]{images/db/scripts/convert-bat.png}
+            \caption{A \texttt{convert.bat} és \texttt{convert\_runner.py} futása egy mappa feldolgozására.}
+            \label{fig:01_convert-bat}
+            \end{figure}
+        
+            A munkát végző programkód a mellékletben és a GitHub repository-ban olvasható.
+%ITT TARTOK----------------------
+        \subsection{Átnevezés és ismétlődések szűrése}
+            A fájlok MD5 hash alapján történő átnevezése kulcsfontosságú lépés volt az adatbázis egységességének és redundancia-mentességének biztosítása érdekében. Mivel minden egyes már konvertált és átméretezett kép a saját MD5 hash értékét kapta fájlnévként, gyakorlatilag kizárhatóvá vált, hogy két azonos kép duplikáltan szerepeljen az adatbázisban.
+
+            Ez a művelet azonban a nagy fájlszám és a sok mappa miatt nem volt triviális, és egy hatékony, párhuzamos feldolgozásra képes szkript megírását igényelte. E célra két Python szkriptet fejlesztettem: \texttt{rename.py} és \texttt{rename2.py}. Ezek a programok rekurzívan végigjárták a teljes mappaszerkezetet, és 50 képenként új szálat indítottak, így biztosítva a feldolgozás párhuzamosságát. Minden szál az adott képcsoportot hash-elte, majd az eredmény alapján nevezte át őket.
+
+            A megközelítés jelentős sebességnövekedést eredményezett, bár még így is kissé lassabbnak bizonyult, mint a konverziós-átméretező szkript, amely a rendszer egyik leggyorsabb komponensének bizonyult.
+
+            Egy átnevezési példa:
+
+            \begin{center}
+            \texttt{DSC0123.jpg} $\rightarrow$ \texttt{9f6e3148b22b4e13a7b52b66f99fd912.jpg}
+            \end{center}
+
+            \subsubsection{Az átnevezési szkript futása}
+
+            A következő ábra egy konkrét futtatást mutat be, ahol a \texttt{rename.py} szkript egy mappa képeit hash-eli és nevezi át párhuzamos szálakon keresztül:
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/scripts/rename-py.png}
+                \caption{A \texttt{rename.py} szkript futása.}
+                \label{fig:02-rename.py}
+            \end{figure}
+
+            Ennek a progamnak a kódja is megtekinthető a mellékletben és a GitHub repository-ban.
+        
+        \subsection{Az elkészült képek összemásolása}
+        
+
+    \section{Kategorizálás, Utófeldolgozás}
+        
         \subsection{Automata osztályozás}
+        Az automata kategorizálás egy különösen érdekes probléma volt szoftveresen. Mivel ez egy igen elejsítményigényes művelet volt így ezt a lépést a google
 
         \subsection{Places365}
 
         \subsection{ImageNet1K}
-
-        \subsection{Kézi osztályozás}
-
-        \subsection{Véglegesítés}
-
-    \section{Utófeldolgozás}
 
         \subsection{Kézi Adattisztítás, szűrés, törlés}
 
@@ -231,6 +332,8 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
         \subsection{Nagy kategóriák szétosztása}
 
         \subsection{Üres kategóriák megszüntetése}
+        
+        \subsection{Véglegesítés}
 
     \section{Kész adatbázis elemzése}
 
@@ -249,4 +352,4 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
         \subsection{EXIF statisztika}
 
     \section{Az elkészült adatbázis értékelése}
-        
+%EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------

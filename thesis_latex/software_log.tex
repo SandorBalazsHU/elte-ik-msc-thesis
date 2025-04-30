@@ -47,23 +47,327 @@
 
     \url{https://github.com/SandorBalazsHU/elte-ik-msc-thesis}
 
-  \section{TESZT}
-
-    \lstset{caption={Hello World in C++}, label=src:cpp}
-    \begin{lstlisting}[language={C++}]
-    #include <stdio>
-
-    int main() 
-    {
-      int c;
-      std::cout << "Hello World!" << std::endl;
-
-      std::cout << "Press any key to exit." << std::endl;
-      std::cin >> c;
+    \section{Képkonverzió}
+      A képkonverziót egy saját fejlesztésű, \texttt{convert.bat + convert\_runner.py} nevű szkript végezte, amely Windows batch és Python alapon működő, multimappás kötegelt feldolgozásra képes rendszerként lett kialakítva. Feladata a képek egységes átméretezése \texttt{224×224} pixelre, valamint megfelelő tömörítéssel történő konvertálása \texttt{JPG} formátumba.
       
-      return 0;
-    }
+      A folyamat első lépéseként a szkript listázza az adott mappában található képfájlokat, majd minden képre külön feldolgozási folyamatot indít, két lépésben:
+      
+      \begin{itemize}
+        \item Az \textbf{IrfanView} eszközzel történik a nyers képfájlok (pl. NEF formátum) konvertálása és méretezése.
+        \item Ezt követően az \textbf{ImageMagick} segítségével történik a középpontos, 1:1 oldalarányú képkivágás.
+      \end{itemize}
+      
+      A két eszköz kombinálására azért volt szükség, mert:
+      \begin{itemize}
+        \item Az \texttt{ImageMagick} nem minden esetben kezelte megbízhatóan a \texttt{NEF} formátumot,
+        \item Az \texttt{IrfanView} viszont nem biztosított precíz középpontos kivágást.
+      \end{itemize}
+      
+      A szkript futtatását egy Python program végezte, amely rekurzívan indította el a \texttt{convert.bat} szkriptet minden egyes almappára, lehetővé téve ezzel a több szálon futó, párhuzamos konverziót.
+      
+      A rendszer teljesítménye rendkívül hatékonynak bizonyult: a többmagos CPU-teljesítményt teljes mértékben kihasználta, és magas képfeldolgozási sebességet ért el. Az alábbi táblázatok részletesen bemutatják az egyes műveletek időigényét és a teljes rendszer átlagos teljesítményét.
+      
+      \vspace{1em}
+      \begin{table}[H]
+      \centering
+      \caption{Képkonverziós műveletek időigénye és optimalizálhatósága}
+      \begin{tabular}{|l|c|l|}
+      \hline
+      \textbf{Művelet} & \textbf{Átlagos idő} & \textbf{Lehetőség a gyorsításra?} \\
+      \hline
+      NEF $\rightarrow$ JPG konverzió & $\sim$35–45 ms & IrfanView optimalizálva \\
+      Átméretezés & $\sim$10–20 ms & ImageMagick CPU-teljesítményen \\
+      MD5 hash / átnevezés & $<$5 ms & Pythonban villámgyors \\
+      Kézi overhead & $\sim$2–3 s / futás & Teljesen automatizálható \\
+      \hline
+      \end{tabular}
+      \end{table}
+      
+      \vspace{1em}
+      \begin{table}[H]
+      \centering
+      \caption{Átlagos feldolgozási teljesítmény}
+      \begin{tabular}{|l|c|}
+      \hline
+      \textbf{Sebességmutató} & \textbf{Érték} \\
+      \hline
+      Képenkénti feldolgozási idő & \textbf{52,6 ms} \\
+      Átlagos képfeldolgozási sebesség & \textbf{$\sim$19,0 kép / másodperc} \\
+      Konverziós sávszélesség (becsült) & \textbf{$\sim$1,27 MB/s} (65 KB/kép mellett) \\
+      10 000 kép becsült ideje & \textbf{$\sim$10,4 perc} \\
+      150 000 kép becsült ideje & \textbf{$\sim$2 óra 36 perc} \\
+      \hline
+      \end{tabular}
+      \end{table}
+      
+      \vspace{1em}
+      
+      A következő ábra egy mappa feldolgozását mutatja be, amely során a \texttt{convert.bat} és a \texttt{convert\_runner.py} működött együtt a konverziós feladatok elvégzésére:
+      
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/db/scripts/convert-bat.png}
+        \caption{A \texttt{convert.bat} és \texttt{convert\_runner.py} futása egy mappa feldolgozására.}
+        \label{fig:01_convert-bat}
+      \end{figure}
+    
+    \subsection{convert.bat képkonverziós program.}
+    \lstset{caption={convert.bat párhuzamos egy mappán belüli képkonverziós szkript.}, label=src:convert-bat}
+    \begin{lstlisting}[language={[x86masm]Assembler}]
+      @echo off
+      setlocal enabledelayedexpansion
+      
+      :: -------------------- Settings --------------------
+      set "iview=C:\Program Files\IrfanView\i_view64.exe"
+      set "magick=magick"
+      set "inputFolder=%~dp0"
+      set "outputFolder=%inputFolder%resized"
+      
+      :: -------------------- Create output folder --------------------
+      if not exist "%outputFolder%" (
+          echo [INFO] Creating 'resized' folder...
+          mkdir "%outputFolder%"
+      )
+      
+      :: -------------------- Count input files --------------------
+      echo.
+      echo [STEP 1] Counting input files...
+      
+      set /a count=0
+      for %%f in ("%inputFolder%*.nef") do set /a count+=1
+      for %%f in ("%inputFolder%*.jpg") do set /a count+=1
+      
+      echo Found !count! images to process.
+      
+      :: -------------------- Resize in parallel --------------------
+      echo.
+      echo [STEP 2] Converting all to resized JPG (short side = 224 px)...
+      
+      set /a i=0
+      for %%f in ("%inputFolder%*.nef") do (
+          set /a i+=1
+          start /b "" "%iview%" "%%f" /resize_short=224 /aspectratio /resample /jpgq=80 /convert="%outputFolder%\%%~nf_nef.jpg"
+          call :progress !i! !count! "Converting"
+      )
+      
+      for %%f in ("%inputFolder%*.jpg") do (
+          set /a i+=1
+          start /b "" "%iview%" "%%f" /resize_short=224 /aspectratio /resample /jpgq=80 /convert="%outputFolder%\%%~nf_jpg.jpg"
+          call :progress !i! !count! "Converting"
+      )
+      
+      echo.
+      echo Waiting for all IrfanView conversions to finish...
+      call :wait_irfan
+      
+      :: -------------------- Crop in parallel --------------------
+      echo.
+      echo [STEP 3] Cropping to center 224x224 (parallel)...
+      
+      set /a totalCrop=0
+      for %%f in ("%outputFolder%\*.jpg") do (
+          set /a totalCrop+=1
+      )
+      
+      set /a i=0
+      for %%f in ("%outputFolder%\*.jpg") do (
+          set /a i+=1
+          start /b "" cmd /c %magick% "%%f" -gravity center -crop 224x224+0+0 +repage "%%f"
+          call :progress !i! !totalCrop! "Cropping"
+      )
+      
+      echo.
+      echo Waiting for all cropping to finish...
+      call :wait_magick
+      
+      echo.
+      echo [DONE] All images processed to 224x224 JPG in 'resized' folder.
+      endlocal
+      pause
+      exit /b
+      
+      :: -------------------- Progress display --------------------
+      :progress
+      setlocal
+      set "current=%~1"
+      set "total=%~2"
+      set "label=%~3"
+      set /a percent=(current*100)/total
+      echo [%label%] !percent!%% (!current! / !total!)
+      endlocal
+      exit /b
+      
+      :: -------------------- Wait for IrfanView jobs to finish --------------------
+      :wait_irfan
+      tasklist | find /I "i_view64.exe" >nul
+      if not errorlevel 1 (
+          timeout /t 1 >nul
+          goto wait_irfan
+      )
+      exit /b
+      
+      :: -------------------- Wait for ImageMagick jobs to finish --------------------
+      :wait_magick
+      tasklist | find /I "magick.exe" >nul
+      if not errorlevel 1 (
+          timeout /t 1 >nul
+          goto wait_magick
+      )
+      exit /b
     \end{lstlisting}
+
+    \subsection{convert-runner.py párhuzamos többmappás képkonvertáló.}
+    \lstset{caption={convert-runner.py párhuzamos sokmappás képkonverziós szkript.}, label=src:convert-runner-bat}
+    \begin{lstlisting}[language={Python}]
+      import os
+      import shutil
+      import subprocess
+      import sys
+      
+      def main():
+          # A szkript konyvtara
+          base_dir = os.path.dirname(os.path.abspath(__file__))
+          convert_bat = os.path.join(base_dir, 'convert.bat')
+      
+          if not os.path.isfile(convert_bat):
+              print(f"[ERROR] 'convert.bat' nincs megtalalhato a {base_dir} konyvtarban.")
+              sys.exit(1)
+      
+          # 1) Mappaterkep keszitese (elozetesen, hogy a kesobbi 'resized' mappakat ne talalja meg)
+          directories = []
+          for root, dirs, _ in os.walk(base_dir):
+              # Ha a mappa neve 'resized', ugorjuk at
+              if os.path.basename(root).lower() == 'resized':
+                  continue
+              directories.append(root)
+      
+          print(f"[INFO] Felderitett {len(directories)} konyvtarat.")
+      
+          # 2) convert.bat masolasa minden mappaba
+          for d in directories:
+              dest = os.path.join(d, 'convert.bat')
+              try:
+                  shutil.copy2(convert_bat, dest)
+                  print(f"[COPY] {dest}")
+              except Exception as e:
+                  print(f"[ERROR] Nem sikerult masolni ide: {d} ({e})")
+      
+          # 3) A batch fajl futtatasa minden mappaban
+          for d in directories:
+              bat_path = os.path.join(d, 'convert.bat')
+              print(f"[RUN] {bat_path}")
+              # Windows-on futtatashoz
+              subprocess.run(['cmd', '/c', bat_path], cwd=d)
+      
+      if __name__ == '__main__':
+          main()      
+    \end{lstlisting}
+
+  \section{Átnevezés és ismétlődések szűrése}
+    A fájlok MD5 hash alapján történő átnevezése kulcsfontosságú lépés volt az adatbázis egységességének és redundancia-mentességének biztosítása érdekében. Mivel minden egyes már konvertált és átméretezett kép a saját MD5 hash értékét kapta fájlnévként, gyakorlatilag kizárhatóvá vált, hogy két azonos kép duplikáltan szerepeljen az adatbázisban.
+    
+    Ez a művelet azonban a nagy fájlszám és a sok mappa miatt nem volt triviális, és egy hatékony, párhuzamos feldolgozásra képes szkript megírását igényelte. E célra két Python szkriptet fejlesztettem: \texttt{rename.py} és \texttt{rename2.py}. Ezek a programok rekurzívan végigjárták a teljes mappaszerkezetet, és 50 képenként új szálat indítottak, így biztosítva a feldolgozás párhuzamosságát. Minden szál az adott képcsoportot hash-elte, majd az eredmény alapján nevezte át őket.
+    
+    A megközelítés jelentős sebességnövekedést eredményezett, bár még így is kissé lassabbnak bizonyult, mint a konverziós-átméretező szkript, amely a rendszer egyik leggyorsabb komponensének bizonyult.
+    
+    Egy átnevezési példa:
+    
+    \begin{center}
+    \texttt{DSC0123.jpg} $\rightarrow$ \texttt{9f6e3148b22b4e13a7b52b66f99fd912.jpg}
+    \end{center}
+  
+  \subsubsection{Az átnevezési szkript futása}
+  
+  A következő ábra egy konkrét futtatást mutat be, ahol a \texttt{rename.py} szkript egy mappa képeit hash-eli és nevezi át párhuzamos szálakon keresztül:
+  
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=1.0\textwidth]{images/db/scripts/rename-py.png}
+      \caption{A \texttt{rename.py} szkript futása.}
+      \label{fig:02-rename.py}
+  \end{figure}
+  
+  \subsection{A rename2.py MD5 átnevező szkript.}
+    \lstset{caption={A rename2.py MD5 átnevező szkript.}, label=src:rename2.py}
+    \begin{lstlisting}[language={Python}]
+      import os
+      import random
+      import string
+      import hashlib
+      from tqdm import tqdm
+      
+      # --- Beallitasok ---
+      NAME_LENGTH = 25                        # Valtoztathato nevhossz (pl. 20-25)
+      USE_MD5 = True                          # Ha True, az uj nev az MD5 hash lesz
+      TARGET_EXTENSIONS = {'.jpg', '.jpeg', '.png'}  # Feldolgozando kiterjesztesek
+      
+      # A szkript konyvtara lesz az alapertelmezett gyoker
+      BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+      
+      # --- Random nev generalasa ---
+      def generate_random_name(length):
+          chars = string.ascii_letters + string.digits
+          return ''.join(random.choices(chars, k=length))
+      
+      # --- MD5 hash generalasa ---
+      def generate_md5(filepath):
+          with open(filepath, 'rb') as f:
+              return hashlib.md5(f.read()).hexdigest()
+      
+      # --- Konyvtarak felderitese ---
+      directories = []
+      for root, dirs, _ in os.walk(BASE_DIR):
+          directories.append(root)
+      
+      print(f"[INFO] Felderitett konyvtarak szama: {len(directories)}")
+      for d in directories:
+          print(f"  - {os.path.relpath(d, BASE_DIR)}")
+      
+      # --- Minden konyvtar feldolgozasa ---
+      for FOLDER in directories:
+          # Fajlok listazasa a celkiterjesztesekkel
+          files = [
+              f for f in os.listdir(FOLDER)
+              if os.path.isfile(os.path.join(FOLDER, f))
+                 and os.path.splitext(f)[1].lower() in TARGET_EXTENSIONS
+          ]
+      
+          if not files:
+              print(f"[INFO] {os.path.relpath(FOLDER, BASE_DIR)}: nincs megfelelo fajl.")
+              continue
+      
+          print(f"[INFO] {os.path.relpath(FOLDER, BASE_DIR)}: {len(files)} fajl atnevezese...")
+      
+          for filename in tqdm(files, desc=f"Renaming in {os.path.relpath(FOLDER, BASE_DIR)}"):
+              full_path = os.path.join(FOLDER, filename)
+              ext = os.path.splitext(filename)[1].lower()
+      
+              # uj nev generalasa
+              if USE_MD5:
+                  newname = generate_md5(full_path)
+              else:
+                  newname = generate_random_name(NAME_LENGTH)
+      
+              new_filename = f"{newname}{ext}"
+              new_path = os.path.join(FOLDER, new_filename)
+      
+              # utkozes elkerulese
+              while os.path.exists(new_path):
+                  if USE_MD5:
+                      newname += '_1'
+                  else:
+                      newname = generate_random_name(NAME_LENGTH)
+                  new_filename = f"{newname}{ext}"
+                  new_path = os.path.join(FOLDER, new_filename)
+      
+              os.rename(full_path, new_path)
+      
+          print(f"[DONE] {os.path.relpath(FOLDER, BASE_DIR)}: minden fajl atnevezve.")
+      
+      print("[ALL DONE] Az osszes konyvtarban vegezve.") 
+    \end{lstlisting}
+
+  \section{Átnevezés és ismétlődések szűrése}
 
 \listoffigures
 \listoftables
