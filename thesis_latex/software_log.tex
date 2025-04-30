@@ -1,0 +1,70 @@
+\documentclass[	
+  noindent
+]{elteikthesis}[2024/04/26]
+
+\usepackage{booktabs}
+
+\begin{document}
+
+\documentlang{hungarian}
+
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    {\Huge\bfseries Az elkészített szoftverek \par}
+    \vspace{2cm}
+    {\Large Sándor Balázs\par}
+    \vspace{1cm}
+    {\large 2025. április 24. \par}
+    \vfill
+    {\includegraphics[width=0.2\textwidth]{images/elte_cimer_szines.eps}\par}
+\end{titlepage}
+
+\tableofcontents
+
+\chapter{Elkészített szoftverek}
+
+    \section{A melléklet célja}
+    A diplomamunka során elkészített szoftverek központi szerepet játszottak az adatfeldolgozásban, a tanítási és tesztelési folyamatok automatizálásában, valamint a mért adatok kiértékelésében. A teljes munkafolyamat Python nyelven készült, Jupyter notebookok, PyTorch keretrendszer, valamint a matplotlib, seaborn, pandas és numpy könyvtárak használatával. A modellek betanítása és kiértékelése saját fejlesztésű kódbázison történt, amely lehetővé tette az egyedi igények szerinti metrika- és grafikon-előállítást.
+
+    A fejlesztett szoftvermodulok a következő főbb komponensekre bonthatók:
+
+        Adat-előkészítő és konvertáló eszközök: Ezek a programrészek a nyers fotóállományból készítettek előfeldolgozott, egységesített és annotált képadatbázist. Ide tartozik az EXIF-adatok megőrzését biztosító átalakítás, az MD hash alapú elnevezés és ismétlődés szűrés, az automatikus kategorizálás, a megfelelő képméretre vágás, tömörítés, valamint a tanító/tesztelő/validáló halmazok létrehozása.
+
+        A modellek tanítását vezérlő szkriptek: A tanítórendszer lehetővé teszi különféle modellek (ResNet50, DenseNet121, EfficientNet-B0, ConvNeXt-Tiny, stb.) betöltését, finomhangolását, valamint többféle tanítási fázis (pl. teljes tanítóhalmaz, iteratív bővítés) automatizálását. A szkriptek rögzítik az összes fontos tanítási metrikát (loss, accuracy, precision, recall, F1-score), epochonként és osztályszinten.
+
+        Tesztelési és kiértékelő modulok: Ezek a programok lehetővé teszik a betanított vagy gyári súlyokkal rendelkező modellek teljesítményének összehasonlítását különféle metrikák alapján, mind Top-1, Top-5, mind osztályspecifikus pontosság szerint. A program automatikusan készít confusion matrixokat, osztályeloszlás-görbéket, metrika-idő vagy metrika-mintaszám függvényeket.
+
+        Vizualizációs alrendszer: A metrikák kiértékelését követően a rendszer képes automatikusan egységes formátumú és jól olvasható grafikonokat generálni. A matplotlib és seaborn könyvtárakkal készült diagramok a tanítási folyamat vizuális dokumentációját nyújtják, megkönnyítve az összehasonlítást.
+
+        Egyedi fejlesztésű kis modell és fejrész prototípusok: A szoftvercsomag része az erőforrás-kímélő, ResNet18-alapú lokális modell fejlesztését támogató kódbázis is, amely lehetővé teszi különféle hálózati „fejek” tesztelését és kiértékelését. Ezek külön paraméterezhetőek és egységes módon mérhetőek a többi modellhez hasonlóan.
+
+    Minden programrész jól dokumentált, verziókövetett formában készült, a főbb beállítások és paraméterek külön konfigurációs blokkokban találhatóak a notebook-okban. A virtualizált környezet kialakításáért felelős telepítő blokkok is elhelyezésre kerültek a notebook-okba a könnyebb megismételhetőség érdekében. A melléklet tartalmazza a szoftverrendszer logikai felépítésének leírását, a legfontosabb fájlok magyarázatát, valamint a kód működésének szemléltetését példákkal.
+
+    Az elkészített programkódok a projekt GitHub könyvtárában találhatóak. 
+
+    A projekt GitHub repository-ja:
+
+    \url{https://github.com/SandorBalazsHU/elte-ik-msc-thesis}
+
+  \section{TESZT}
+
+    \lstset{caption={Hello World in C++}, label=src:cpp}
+    \begin{lstlisting}[language={C++}]
+    #include <stdio>
+
+    int main() 
+    {
+      int c;
+      std::cout << "Hello World!" << std::endl;
+
+      std::cout << "Press any key to exit." << std::endl;
+      std::cin >> c;
+      
+      return 0;
+    }
+    \end{lstlisting}
+
+\listoffigures
+\listoftables
+\end{document}

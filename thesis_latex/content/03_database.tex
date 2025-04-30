@@ -4,20 +4,18 @@ A mesterséges intelligencia alapú képosztályozás hatékony működésének 
 
 A kiindulási anyag döntő többsége NEF (Nikon Electronic Format) típusú RAW formátumban volt elérhető, amely minden színcsatorna és világossági komponens részletes információit tartalmazza. Ez a formátum ideális alapot nyújt a professzionális feldolgozáshoz, ugyanakkor szükségessé tette egy egyedi konverziós pipeline megtervezését és megvalósítását. A cél az volt, hogy a képek átalakítása során a lehető legkevesebb információ vesszen el, ugyanakkor teljesüljön minden olyan követelmény, amely a neurális hálózatok betanításához szükséges: fix képméret, egységes képarány, szabványos formátum, egyértelmű osztályozás, ismétlődésmentes elrendezés és metaadatok megőrzése.
 
-A teljes fotóarchívum mérete meghaladta a 2 terabájtot, így a képek feldolgozása szakaszosan, 10 GB-os csomagokban történt, a saját gépem SSD tárhelyének igénybevételével. Ez nemcsak a feldolgozási sebességet növelte, hanem csökkentette az archiváló háttértárolók elhasználódásának kockázatát is. A képfeldolgozó pipeline automatikusan hajtotta végre a következő lépéseket: a NEF fájlok EXIF metaadatait megtartó konverzióját JPEG formátumba (80-as tömörítéssel), méretezést 224 képpont szélességre, középre vágást 1:1 képarány eléréséhez, MD5-alapú fájlnév-képzést az ismétlődések kiszűrésére, valamint osztályozási és szűrési lépéseket. A kezdeti automatikus osztályozást többszörös kézi ellenőrzés és újraosztályozás követte, így fokozatosan alakult ki az adatbázis végleges struktúrája.
+A teljes fotóarchívum mérete meghaladta a 2 terabájtot, így a képek feldolgozása szakaszosan, 100 GB-os csomagokban történt, a saját gépem SSD tárhelyének igénybevételével. Ez nemcsak a feldolgozási sebességet növelte, hanem csökkentette az archiváló háttértárolók elhasználódásának kockázatát is. A képfeldolgozó pipeline automatikusan hajtotta végre a következő lépéseket: a NEF fájlok EXIF metaadatait megtartó konverzióját JPEG formátumba (80-as tömörítéssel), méretezést 224 képpont szélességre, középre vágást 1:1 képarány eléréséhez, MD5-alapú fájlnév-képzést az ismétlődések kiszűrésére, valamint osztályozási és szűrési lépéseket. A kezdeti automatikus osztályozást többszörös kézi ellenőrzés és újraosztályozás követte, így fokozatosan alakult ki az adatbázis végleges struktúrája.
 
 A kategóriák számát és tartalmát az osztályok kiegyensúlyozottságának elve, valamint a képanyag tartalmi homogenitása alapján határoztam meg. Az alacsony elemszámú osztályokat átcsoportosítottam, a túl nagy kategóriákat finomabb alkategóriákra bontottam, az irreleváns vagy túl heterogén osztályokat pedig elhagytam. A végső adatbázis több mint 180 000 képet tartalmaz, gondosan strukturált mappaszerkezetben, amely a tanító, validációs és tesztadatok 80-10-10 százalékos megosztását is tartalmazza.
 
 A képadatbázis építése közben számos saját fejlesztésű segédprogram készült, amelyek automatizálták és nyomon követhetővé tették az egyes lépéseket. Ezek a programok nemcsak a képfeldolgozásért, hanem a statisztikai elemzésekért, vizualizációkért és a kategóriaeloszlás értékeléséért is felelősek. A fejezet hátralévő részében részletesen bemutatom az egyes lépéseket, a megvalósított pipeline-t, a feldolgozási logikát, valamint az e szakaszban keletkezett eredményeket és tapasztalatokat.
-
-%ITT TARTOK----------------------
 
     \section{A forrásképek}
         A saját képadatbázis összeállításának alapját egy több mint húsz évet felölelő, személyes fotóarchívum képezte, amely 2004-től egészen 2025-ig tartalmaz felvételeket. Ez az anyag tematikailag rendkívül változatos: megtalálhatók benne természetfotók, utazási és városképek, tájképek, légifotók, eseménydokumentációk, koncertek, valamint egyéb élethelyzeteket rögzítő képsorozatok is. Az archívum sokfélesége nemcsak témában, hanem technikai szempontból is igen kiterjedt.
 
         Az évek során több különböző fényképezőgép és eszköztípus került használatba, az egyszerűbb mobiltelefonos kameráktól kezdve a felső kategóriás digitális tükörreflexes (DSLR) fényképezőgépekig. Ennek következtében a képek felbontása, dinamikatartománya, színmélysége és általános minősége is jelentős változatosságot mutat. A fotók egy része JPEG formátumban, más részük pedig NEF (Nikon RAW) formátumban készült. A NEF fájlok különösen értékesek voltak a feldolgozás során, mivel nyers adatformátumként teljes kontrollt biztosítottak a képfeldolgozás minden lépése felett, és tartalmazták a részletes EXIF metaadatokat is.
 
-        Az archívum heterogenitása - amely a képek tartalmi és technikai sokszínűségéből fakad - különösen értékes alapot nyújtott egy erős és jól generalizáló tanítóadatbázis felépítéséhez. A képek eltérő műfajai, kompozíciós megközelítései, fényviszonyai és feldolgozási módjai gazdag vizuális mintázatot biztosítottak, amely elősegítette a modellek robusztus tanulását és a széles körű adaptáció lehetőségét. A forrásanyag e sokoldalúsága egyúttal kihívást is jelentett a képek feldolgozása, egységesítése és osztályozása során, amelyet gondosan megtervezett konverziós és előfeldolgozási lépésekkel oldottam meg.
+        Az archívum heterogenitása - amely a képek tartalmi és technikai sokszínűségéből fakad - különösen értékes alapot nyújtott egy erős és jól generalizáló tanítóadatbázis felépítéséhez. A képek eltérő műfajai, kompozíciós megközelítései, fényviszonyai és feldolgozási módjai gazdag vizuális mintázatot biztosítottak, amely elősegítette a modellek robusztus tanulását és a széles körű adaptáció lehetőségét. A forrásanyag sokoldalúsága egyúttal kihívást is jelentett a képek feldolgozása, egységesítése és osztályozása során, amelyet gondosan megtervezett konverziós és előfeldolgozási lépésekkel oldottam meg.
 
         Összességében elmondható, hogy a saját fotóarchívum kiváló alapanyagot biztosított a tanítóadatbázis összeállításához, mivel mennyiségében, témagazdagságában és technikai részletességében egyaránt alkalmas volt arra, hogy a képosztályozási feladathoz megbízható és reprezentatív adatforrást nyújtson.
 
@@ -33,7 +31,7 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             
             A kiindulási pontot saját, hosszú évek alatt épített fotóarchívumom jelentette, amely 2004-től kezdődően több tízezer képet tartalmaz, a legkülönbözőbb témákban. Ezek között megtalálhatók természetfotók, városképek, utazások, események, koncertek, légi felvételek és sok más egyéb műfaj. A képek változatos eszközökkel - mobiltelefonokkal, kompakt és digitális tükörreflexes fényképezőgépekkel - készültek, ennek megfelelően különböző technikai jellemzőkkel és vizuális stílusokkal rendelkeznek. Ez a heterogenitás ideális alapot biztosított a neurális hálózatok számára szükséges vizuális diverzitás megteremtéséhez.
             
-            A saját fotóarchívum felhasználása nemcsak technikai szempontból kínált előnyöket, hanem személyes motivációt is jelentett. A fotózás számomra nem pusztán hobbi, hanem egy olyan kreatív tevékenység, amely szorosan kapcsolódik a vizuális gondolkodásmódomhoz. Mind a grafikai munkák, mind a számítógépes látás területén szerzett tapasztalataim megerősítették bennem azt az elhatározást, hogy a diplomamunka során saját képi világomat és technikai eszköztáramat felhasználva hozzak létre egy értékes és jól strukturált tanítóadatbázist.
+            A saját fotóarchívum felhasználása nemcsak technikai szempontból kínált előnyöket, hanem személyes motivációt is jelentett. A fotózás számomra nem pusztán hobbi, hanem egy olyan kreatív tevékenység, amely szorosan kapcsolódik a vizuális gondolkodásmódomhoz. Mind a grafikai munkák, mind a számítógépes látás területén szerzett tapasztalataim megerősítették bennem azt az elhatározást, hogy a diplomamunka során saját képi világomat és technikai eszköztáramat felhasználva hozzak létre egy értékes és jól strukturált tanítóadatbázist és ezen dolgozzak.
             
             Ez a megközelítés lehetőséget teremtett arra, hogy a személyes érdeklődés és a tudományos célkitűzések szorosan összekapcsolódjanak, valamint hogy az adathalmaz kialakítása ne csupán technikai feladat, hanem egyben kreatív és rendszerszemléletű tervezési folyamat is legyen.
         
@@ -48,11 +46,11 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
         \subsection{Darabszámok és méretek}
             A forrásképeket redundánsan tárolom két darab, egyenként 2~TB kapacitású merevlemezen. A képek strukturált módon, mappákba rendezve kerültek eltárolásra, ahol a mappa neve tartalmazza a készítés dátumát, helyszínét és a témára utaló kulcsszót. Jelenleg a két tároló tartalma nem teljesen azonos, így az átvizsgált és kategorizált képmennyiség 3{,}01~TB, amely összesen 425\,010 fotóból áll.
             
-            A képek átlagos mérete körülbelül 8~MB volt. Az adathalmaz feldolgozása során kézi, majd gépi szűrés segítségével eltávolítottam az ismétlődő képeket, így végül 180\,750 egyedi fotót azonosítottam. Ezen képek konvertálása, átméretezése, tömörítése és középre vágása után jött létre a végső adatbázis, amely 9{,}44~GB méretű lett. 
+            A képek átlagos mérete körülbelül 7~MB volt. Az adathalmaz feldolgozása során kézi, majd gépi szűrés segítségével eltávolítottam az ismétlődő képeket, így végül 180\,750 egyedi fotót azonosítottam. Ezen képek konvertálása, átméretezése, tömörítése és középre vágása után jött létre a végső adatbázis, amely 9{,}44~GB méretű lett. 
             
             Mivel az eredeti képek átlagosan körülbelül 7~MB méretűek voltak, míg az előkészített képek átlagosan 44~kB méretűek, így az összesített adattömörítési arány meghaladja a 60\%-ot. Ez a tömörítés jelentős tárhely-megtakarítást jelentett, miközben a neurális hálózatokhoz szükséges releváns vizuális információ megmaradt.
             
-            \subsection{Tematikus kategóriák}
+        \subsection{Tematikus kategóriák}
             
             A saját fotóarchívum alapján készült adatbázis egyik legfontosabb jellemzője a tartalmi sokszínűség. Az adatok rendkívül heterogén témákból és műfajokból származnak, amely nemcsak a hálózat tanítását támogatja hatékonyan, hanem elősegíti a generalizálhatóbb, robusztusabb modell kialakulását is.
             
@@ -79,13 +77,14 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             A kategorizálás során először automatikus kulcsszavas és képi hasonlóságon alapuló csoportosítást alkalmaztam, amelyet manuális felülvizsgálat és korrekció követett. A kisebb kategóriákat szükség esetén összevontam, az irreleváns vagy nem informatív osztályokat pedig eltávolítottam. A végső osztályozási rendszer így kiegyensúlyozott és jól használható lett a konvolúciós neurális hálózatok tanításához.
             
     \section{Adatbázis tervezett szerkezete}
+        Ebben a részben szeretném bemutatni, hogy hogyan zajlott az adatbázis tervezése és milyen döntések alapján történt a szerkezet kialakítása.
 
         \subsection{Képméret és formátum kiválasztása}
             A képadatbázis egységesítésének egyik kulcsfontosságú lépése a képek méretének és formátumának meghatározása volt. A döntést alapvetően a konvolúciós neurális hálózatok (CNN-ek) működésének követelményei, valamint a számítási teljesítmény és az adathatékonyság szempontjai határozták meg.
             
             A legtöbb klasszikus mélytanulási architektúra, mint például a VGG, ResNet vagy MobileNet, fix bemeneti mérettel dolgozik, amely jellemzően $224\times224$ pixel. Ez a méret nemcsak kompatibilitási okokból vált szabvánnyá, hanem azért is, mert megfelelő kompromisszumot kínál a részletgazdagság és a feldolgozási igények között. A nagyobb képméretek ugyan több vizuális információt hordozhatnak, de jelentősen növelik a számítási költségeket, különösen nagy adathalmaz esetén, míg a kisebb képméretek sok esetben már információvesztéssel járhatnak.
             
-            A jelen munkában alkalmazott modellek - mivel előtanított architektúrákra (pl. ResNet) épülnek - kizárólag a szabványos $224\times224$ pixeles bemenetekkel működnek megfelelően. Ennek megfelelően az adatbázis képeit úgy dolgoztam fel, hogy az eredeti oldalarány megtartása mellett, középpontos vágással kerültek átméretezésre. Ez a módszer biztosította, hogy a képek vizuálisan kiegyensúlyozottak maradjanak, miközben illeszkedtek a modellek bemeneti követelményeihez.
+            A jelen munkában alkalmazott modellek - mivel előtanított architektúrákra (pl. ResNet) épülnek - kizárólag a szabványos $224\times224$ pixeles bemenetekkel működnek megfelelően. Ennek megfelelően az adatbázis képeit úgy dolgoztam fel, hogy az eredeti 3:2 képarányú képeket a rövidebb 2 arányú oldal mentén 224px méretűre méreteztem, így a hosszabb oldal 337px méretű lett ezután, középpontos vágással kerültek végleges átméretezésre, így a legtöbb részletet sikerült megtartani torzítás nélkül. Ez a módszer biztosította, hogy a képek vizuálisan kiegyensúlyozottak maradjanak, miközben illeszkedtek a modellek bemeneti követelményeihez.
             
             A képek formátumát tekintve a JPEG lett a választott tömörítési szabvány, mégpedig 80-as minőségi fokozattal. Ez az érték jól kiegyensúlyozza a képminőséget és a tárhelyhasználatot: a tömörítés mértéke nem jár észrevehető minőségromlással, ugyanakkor jelentős mértékben csökkenti a tárolt adatok méretét - különösen több tízezer kép esetén ez gigabájtos nagyságrendű megtakarítást eredményez. A választott tömörítési szint nem befolyásolja negatívan a neurális hálózatok tanulási teljesítményét, ugyanakkor hatékonyabbá teszi az adathalmaz kezelését és betöltését.
             
@@ -96,19 +95,96 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             Források: \cite{article_Size_Matters_for_CNN_Classifiers}, \cite{article_Learning_to_Resize_Images_for_Computer_Vision_Tasks}
             \end{flushright}
    
-        \subsection{Osztályozás}
+        \subsection{Osztályozási stratégia és kategóriarendszer kialakítása}
 
-        \subsection{Kategóriák}
+            Az adatbázis osztályozásának tervezése komoly szakmai és gyakorlati kihívást jelentett, mivel a feldolgozott képmennyiség nagyságrendje (180\,750 darab, egységesen 224x224~px-es, \texttt{JPG-80} formátumú, \texttt{MD5} hash szerint átnevezett fájl) kizárta a kizárólag kézi rendezés lehetőségét. Az automatikus osztályozás alkalmazása elkerülhetetlenné vált, azonban a kiválasztott modell(ek) és osztályrendszer(ek) meghatározása során számos szempontot kellett figyelembe vennem.
+            
+            Elsőként felmerült a kézi kategorizálás lehetősége kisebb mintán, majd annak kiterjesztése, de gyorsan nyilvánvalóvá vált, hogy ekkora adathalmaz esetén ez rendkívül időigényes és gyakorlatilag kivitelezhetetlen lenne. Ezért döntöttem úgy, hogy két különböző, nagy pontosságú, előre betanított osztályozó modell segítségével végzek automatikus kategorizálást, amelyeket utólag kézzel finomhangolok. 
+            
+            A választás szempontjai között szerepelt, hogy a modellek rendelkezzenek nyilvánosan elérhető, nagy léptékű osztályrendszerekre tanított változatokkal (például \textbf{Places365} és \textbf{ImageNet-1K}), és hogy a kétféle osztályozás eltérő szempontokat képviseljen: míg a \textbf{Places365} a helyszínalapú, tematikus megközelítést támogatja, addig az \textbf{ImageNet-1K} objektumorientált, tárgyalapú osztályokat kínál.
+            
+            A kezdeti próbálkozások során a \texttt{resnet50\_places365} modellt alkalmaztam, amely a helyszínalapú kategorizálásban segített. Az automatikusan generált címkék alapján létrehozott klasztereket kézzel tovább finomítottam, azonban hamar kiderült, hogy a Places365 osztályrendszer mélysége és sokrétűsége (többszintű kategóriák, átfedések, és kevésbé releváns városi vagy beltéri témák) nem illeszkedik jól a saját, főként szabadban készült, természetközpontú fotóimhoz. 
+            
+            Ezért második lépésként az \texttt{ImageNet-1K} osztályrendszert választottam, mivel annak egyrétegű, jól definiált objektumközpontú kategóriái jobban illeszkedtek a saját archívumom tematikájához. Ehhez a \texttt{convnext\_base\_ImageNet1K\_pretrained} modellt alkalmaztam automatikus osztályozásra, tudatosan elkerülve annak verzióját (\texttt{ConvNeXt-Tiny}), amelyet később a saját modelljeim összehasonlító vizsgálatában használtam. Ezzel biztosítani tudtam, hogy az osztályozó modell ne legyen torzító hatással a vizsgált architektúrák teljesítményértékelésére.
+            
+            Az automatikus osztályozás után az alábbi utómunkálatokat végeztem el:
+            
+            \begin{itemize}
+                \item Az üres kategóriák eltávolítása.
+                \item A 300 képnél kevesebbet tartalmazó osztályok képeinek újracsoportosítása más releváns kategóriákba.
+                \item A túl nagy méretű kategóriák esetében gépi (pl. arcfelismerés) és kézi szűrést alkalmaztam az osztályból kilógó, nem illeszkedő képek eltávolítására.
+                \item A teljes adatbázis végső kézi ellenőrzése a címkék konzisztenciájának biztosítása érdekében.
+            \end{itemize}
+            
+            Az eredményül kapott kétféle rendezett adathalmaz közül végül az \textbf{ImageNet-1K} szerinti változatot használtam fel a modellképzésekhez és teljesítménymérésekhez. Az \textbf{SBphotoThemes180K} nevű saját adatbázis így két külön osztályozási verzióban készült el:
+            
+            \begin{itemize}
+                \item \textbf{Places365 alapú osztályozás:} 121 kategória
+                \item \textbf{ImageNet-1K alapú osztályozás:} 114 kategória
+            \end{itemize}
+            
+            A Places365 szerinti változatot archiváltam és megtartottam esetleges jövőbeli kutatások, összehasonlítások vagy kiegészítő elemzések céljaira a méréseket pedig az ImageNet1k szerinti osztályozáson végeztem.
+            
+        \subsection{Mappaszerkezet kialakítása}
 
-        \subsection{Mappaszerkezet}
+            A tanítóadatbázis mappaszerkezetének megtervezése során elsődleges szempont volt a kompatibilitás biztosítása a konvolúciós neurális hálózatok (CNN-ek) tanítására használt modern keretrendszerek (például \texttt{PyTorch}, \texttt{TensorFlow}, \texttt{Keras}) elvárásaival. E rendszerek esetében bevett gyakorlat, hogy az adathalmaz fájlstruktúrája tükrözi az osztályozási kategóriákat: a képek a hozzájuk tartozó osztálynevet viselő mappákba kerülnek, és ezek a mappák egy felsőbb szinten — jellemzően \texttt{train}, \texttt{val}, \texttt{test} — három részre osztják az adathalmazt.
+            
+            Az SBphotoThemes180K adatbázist ennek megfelelően három részre osztottam:
+            
+            \begin{itemize}
+                \item \textbf{Train (80\%)} – A tanítóhalmaz, amelyet a modellek tanítására használtam.
+                \item \textbf{Validation (10\%)} – A validációs halmaz, amelyet a tanulási folyamat közbeni modellértékeléshez alkalmaztam.
+                \item \textbf{Test (10\%)} – A teszthalmaz, amely a végső, független teljesítményértékelésre szolgált.
+            \end{itemize}
+            
+            A felosztást teljes mértékben automatikusan, véletlenszerű kiválasztással végeztem egy saját fejlesztésű Python szkript segítségével. Ez biztosította, hogy minden kategória képei arányosan és véletlenszerűen kerüljenek szétosztásra a három részhalmaz között, elkerülve a torz reprezentációt és javítva a modell általánosító képességét.
+            
+            A létrehozott könyvtárszerkezet az alábbi logika szerint épül fel:
+            
+            \begin{verbatim}
+            SBphotoThemes180K/
+                train/
+                    kategoria_1/
+                        fda9ca32e07b59a81de8f98890a26602.jpg
+                        ...
+                    kategoria_2/
+                        700682e68252bfad35426db8ea6c8885.jpg
+                        ...
+                    ...
+                val/
+                    kategoria_1/
+                        39c3811876ac054ec2199710daf7a1ed.jpg
+                        ...
+                    ...
+                test/
+                    kategoria_1/
+                        8111cc7564073f721dbd4376341372bd.jpg
+                        ...
+                    ...
+            \end{verbatim}
+            
+            Ez a struktúra jól illeszkedik a legtöbb betöltő és augmentáló könyvtár (például \texttt{torchvision.datasets.ImageFolder}) működéséhez, és lehetővé teszi az adatok gyors és hatékony feldolgozását, illetve a kategóriák közötti világos szétválasztást. A mappák elnevezése megegyezik az ImageNet-1K osztályozás alapján kialakított végleges kategórianévvel, így az adatbázis jól értelmezhető, újrahasznosítható és könnyen bővíthető marad.
+
+%ITT TARTOK----------------------
 
     \section{Előfeldolgozás}
 
-        \subsection{Kötegelt adatgyűjtés}
+        Az adatbázis szerkezetének és kategóriarendszerének meghatározása után a létrehozás konkrét lépéseinek részletes bemutatása következik. E szakasz az előfeldolgozási fázisra fókuszál, amely során az eredeti képarchívumból kiindulva megtörtént az adatok kiválogatása, átmásolása, előkészítése és az elsődleges konverziók végrehajtása.
 
-        \subsection{Méret és teljesítmény koráltok}
+        \subsection{Kézi előválogatás és kötegelt adatgyűjtés}
 
+        Az adatbázis építése az archívum kézi áttekintésével kezdődött, amely során az elmúlt két évtizedben készült fényképekből kiválogattam azokat, amelyek alkalmasnak bizonyultak az osztályozási feladatokhoz. Mivel a teljes fotóarchívum mérete meghaladja a 3 terabájtot, a feldolgozást technikai megfontolások alapján kötegelt formában végeztem.
+
+        A fotók az eredeti helyükön két redundáns, 2 TB kapacitású HDD-n helyezkednek el. A képek feldolgozása azonban jelentős számítási igényt támasztott, ezért a képek ideiglenesen egy nagy sebességű SSD-meghajtóra kerültek átmásolásra. A másolás és feldolgozás biztonságos és hatékony végrehajtása érdekében 100 GB méretű adatcsomagokkal dolgoztam.
+
+        \subsection{Méret- és teljesítménykorlátok}
+
+        A technikai folyamat során fontos szempont volt az adattárolók védelme és a hatékony adatkezelés. Egy 100 GB-os köteg SSD-re másolása körülbelül 30 percet vett igénybe, míg az adott köteg teljes feldolgozása (konverzió, átméretezés, vágás, tömörítés, átnevezés) további nagyjából 15 percet. Így egy köteg teljes feldolgozása körülbelül egy órát igényelt. Ez a kötegelési stratégia lehetővé tette, hogy az adatok gyors elérésű és jól kontrollált környezetben kerüljenek feldolgozásra, anélkül, hogy veszélyeztettem volna az eredeti archívum integritását vagy a merevlemezek épségét.
+
+
+%EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
     \section{Saját feldolgozó futószalag}
+        Már a munka elején nyilvánvalóvá vált, hogy egy jól ismételhető szkriptekkel ellátott eljárásrendre lesz szükség. Ezt ismertetem az alábbiakban. 
 
         \subsection{Tulajdonságok}
 

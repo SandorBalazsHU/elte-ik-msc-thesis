@@ -94,7 +94,7 @@
         
         A mérési napló célja a teljes átláthatóság és reprodukálhatóság biztosítása, valamint az, hogy a részletes adatokhoz való hozzáférés segítse az eredmények értelmezését és további elemzését. A mérési napló kattintható tartalomjegyzékkel rendelkezik megkönnyítendő a navigálást és a keresett adatok, grafikonok gyors elérését.       
 
-        \subsection{Melléklet B: Szoftverek}
+        \subsection{Melléklet B: Az elkészített szoftverek}
             A diplomamunka során elkészített szoftverek központi szerepet játszottak az adatfeldolgozásban, a tanítási és tesztelési folyamatok automatizálásában, valamint a mért adatok kiértékelésében. A teljes munkafolyamat Python nyelven készült, Jupyter notebookok, PyTorch keretrendszer, valamint a matplotlib, seaborn, pandas és numpy könyvtárak használatával. A modellek betanítása és kiértékelése saját fejlesztésű kódbázison történt, amely lehetővé tette az egyedi igények szerinti metrika- és grafikon-előállítást.
 
             A fejlesztett szoftvermodulok a következő főbb komponensekre bonthatók:
@@ -128,8 +128,12 @@
             
             A long-tail eloszlás külön figyelmet igényel a képosztályozásban, mivel az adatok túlnyomó része néhány gyakori kategóriára koncentrálódik, míg a legtöbb osztály csak kissebb számú mintával szerepel de ezek összessége mégis jelentős arányt képvisel az adathalmazban. Az ilyen disztribúciók kezelése különösen nehéz feladat a tanuló modellek számára, mivel a hagyományos algoritmusok hajlamosak alultanulni a ritkább osztályokat.
             
-            A képosztályozási feladat tehát nem csupán technikai kihívás, hanem kulcsfontosságú építőelem sok mesterséges intelligencia alapú rendszer számára. A jelen dolgozatban bemutatott vizsgálatok célja, hogy feltérképezzék, hogyan viselkednek a különféle modern neurális hálózati architektúrák, amikor valós, nem szintetikusan kiegyensúlyozott adatokkal kell megbirkózniuk. \cite{article_cnn_image_class} \cite{article_Photo_Content_Classification} \cite{article_cnn_metrics}
-
+            A képosztályozási feladat tehát nem csupán technikai kihívás, hanem kulcsfontosságú építőelem sok mesterséges intelligencia alapú rendszer számára. A jelen dolgozatban bemutatott vizsgálatok célja, hogy feltérképezzék, hogyan viselkednek a különféle modern neurális hálózati architektúrák, amikor valós, nem szintetikusan kiegyensúlyozott adatokkal kell megbirkózniuk. 
+            \begin{flushright}
+                \small
+                Források: \cite{article_cnn_image_class} \cite{article_Photo_Content_Classification} \cite{article_cnn_metrics}
+            \end{flushright}
+            
         \subsection{A konvolúciós neurális hálózatok mint megoldás}
             A konvolúciós neurális hálózatok (CNN-ek, azaz Convolutional Neural Networks) az utóbbi évtizedben a gépi látás és képfeldolgozás egyik legmeghatározóbb eszközévé váltak. A hagyományos, teljesen összekötött (fully connected) neurális hálózatokkal szemben a CNN-ek képesek kihasználni a képek térbeli struktúráját, és ennek köszönhetően hatékonyabban tanulnak vizuális jellemzőket.
 
@@ -139,8 +143,13 @@
             
             A CNN-ek sikerének egyik kulcsa az, hogy nem igényelnek kézzel definiált jellemzőkészleteket - a hálózat maga tanulja meg az optimális reprezentációkat a bemeneti adatokból. Ez különösen előnyös olyan esetekben, ahol a képek nagy változatosságot mutatnak, vagy ahol nem áll rendelkezésre szakértői tudás a jellemzők kézi kiválasztásához.
             
-            Az elmúlt évek során számos jól ismert CNN-alapú architektúra született (például LeNet, AlexNet, VGG, ResNet, DenseNet, EfficientNet, stb.), amelyek mind különféle technikai újításokat vezettek be a hálózatok mélysége, számítási hatékonysága vagy tanulási képességei terén. A jelen dolgozat több ilyen, különféle generációba tartozó modellt is vizsgál, hogy összehasonlíthatóvá váljon teljesítményük egy valós, természetes képekből álló, kiegyensúlyozatlan eloszlású adathalmazon. \cite{article_cnn_survey} \cite{article_cnn_metrics} \cite{article_cnn_image_class}
+            Az elmúlt évek során számos jól ismert CNN-alapú architektúra született (például LeNet, AlexNet, VGG, ResNet, DenseNet, EfficientNet, stb.), amelyek mind különféle technikai újításokat vezettek be a hálózatok mélysége, számítási hatékonysága vagy tanulási képességei terén. A jelen dolgozat több ilyen, különféle generációba tartozó modellt is vizsgál, hogy összehasonlíthatóvá váljon teljesítményük egy valós, természetes képekből álló, kiegyensúlyozatlan eloszlású adathalmazon. 
 
+            \begin{flushright}
+                \small
+                Források: \cite{article_cnn_survey} \cite{article_cnn_metrics} \cite{article_cnn_image_class}
+            \end{flushright}
+            
         \subsection{Képadatbázisok mint tanító eszközök}
             A gépi tanulási rendszerek, különösen a mély neurális hálózatok sikerességének egyik kulcsa a megfelelő mennyiségű és minőségű tanítóadat megléte. A képosztályozási feladatok esetén ez különösen fontos, hiszen a neurális hálózatok képesek milliónyi paramétert megtanulni, de ehhez nagyméretű, változatos és jól strukturált képadatbázisokra van szükség. Az ilyen adathalmazok nemcsak a modellek hatékony tanítását teszik lehetővé, hanem azok általánosító képességét is alapvetően meghatározzák.
 
@@ -150,8 +159,13 @@
             
             A dolgozatban bemutatott egyedi képadatbázis - az SBphotothemes180k - egy különleges erőforrás, mivel saját fotógyűjteményből származik, természetes módon jött létre, és hosszú időszak alatt, különféle helyszíneken, változatos körülmények között készült képeket tartalmaz. Ez a típusú adathalmaz ideális arra, hogy feltérképezzük, hogyan teljesítenek a neurális hálózatok nem laboratóriumi környezetből származó, organikus képadatokon.
             
-            Egy jól megtervezett képadatbázis nemcsak a tanítás során nyújt alapot, hanem lehetőséget teremt arra is, hogy vizsgáljuk a modellek robusztusságát, általánosítási képességét, valamint azt, hogyan reagálnak az adatok mennyiségi vagy minőségi változásaira. Ezért a képadatbázis nem csupán háttéranyag, hanem aktív és kulcsfontosságú szereplője a neurális hálózatokkal végzett kutatómunkának. \cite{article_cnn_survey} \cite{article_cnn_survey} \cite{ardicle_dl_survey} \cite{ardicle_dl_survey} \cite{article_cnn_metrics}
-
+            Egy jól megtervezett képadatbázis nemcsak a tanítás során nyújt alapot, hanem lehetőséget teremt arra is, hogy vizsgáljuk a modellek robusztusságát, általánosítási képességét, valamint azt, hogyan reagálnak az adatok mennyiségi vagy minőségi változásaira. Ezért a képadatbázis nem csupán háttéranyag, hanem aktív és kulcsfontosságú szereplője a neurális hálózatokkal végzett kutatómunkának.
+            
+            \begin{flushright}
+                \small
+                Források: \cite{article_cnn_metrics} \cite{article_cnn_survey}  \cite{ardicle_dl_survey} 
+            \end{flushright}
+            
             \section{Irodalomkutatás}
 
             A diplomamunka elkészítése során elsősorban a képzés során elsajátított elméleti és gyakorlati ismeretekre támaszkodtam, különösen a \textit{Bevezetés a gépi tanulásba}, a \textit{Gépi tanulás alapjai Python-ban} és a \textit{Deep Learning} kurzusokon tanultakra. Ezek az alapok biztosították a technológiai és módszertani keretet a munka megvalósításához.
@@ -206,6 +220,3 @@
                 \item "Photo Content Classification Using Convolutional Neural Network" \cite{article_Photo_Content_Classification}
                 \item "An Analysis Of Convolutional Neural Networks For Image Classification"\cite{article_cnn_image_class}
         \end{itemize}
-        
-
-
