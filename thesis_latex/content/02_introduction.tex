@@ -20,10 +20,10 @@
         \url{https://ikelte-my.sharepoint.com/:f:/g/personal/sabuaai\_inf\_elte\_hu/ElwbJQikJ7VJqM1u5lmhhNMBq0\_falCiRZTuLwoimmdrpA?e=hGFCxI}
         
         \vspace{1em}
-        Az elkészült szoftverek – köztük a Jupyter notebook-ok, Python és Bash szkriptek – a projekt GitHub tárhelyén érhetők el. A repository viszonylag kis méretű, de struktúrája révén sok, részletes dokumentációval ellátott fájlt tartalmaz.
+        Az elkészült szoftverek – köztük a Jupyter notebook-ok, Python és Bash szkriptek – a projekt GitHub tárhelyén érhetők el. A repository kissebb méretű, jól struktúrált, az összes a projekt során készült részletes dokumentációval ellátott fájlt tartalmazza.
         
         \begin{note}
-        A Jupyter notebook-ok megtekinthetők közvetlenül a GitHub felületén, vagy szerkeszthetők a Visual Studio Code segítségével is.
+        A Jupyter notebook-ok megtekinthetők közvetlenül a GitHub felületén, vagy a Visual Studio Code segítségével is.
         \end{note}
         
         \vspace{0.5em}
@@ -39,7 +39,7 @@
         \begin{itemize}
             \item \textbf{fine\_tuned\_models.zip} (1,14 GB) – A különböző hálózati architektúrákon végzett teljes finomhangolás eredményeként létrejött modellek tömörített formában.
             
-            \item \textbf{sbphotothemes180k.zip} (9,48 GB) – Az eredeti, rendezetlen, nyers képhalmaz, amely az SBphotothemes180k névre hallgató adatbázis alapját képezi.
+            \item \textbf{sbphotothemes180k.zip} (9,48 GB) – Az eredeti, kendezés nélküli, de már feldolgozott egyedi képeket tartalmazó képhalmaz, amely az SBphotothemes180k névre hallgató adatbázis alapját képezi.
             
             \item \textbf{sbphotothemes180k\_imagenet114.zip} (9,48 GB) – Az SBphotothemes180k adatbázis ImageNet1K címkerendszer alapján szortírozott változata, 114 kategóriába rendezve.
             
@@ -92,17 +92,16 @@
         
         Ebben a mellékletben a mérések eredményei nyers, de rendezett formában kerültek rögzítésre. A metrikák (Top-1, Top-5 pontosság, Precision, Recall, F1-score stb.) mellett szerepelnek a modellek teljesítményének vizuális megjelenítései is, grafikonok és táblázatok formájában. A jobb áttekinthetőség érdekében minden mérési sorozat után rövid, szöveges összefoglaló is készült, amely kiemeli a legfontosabb tapasztalatokat és tendenciákat.
         
-        A mérési napló célja a teljes átláthatóság és reprodukálhatóság biztosítása, valamint az, hogy a részletes adatokhoz való hozzáférés segítse az eredmények értelmezését és további elemzését.
-        
+        A mérési napló célja a teljes átláthatóság és reprodukálhatóság biztosítása, valamint az, hogy a részletes adatokhoz való hozzáférés segítse az eredmények értelmezését és további elemzését. A mérési napló kattintható tartalomjegyzékkel rendelkezik megkönnyítendő a navigálást és a keresett adatok, grafikonok gyors elérését.       
 
         \subsection{Melléklet B: Szoftverek}
             A diplomamunka során elkészített szoftverek központi szerepet játszottak az adatfeldolgozásban, a tanítási és tesztelési folyamatok automatizálásában, valamint a mért adatok kiértékelésében. A teljes munkafolyamat Python nyelven készült, Jupyter notebookok, PyTorch keretrendszer, valamint a matplotlib, seaborn, pandas és numpy könyvtárak használatával. A modellek betanítása és kiértékelése saját fejlesztésű kódbázison történt, amely lehetővé tette az egyedi igények szerinti metrika- és grafikon-előállítást.
 
             A fejlesztett szoftvermodulok a következő főbb komponensekre bonthatók:
 
-                Adat-előkészítő és konvertáló eszközök: Ezek a programrészek a nyers fotóállományból készítettek előfeldolgozott, egységesített és annotált képadatbázist. Ide tartozik az EXIF-adatok megőrzését biztosító átalakítás, a fájlnév-alapú címkézés, a képméretre vágás, tömörítés, valamint a tanító/tesztelő/validáló halmazok létrehozása.
+                Adat-előkészítő és konvertáló eszközök: Ezek a programrészek a nyers fotóállományból készítettek előfeldolgozott, egységesített és annotált képadatbázist. Ide tartozik az EXIF-adatok megőrzését biztosító átalakítás, az MD hash alapú elnevezés és ismétlődés szűrés, az automatikus kategorizálás, a megfelelő képméretre vágás, tömörítés, valamint a tanító/tesztelő/validáló halmazok létrehozása.
 
-                Modellek tanítását vezérlő szkriptek: A tanítórendszer lehetővé teszi különféle modellek (ResNet50, DenseNet121, EfficientNet-B0, ConvNeXt-Tiny, stb.) betöltését, finomhangolását, valamint többféle tanítási fázis (pl. teljes tanítóhalmaz, iteratív bővítés) automatizálását. A szkriptek rögzítik az összes fontos tanítási metrikát (loss, accuracy, precision, recall, F1-score), epochonként és osztályszinten.
+                A modellek tanítását vezérlő szkriptek: A tanítórendszer lehetővé teszi különféle modellek (ResNet50, DenseNet121, EfficientNet-B0, ConvNeXt-Tiny, stb.) betöltését, finomhangolását, valamint többféle tanítási fázis (pl. teljes tanítóhalmaz, iteratív bővítés) automatizálását. A szkriptek rögzítik az összes fontos tanítási metrikát (loss, accuracy, precision, recall, F1-score), epochonként és osztályszinten.
 
                 Tesztelési és kiértékelő modulok: Ezek a programok lehetővé teszik a betanított vagy gyári súlyokkal rendelkező modellek teljesítményének összehasonlítását különféle metrikák alapján, mind Top-1, Top-5, mind osztályspecifikus pontosság szerint. A program automatikusan készít confusion matrixokat, osztályeloszlás-görbéket, metrika-idő vagy metrika-mintaszám függvényeket.
 
@@ -110,53 +109,60 @@
 
                 Egyedi fejlesztésű kis modell és fejrész prototípusok: A szoftvercsomag része az erőforrás-kímélő, ResNet18-alapú lokális modell fejlesztését támogató kódbázis is, amely lehetővé teszi különféle hálózati „fejek” tesztelését és kiértékelését. Ezek külön paraméterezhetőek és egységes módon mérhetőek a többi modellhez hasonlóan.
 
-            Minden programrész jól dokumentált, verziókövetett formában készült, a főbb beállítások és paraméterek külön konfigurációs állományban találhatók. A melléklet tartalmazza a szoftverrendszer logikai felépítésének leírását, a legfontosabb fájlok magyarázatát, valamint a kód működésének szemléltetését példákkal.
+            Minden programrész jól dokumentált, verziókövetett formában készült, a főbb beállítások és paraméterek külön konfigurációs blokkokban találhatóak a notebook-okban. A virtualizált környezet kialakításáért felelős telepítő blokkok is elhelyezésre kerültek a notebook-okba a könnyebb megismételhetőség érdekében. A melléklet tartalmazza a szoftverrendszer logikai felépítésének leírását, a legfontosabb fájlok magyarázatát, valamint a kód működésének szemléltetését példákkal.
+            \cleardoublepage
 
     \section{A feladat}
-        A dolgozat célja egy saját készítésű, nagyméretű, természetes környezetben gyűjtött fotókból álló képadatbázis létrehozása és ezen különféle mély neurális hálózatok képosztályozási teljesítményének vizsgálata. A vizsgálat középpontjában az áll, hogy a valós, hosszú farok eloszlású osztályeloszlással rendelkező adathalmazok milyen kihívásokat jelentenek a korszerű képfeldolgozó modellek számára, valamint hogy ezek a modellek milyen mértékben képesek adaptálódni az adatok mennyiségének és kiegyensúlyozatlanságának változásaihoz.
+        A dolgozat célja egy saját készítésű, nagyméretű, természetes környezetben gyűjtött fotókból álló képadatbázis létrehozása és ezen különféle mély neurális hálózatok képosztályozási teljesítményének vizsgálata. A vizsgálat középpontjában az áll, hogy a valós, long-tail osztályeloszlással rendelkező adathalmazok milyen kihívásokat jelentenek a korszerű képfeldolgozó modellek számára, valamint hogy ezek a modellek milyen mértékben képesek adaptálódni az adatok mennyiségének és kiegyensúlyozatlanságának változásaihoz.
 
         A dolgozat során egy 180 750 képből álló, saját fotóimból összeállított és kétféle címkézési sémával (ImageNet1K és Places365) ellátott adatbázist készítettem. Ezt követően több ismert mélytanulási architektúra – többek között ResNet50, EfficientNet-B0, ViT-B/16 és ConvNeXt-Tiny – teljesítményét értékeltem három fázisban: előtanítás nélküli, teljes tanításon átesett, valamint növekvő méretű tanítóhalmazon történő tanítás után. Az eredményeket több metrika mentén, például Top-1 és Top-5 pontosság, Precision, Recall és F1-score segítségével elemeztem.
         
         Emellett célom volt egy saját, erőforrástakarékos modell megalkotása is, amely kis méretű, lokális alkalmazásokban – például mobil eszközökön – hatékonyan használható, miközben teljesítménye megközelíti a nagyobb méretű, általános célú modellekét.
 
         \subsection{Képosztályozás mint feladat}
-            A képosztályozás (image classification) a számítógépes látás egyik alapvető problémája, amelynek célja, hogy egy bemeneti képről automatikusan eldöntsük, melyik előre definiált osztályba tartozik. Ez a feladat különösen fontos számos gyakorlati alkalmazásban, például arcfelismerés, orvosi képelemzés, önvezető járművek környezeti értelmezése vagy digitális fotóarchívumok rendezése esetén.
+            A képosztályozás (image classification) a számítógépes látás és képfeldolgozás egyik alapvető problémája, amelynek célja, hogy egy bemeneti képről automatikusan eldöntsük, melyik előre definiált osztályba tartozik. Ez a feladat különösen fontos számos gyakorlati alkalmazásban, például arcfelismerés, orvosi képelemzés, önvezető járművek környezeti értelmezése vagy digitális fotóarchívumok rendezése esetén.
 
-            A klasszikus képosztályozási megközelítések során jellemzően kézzel készített jellemzők (például élek, színek, textúrák) segítségével történt az osztályba sorolás. Azonban a mélytanulás, különösen a konvolúciós neurális hálózatok (CNN-ek) megjelenése forradalmasította ezt a területet: ezek a modellek képesek automatikusan megtanulni a képek releváns reprezentációit, így jelentősen javítva a pontosságot.
+            A klasszikus képosztályozási megközelítések során jellemzően előre definiált jellemzők (például élek, színek, textúrák) segítségével történt az osztályba sorolás. Azonban a mélytanulás, különösen a konvolúciós neurális hálózatok (CNN-ek) megjelenése forradalmasította ezt a területet: ezek a modellek képesek automatikusan megtanulni a képek releváns elemeit, így jelentősen javítva a pontosságot.
             
             A képosztályozás során a neurális hálózat bemenete egy fix méretű kép, a kimenete pedig egy valószínűségi eloszlás az osztályok között, amelyből kiválasztható a legvalószínűbb címke. A feladat kihívásai közé tartozik az osztályok közti hasonlóság, a képi tartalom sokfélesége, a világítás, szögtorzítás, háttér és egyéb zavaró tényezők, valamint az osztályeloszlások kiegyensúlyozatlansága, amely különösen a valós adathalmazok esetén gyakori.
             
-            A hosszú farok (long-tail) eloszlás külön figyelmet igényel a képosztályozásban, mivel az adatok túlnyomó része néhány gyakori kategóriára koncentrálódik, míg a legtöbb osztály csak kis számú mintával szerepel. Az ilyen disztribúciók kezelése különösen nehéz feladat a tanuló modellek számára, mivel a hagyományos algoritmusok hajlamosak alultanulni a ritkább osztályokat.
+            A long-tail eloszlás külön figyelmet igényel a képosztályozásban, mivel az adatok túlnyomó része néhány gyakori kategóriára koncentrálódik, míg a legtöbb osztály csak kissebb számú mintával szerepel de ezek összessége mégis jelentős arányt képvisel az adathalmazban. Az ilyen disztribúciók kezelése különösen nehéz feladat a tanuló modellek számára, mivel a hagyományos algoritmusok hajlamosak alultanulni a ritkább osztályokat.
             
-            A képosztályozási feladat tehát nem csupán technikai kihívás, hanem kulcsfontosságú építőelem sok mesterséges intelligencia alapú rendszer számára. A jelen dolgozatban bemutatott vizsgálatok célja, hogy feltérképezzék, hogyan viselkednek a különféle modern neurális hálózati architektúrák, amikor valós, nem szintetikusan kiegyensúlyozott adatokkal kell megbirkózniuk.
+            A képosztályozási feladat tehát nem csupán technikai kihívás, hanem kulcsfontosságú építőelem sok mesterséges intelligencia alapú rendszer számára. A jelen dolgozatban bemutatott vizsgálatok célja, hogy feltérképezzék, hogyan viselkednek a különféle modern neurális hálózati architektúrák, amikor valós, nem szintetikusan kiegyensúlyozott adatokkal kell megbirkózniuk. \cite{article_cnn_image_class} \cite{article_Photo_Content_Classification} \cite{article_cnn_metrics}
 
         \subsection{A konvolúciós neurális hálózatok mint megoldás}
             A konvolúciós neurális hálózatok (CNN-ek, azaz Convolutional Neural Networks) az utóbbi évtizedben a gépi látás és képfeldolgozás egyik legmeghatározóbb eszközévé váltak. A hagyományos, teljesen összekötött (fully connected) neurális hálózatokkal szemben a CNN-ek képesek kihasználni a képek térbeli struktúráját, és ennek köszönhetően hatékonyabban tanulnak vizuális jellemzőket.
 
             A CNN-ek alapötlete a lokális jellemzők felismerésén alapszik: a bemeneti képen végighaladó konvolúciós szűrők képesek detektálni alacsony szintű mintázatokat, például éleket, sarkokat vagy textúrákat. Az egymásra épülő rétegek révén a hálózat egyre összetettebb vizuális absztrakciókat tanul meg, amelyek végső soron lehetővé teszik az osztályok közötti különbségek felismerését.
             
-            A konvolúciós rétegeket gyakran követik aktivációs (pl. ReLU), majd pooling rétegek, amelyek a méretcsökkentést és a jellemzők invarianciáját biztosítják. A hálózat végén egy vagy több teljesen összekötött réteg található, amely a tanult jellemzők alapján dönt az osztályokhoz való hozzárendelésről. A tanítási folyamat a hibák visszaterjesztésén (backpropagation) és gradiensalapú optimalizáción alapszik.
+            A konvolúciós rétegeket általában nemlineáris aktivációs függvények (például ReLU \cite{article_GELU}) követik, melyek nemlinearitást visznek a rendszerbe, azaz segítik, hogy a háló ne csak lineáris műveleteket tanuljon meg, majd pooling rétegek \cite{article_LayerNorm} \cite{article_dropaut}, amelyek egyrészt csökkentik a reprezentáció térbeli méretét, másrészt hozzájárulnak a jellemzők eltolás-invarianciájához (pl. ha a tárgy kis mértékben más helyen van a képen, a pooling elősegíti, hogy a jellemzők ennek ellenére hasonlóak maradjanak), ezáltal növelve a modell általánosítási képességét. A hálózat végén egy vagy több teljesen összekötött réteg található, amely a tanult jellemzők alapján dönt az osztályokhoz való hozzárendelésről. A tanítási folyamat a hibák visszaterjesztésén (backpropagation) és gradiensalapú optimalizáción alapszik.
             
             A CNN-ek sikerének egyik kulcsa az, hogy nem igényelnek kézzel definiált jellemzőkészleteket - a hálózat maga tanulja meg az optimális reprezentációkat a bemeneti adatokból. Ez különösen előnyös olyan esetekben, ahol a képek nagy változatosságot mutatnak, vagy ahol nem áll rendelkezésre szakértői tudás a jellemzők kézi kiválasztásához.
             
-            Az elmúlt évek során számos jól ismert CNN-alapú architektúra született (például LeNet, AlexNet, VGG, ResNet, DenseNet, EfficientNet, stb.), amelyek mind különféle technikai újításokat vezettek be a hálózatok mélysége, számítási hatékonysága vagy tanulási képességei terén. A jelen dolgozat több ilyen, különféle generációba tartozó modellt is vizsgál, hogy összehasonlíthatóvá váljon teljesítményük egy valós, természetes képekből álló, kiegyensúlyozatlan eloszlású adathalmazon.
+            Az elmúlt évek során számos jól ismert CNN-alapú architektúra született (például LeNet, AlexNet, VGG, ResNet, DenseNet, EfficientNet, stb.), amelyek mind különféle technikai újításokat vezettek be a hálózatok mélysége, számítási hatékonysága vagy tanulási képességei terén. A jelen dolgozat több ilyen, különféle generációba tartozó modellt is vizsgál, hogy összehasonlíthatóvá váljon teljesítményük egy valós, természetes képekből álló, kiegyensúlyozatlan eloszlású adathalmazon. \cite{article_cnn_survey} \cite{article_cnn_metrics} \cite{article_cnn_image_class}
 
         \subsection{Képadatbázisok mint tanító eszközök}
             A gépi tanulási rendszerek, különösen a mély neurális hálózatok sikerességének egyik kulcsa a megfelelő mennyiségű és minőségű tanítóadat megléte. A képosztályozási feladatok esetén ez különösen fontos, hiszen a neurális hálózatok képesek milliónyi paramétert megtanulni, de ehhez nagyméretű, változatos és jól strukturált képadatbázisokra van szükség. Az ilyen adathalmazok nemcsak a modellek hatékony tanítását teszik lehetővé, hanem azok általánosító képességét is alapvetően meghatározzák.
 
-            Számos nyílt képadatbázis - mint például az ImageNet, a CIFAR-10, a MNIST vagy a Places365 - alapvető szerepet játszott a mesterséges intelligencia fejlődésében, mivel ezek standardizált környezetet biztosítottak a modellek tanításához és összehasonlításához. Azonban ezek az adathalmazok gyakran laboratóriumi környezetben előállított, válogatott és sokszor mesterségesen kiegyensúlyozott mintákból állnak, ami korlátozza az általános életszerű alkalmazásokra való felkészítést.
+            Számos nyílt képadatbázis - mint például az ImageNet \cite{article_ImageNet1K} a CIFAR-10, a MNIST vagy a Places365 \cite{article_places365} - alapvető szerepet játszott a mesterséges intelligencia fejlődésében, mivel ezek standardizált környezetet biztosítottak a modellek tanításához és összehasonlításához. Azonban ezek az adathalmazok gyakran laboratóriumi környezetben előállított, válogatott és sokszor mesterségesen kiegyensúlyozott mintákból állnak, ami korlátozza az általános életszerű alkalmazásokra való felkészítést.
             
             A valós világ képei gyakran heterogének, torzítottak, zajosak, és az osztályok eloszlása erősen aszimmetrikus. Az ilyen „long-tail” eloszlású adatbázisok, ahol sok kategória kevés példánnyal szerepel, komoly kihívást jelentenek a tanuló algoritmusok számára. Az ezekkel való munka viszont közelebb hozza a neurális modellek viselkedését a valódi alkalmazási környezetekhez, ahol az adatok ritkán ideálisak.
             
             A dolgozatban bemutatott egyedi képadatbázis - az SBphotothemes180k - egy különleges erőforrás, mivel saját fotógyűjteményből származik, természetes módon jött létre, és hosszú időszak alatt, különféle helyszíneken, változatos körülmények között készült képeket tartalmaz. Ez a típusú adathalmaz ideális arra, hogy feltérképezzük, hogyan teljesítenek a neurális hálózatok nem laboratóriumi környezetből származó, organikus képadatokon.
             
-            Egy jól megtervezett képadatbázis nemcsak a tanítás során nyújt alapot, hanem lehetőséget teremt arra is, hogy vizsgáljuk a modellek robusztusságát, általánosítási képességét, valamint azt, hogyan reagálnak az adatok mennyiségi vagy minőségi változásaira. Ezért a képadatbázis nem csupán háttéranyag, hanem aktív és kulcsfontosságú szereplője a neurális hálózatokkal végzett kutatómunkának.
+            Egy jól megtervezett képadatbázis nemcsak a tanítás során nyújt alapot, hanem lehetőséget teremt arra is, hogy vizsgáljuk a modellek robusztusságát, általánosítási képességét, valamint azt, hogyan reagálnak az adatok mennyiségi vagy minőségi változásaira. Ezért a képadatbázis nem csupán háttéranyag, hanem aktív és kulcsfontosságú szereplője a neurális hálózatokkal végzett kutatómunkának. \cite{article_cnn_survey} \cite{article_cnn_survey} \cite{ardicle_dl_survey} \cite{ardicle_dl_survey} \cite{article_cnn_metrics}
 
-    \section{Irodalomkutatás}
-        A diplomamunka elkészítése során elsősorban a képzés során végzett Bevezetés a gépi tanulásba, Gépi tanulás alapjai Python-ban és Deep Learning kurzusokon tanultakra támaszkodtam, de a munka kezdete előtt olvastam a felhasznált modelleket bemutató cikkeket, survey cikkeket és a témába vágó egyéb írásokat. Ebben a részben ezeket szeretném bemutatni. (A felhasznált irodalmak listája a projekt GitHub könyvtárában is megtalálható.)
+            \section{Irodalomkutatás}
 
-        \subsection{A metrikák}
-        Az alkalmazott metrikák megértésében és kiválasztásában nagy segítségemre volt az "Image Classification with Convolutional Neural Networks"\cite{article_cnn_metrics} című írás.
+            A diplomamunka elkészítése során elsősorban a képzés során elsajátított elméleti és gyakorlati ismeretekre támaszkodtam, különösen a \textit{Bevezetés a gépi tanulásba}, a \textit{Gépi tanulás alapjai Python-ban} és a \textit{Deep Learning} kurzusokon tanultakra. Ezek az alapok biztosították a technológiai és módszertani keretet a munka megvalósításához.
+            
+            A projekt előkészítési szakaszában emellett alapos irodalomkutatást végeztem: áttekintettem a felhasznált modelleket bemutató tudományos publikációkat, témába vágó összefoglaló (survey) tanulmányokat, valamint a képosztályozás és neurális hálózatok alkalmazási lehetőségeit vizsgáló szakirodalmat. E fejezet célja ezen források rövid ismertetése, valamint a kutatási háttér bemutatása.
+            
+            A felhasznált irodalmak részletes jegyzéke a dolgozat végén, illetve a projekt GitHub könyvtárában is elérhető.
+            
+            \subsection{A metrikák}
+            
+            Az osztályozási eredmények értékelésére szolgáló metrikák kiválasztásában és pontos értelmezésében jelentős segítséget nyújtott az \textit{"Image Classification with Convolutional Neural Networks"} \cite{article_cnn_metrics} című tanulmány. A cikk világos áttekintést ad az olyan kulcsfontosságú mutatókról, mint az \textit{accuracy}, \textit{precision}, \textit{recall}, \textit{F1-score}, illetve a \textit{confusion matrix} szerepe a modellek teljesítményének objektív értékelésében.            
 
         \subsection{Áttekintő írások}
             Az irodalomkutatást áttekintő művek keresésével és értelmezésével kezdtem.
