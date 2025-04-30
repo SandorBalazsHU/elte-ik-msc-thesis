@@ -1,10 +1,25 @@
 \chapter{Saját képadatbázis építése}
 
-    \section{A forrásképek}
+A mesterséges intelligencia alapú képosztályozás hatékony működésének alapfeltétele a megfelelő minőségű és kellően reprezentatív tanítóadatbázis. Jelen dolgozat egyik legfontosabb és legidőigényesebb eleme volt egy ilyen képadatbázis összeállítása, amely nemcsak mennyiségében, hanem tartalmában és szerkezetében is jól illeszkedik a konvolúciós neurális hálózatok igényeihez. Mivel rendelkezésemre állt egy saját fotóarchívum, amely két évtizednyi, gondosan rendszerezett és archivált felvételt tartalmaz, adódott a lehetőség, hogy egyéni képtáramból építsek fel egy teljes értékű osztályozási adatbázist.
+
+A kiindulási anyag döntő többsége NEF (Nikon Electronic Format) típusú RAW formátumban volt elérhető, amely minden színcsatorna és világossági komponens részletes információit tartalmazza. Ez a formátum ideális alapot nyújt a professzionális feldolgozáshoz, ugyanakkor szükségessé tette egy egyedi konverziós pipeline megtervezését és megvalósítását. A cél az volt, hogy a képek átalakítása során a lehető legkevesebb információ vesszen el, ugyanakkor teljesüljön minden olyan követelmény, amely a neurális hálózatok betanításához szükséges: fix képméret, egységes képarány, szabványos formátum, egyértelmű osztályozás, ismétlődésmentes elrendezés és metaadatok megőrzése.
+
+A teljes fotóarchívum mérete meghaladta a 2 terabájtot, így a képek feldolgozása szakaszosan, 10 GB-os csomagokban történt, a saját gépem SSD tárhelyének igénybevételével. Ez nemcsak a feldolgozási sebességet növelte, hanem csökkentette az archiváló háttértárolók elhasználódásának kockázatát is. A képfeldolgozó pipeline automatikusan hajtotta végre a következő lépéseket: a NEF fájlok EXIF metaadatait megtartó konverzióját JPEG formátumba (80-as tömörítéssel), méretezést 224 képpont szélességre, középre vágást 1:1 képarány eléréséhez, MD5-alapú fájlnév-képzést az ismétlődések kiszűrésére, valamint osztályozási és szűrési lépéseket. A kezdeti automatikus osztályozást többszörös kézi ellenőrzés és újraosztályozás követte, így fokozatosan alakult ki az adatbázis végleges struktúrája.
+
+A kategóriák számát és tartalmát az osztályok kiegyensúlyozottságának elve, valamint a képanyag tartalmi homogenitása alapján határoztam meg. Az alacsony elemszámú osztályokat átcsoportosítottam, a túl nagy kategóriákat finomabb alkategóriákra bontottam, az irreleváns vagy túl heterogén osztályokat pedig elhagytam. A végső adatbázis több mint 180 000 képet tartalmaz, gondosan strukturált mappaszerkezetben, amely a tanító, validációs és tesztadatok 80-10-10 százalékos megosztását is tartalmazza.
+
+A képadatbázis építése közben számos saját fejlesztésű segédprogram készült, amelyek automatizálták és nyomon követhetővé tették az egyes lépéseket. Ezek a programok nemcsak a képfeldolgozásért, hanem a statisztikai elemzésekért, vizualizációkért és a kategóriaeloszlás értékeléséért is felelősek. A fejezet hátralévő részében részletesen bemutatom az egyes lépéseket, a megvalósított pipeline-t, a feldolgozási logikát, valamint az e szakaszban keletkezett eredményeket és tapasztalatokat.
+
+%ITT TARTOK----------------------
+
+\section{A forrásképek}
+A képadatbázis építése közben számos saját fejlesztésű segédprogram készült, amelyek automatizálták és nyomon követhetővé tették az egyes lépéseket. Ezek a programok nemcsak a képfeldolgozásért, hanem a statisztikai elemzésekért, vizualizációkért és a kategóriaeloszlás értékeléséért is felelősek. A fejezet hátralévő részében részletesen bemutatom az egyes lépéseket, a megvalósított pipeline-t, a feldolgozási logikát, valamint az e szakaszban keletkezett eredményeket és tapasztalatokat.
 
         \subsection{Motiváció}
+        A képadatbázis építése közben számos saját fejlesztésű segédprogram készült, amelyek automatizálták és nyomon követhetővé tették az egyes lépéseket. Ezek a programok nemcsak a képfeldolgozásért, hanem a statisztikai elemzésekért, vizualizációkért és a kategóriaeloszlás értékeléséért is felelősek. A fejezet hátralévő részében részletesen bemutatom az egyes lépéseket, a megvalósított pipeline-t, a feldolgozási logikát, valamint az e szakaszban keletkezett eredményeket és tapasztalatokat.
 
         \subsection{Források}
+        A képadatbázis építése közben számos saját fejlesztésű segédprogram készült, amelyek automatizálták és nyomon követhetővé tették az egyes lépéseket. Ezek a programok nemcsak a képfeldolgozásért, hanem a statisztikai elemzésekért, vizualizációkért és a kategóriaeloszlás értékeléséért is felelősek. A fejezet hátralévő részében részletesen bemutatom az egyes lépéseket, a megvalósított pipeline-t, a feldolgozási logikát, valamint az e szakaszban keletkezett eredményeket és tapasztalatokat.
 
     \section{Forrás adathalmaz elemzése}
 
