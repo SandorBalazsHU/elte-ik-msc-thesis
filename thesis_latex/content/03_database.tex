@@ -546,11 +546,17 @@ if __name__ == "__main__":
             \end{figure}
 
             A felosztást követően minden készletet ZIP-formátumba tömörítettem, és feltöltöttem az elkészült adatbázisokat a további felhasználás vagy megosztás céljából.
+            \\
+            \\
+            Ezzel elkészültek a tanításra kész képadatbázisok. A képeket konvertáltuk, méreteztük, tömörítettük és vágtuk, majd biztosítottuk az egyediségüket, majd automatikusan kétféle osztályozást végeztünk rajtuk amit kézzel és géppel finomítottunk, legvégül pedig felosztottuk Train/Val/Test halmazokra, így az adatbázis használatra kész.
+            \cleardoublepage
 
-    %EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
     \section{Kész adatbázis elemzése}
-    
-    % Első 2 kép egymás mellett
+        Most elemezzük az elkészült képadatbázisokat. Vegyünk mintákat az adathalmazokból és tekintsük meg őket. Végezzünk statisztikákat kategóraia darabszám és eloszlás alapján, majd értékeljük a létrehozptt adatbázist. Ezt követően elemezzük az elkészült adatbázis képeit az EXIF adatok alapján is.
+        
+    \subsubsection{SBphotoThemes180K - Places365 véletlen minták.}
+    Véletlenszerű minták az SBphotoThemes180K adatbázisból. A mintát saját fejlesztésű véletlenszerűen gyüjtő programmal készítettem mindkét osztályozásból.
+
     \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.45\textwidth}
@@ -566,24 +572,24 @@ if __name__ == "__main__":
             \caption{Stage}
             \label{fig:stage}
         \end{subfigure}
-        \caption{Két kép egymás mellett}
-        \label{fig:2_side_by_side}
+        \caption{Minta a \texttt{SBphotoThemes180K- Places365} osztályaiból.}
+        \label{fig:SBphotoThemes180K-places365-classes}
     \end{figure}
     
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth]{images/db/places/orchestra_pit.png}
-        \caption{Minta a \texttt{Places365} \textit{airfield} osztályából.}
-        \label{fig:places365-airfield}
+        \includegraphics[width=0.45\textwidth]{images/db/places/orchestra_pit.png}
+        \caption{Minta a \texttt{SBphotoThemes180K- Places365} osztályaiból 2.}
+        \label{fig:places365-orchestra}
     \end{figure}
 
-    % Következő 4 kép: 2x2 mátrixban
+    \subsubsection{SBphotoThemes180K - ImageNet1k véletlen minták.}
     \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{images/db/imagenet/Egyptian_cat.png}
-            \caption{Egyptian cat}
+            \caption{Cat}
             \label{fig:egyptian_cat}
         \end{subfigure}
         \hfill
@@ -594,7 +600,7 @@ if __name__ == "__main__":
             \label{fig:church}
         \end{subfigure}
         
-        \vspace{0.5cm} % Kis függőleges térköz a sorok között
+        \vspace{0.5cm}
     
         \begin{subfigure}[b]{0.45\textwidth}
             \centering
@@ -606,28 +612,32 @@ if __name__ == "__main__":
         \begin{subfigure}[b]{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{images/db/imagenet/cabbage_butterfly.png}
-            \caption{Cabbage butterfly}
+            \caption{Butterfly}
             \label{fig:butterfly}
         \end{subfigure}
 
-        \vspace{0.5cm} % Kis függőleges térköz a sorok között
+        \vspace{0.5cm} 
     
         \begin{subfigure}[b]{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{images/db/imagenet/dragonfly.png}
-            \caption{dragonfly}
-            \label{fig:lakeside}
+            \caption{Dragonfly}
+            \label{fig:dragonfly}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.45\textwidth}
             \centering
             \includegraphics[width=\textwidth]{images/db/imagenet/missile.png}
-            \caption{missile}
-            \label{fig:butterfly}
+            \caption{Missile}
+            \label{fig:missile}
         \end{subfigure}
-        \caption{Képek 2x2 mátrixban}
-        \label{fig:2x2}
+        \caption{Minta a \texttt{SBphotoThemes180K - Places365} osztályaiból.}
+        \label{fig:SBphotoThemes180K-ImageNet1k-classes}
     \end{figure}
+
+    %EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
+
+    %Rövid értelmezés a vett mintákról.
 
     \section{Statisztikák}
 
