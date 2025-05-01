@@ -279,7 +279,14 @@
   \subsubsection{Az átnevezési szkript futása}
   
   A következő ábra egy konkrét futtatást mutat be, ahol a \texttt{rename.py} szkript egy mappa képeit hash-eli és nevezi át párhuzamos szálakon keresztül:
-  
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/db/scripts/rename-py-1.png}
+    \caption{A \texttt{rename.py} szkript futása.}
+    \label{fig:02-rename.py}
+  \end{figure}
+
   \begin{figure}[H]
       \centering
       \includegraphics[width=1.0\textwidth]{images/db/scripts/rename-py.png}
@@ -367,8 +374,77 @@
       print("[ALL DONE] Az osszes konyvtarban vegezve.") 
     \end{lstlisting}
 
-  \section{Átnevezés és ismétlődések szűrése}
+  \section{Az elkészült képek összemásolása}
+  A képfeldolgozó pipeline utolsó lépése az összes .jpg fájl egy mappába másolása amit a sumcopy.py szkript végzett el amiben egy utolsó ismétlődés szűrő mechanizmus is dolgozott.
 
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=1.0\textwidth]{images/db/scripts/sumcopy-py.png}
+      \caption{A \texttt{sumcopy.py} szkript futása.}
+      \label{fig:03-sumcopy.py}
+  \end{figure}
+
+  \subsection{sumcopy.py - Az elkészült képek összemásolása}
+  \lstset{caption={A sumcopy.py - Az elkészült képek összemásolása.}, label=src:sumcopy.py}
+  \begin{lstlisting}[language={Python}]
+    import os
+    import shutil
+    import sys
+
+    def main():
+        # A szkript konyvtara lesz a gyoker
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Celmappa a full_resized
+        full_resized_dir = os.path.join(base_dir, 'full_resized')
+        if not os.path.exists(full_resized_dir):
+            os.makedirs(full_resized_dir)
+            print(f"[INFO] Letrehozva: {full_resized_dir}")
+        else:
+            print(f"[INFO] Mar letezik: {full_resized_dir}")
+
+        # 1) Keressuk meg az osszes 'resized' mappat
+        resized_dirs = []
+        for root, dirs, files in os.walk(base_dir):
+            # ha a root mappa neve 'resized', vegyuk fel
+            if os.path.basename(root).lower() == 'resized':
+                resized_dirs.append(root)
+
+        print(f"[INFO] {len(resized_dirs)} darab 'resized' mappa talalhato.")
+
+        # 2) Masolas full_resized-be, nevutkozesnel kihagyjuk
+        for rd in resized_dirs:
+            print(f"[PROCESS] {rd} tartalmanak masolasa...")
+            for fname in os.listdir(rd):
+                src = os.path.join(rd, fname)
+                dst = os.path.join(full_resized_dir, fname)
+
+                # csak fajlokat masolunk
+                if not os.path.isfile(src):
+                    continue
+
+                if os.path.exists(dst):
+                    print(f"  [SKIP] Mar letezik: {fname}")
+                    continue
+
+                try:
+                    shutil.copy2(src, dst)
+                    print(f"  [COPY] {fname}")
+                except Exception as e:
+                    print(f"  [ERROR] Nem sikerult masolni {fname}: {e}")
+
+        print("[DONE] Minden 'resized' mappa feldolgozva.")
+
+    if __name__ == '__main__':
+        main()
+  \end{lstlisting}
+
+  \section{}
+
+  \subsection{}
+  \lstset{caption={}, label=src:sumcopy.py}
+  \begin{lstlisting}[language={Python}]
+  \end{lstlisting}
 \listoffigures
 \listoftables
 \end{document}

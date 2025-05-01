@@ -300,6 +300,13 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
 
             \begin{figure}[H]
                 \centering
+                \includegraphics[width=1.0\textwidth]{images/db/scripts/rename-py-1.png}
+                \caption{A \texttt{rename.py} szkript futása.}
+                \label{fig:02-rename.py}
+            \end{figure}
+
+            \begin{figure}[H]
+                \centering
                 \includegraphics[width=1.0\textwidth]{images/db/scripts/rename-py.png}
                 \caption{A \texttt{rename.py} szkript futása.}
                 \label{fig:02-rename.py}
@@ -308,22 +315,160 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             Ennek a progamnak a kódja is megtekinthető a mellékletben és a GitHub repository-ban.
         
         \subsection{Az elkészült képek összemásolása}
-        
+            A képfeldolgozó pipeline utolsó lépése az összes .jpg fájl egy mappába másolása amit a sumcopy.py szkript végzett el amiben egy utolsó ismétlődés szűrő mechanizmus is dolgozott.
 
-    \section{Kategorizálás, Utófeldolgozás}
-        
-        \subsection{Automata osztályozás}
-        Az automata kategorizálás egy különösen érdekes probléma volt szoftveresen. Mivel ez egy igen elejsítményigényes művelet volt így ezt a lépést a google
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/scripts/sumcopy-py.png}
+                \caption{A \texttt{sumcopy.py} szkript futása.}
+                \label{fig:03-sumcopy.py}
+            \end{figure}
 
-        \subsection{Places365}
+            Ennek a progamnak a kódja is megtekinthető a mellékletben és a GitHub repository-ban.
 
-        \subsection{ImageNet1K}
+    \section{Kategorizálás és utófeldolgozás}
+
+        A képadatbázis automatikus kategorizálása a projekt egyik legérdekesebb és legnagyobb számítási igényű lépése volt. Az automatikus osztályozást egy alapos utófeldolgozási folyamat követte, amelynek célja a kategóriák érvényesítése, az irreleváns vagy gyenge csoportosítások kiszűrése, valamint az adatminőség további javítása volt. Az alábbiakban részletesen bemutatom ezt a folyamatot.
+            
+        \subsection{Automatikus osztályozás}
+            
+            Az automatikus osztályozás futtatása jelentős számítási kapacitást igényelt, ezért ezt a lépést a Google Colab környezetében, NVIDIA A100 GPU-k segítségével hajtottam végre. Az osztályozáshoz készített Jupyter notebook-ok elérhetők a GitHub repóban, a fontosabb kódrészletek pedig a mellékletben találhatók.
+            
+            Két különböző, előképzett modellcsaládra épülő osztályozást végeztem: először a \textbf{Places365}, majd az \textbf{ImageNet1K} alapján.
+
+            \subsubsection{Programkód az autómata szortírozáshoz. (Részlet)}
+            \lstset{caption={Auomatikus ImageNet1k szortírozás - RÉSZLET}, label=src:autosort.py}
+            \begin{lstlisting}[language={Python}]
+                os.makedirs(sorted_dir, exist_ok=True)
+                class_counts = defaultdict(int)
+                image_map = dict()
+                other_dir = os.path.join(sorted_dir, "other")
+                os.makedirs(other_dir, exist_ok=True)
+
+                image_paths = [os.path.join(unsorted_dir, f) for f in os.listdir(unsorted_dir) if f.lower().endswith(".jpg")]
+
+                # Elso kor: top-1 kategoria hozzarendeles
+                print("Elso koros predikcio es ideiglenes hozzarendeles...")
+                for img_path in tqdm(image_paths):
+                    img = Image.open(img_path).convert("RGB")
+                    inp = transform(img).unsqueeze(0).cuda()
+                    with torch.no_grad():
+                        out = model(inp)
+                    pred_idx = torch.argmax(out, dim=1).item()
+                    pred_label = idx_to_label[pred_idx]
+
+                    image_map[img_path] = pred_label
+                    class_counts[pred_label] += 1
+            \end{lstlisting}
+            
+        \subsection{Places365 alapú kategorizálás}
+            
+            Elsőként a ResNet50-Places365 modellt használtam, amely főként beltéri és kültéri helyszínek felismerésére specializálódott. A modell 365 különböző helyszínkategóriába sorolja a képeket. Ez a rendezés informatív volt, de a kategóriák gyakran túl specializáltak vagy egymással átfedésben álltak, ami a későbbi feldolgozást nehezítette.
+            
+            A modell automatikusan elvégezte a kategóriák hozzárendelését, de az üres vagy csak néhány képet tartalmazó mappákat nem szűrte ki, így ezeket később manuálisan és külön szkriptek segítségével kellett eltávolítani.
+            
+            Az alábbi ábrák néhány példát mutatnak a Places365 modell által létrehozott kategóriákból:
+            
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/places/airfield.png}
+                \caption{Minta a \texttt{Places365} \textit{airfield} osztályából.}
+                \label{fig:places365-airfield}
+            \end{figure}
+            
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/places/skypng.png}
+                \caption{Minta a \texttt{Places365} \textit{sky} osztályából.}
+                \label{fig:places365-sky}
+            \end{figure}
+            
+        \subsection{ImageNet1K alapú kategorizálás}
+            
+            A második osztályozás során az ImageNet1K osztálykészletet használtam, amely 1000 kategóriát tartalmaz, főként tárgyakra és élőlényekre fókuszálva. Ez a struktúra jobban illeszkedett a saját képi adathalmazom tartalmához, ezért a további kutatásokban ezt az osztályozást használtam elsődlegesen.
+            
+            Ebben az esetben már beépítettem az automatizált utófeldolgozást is: a szkriptek kiszűrték az üres és a túl kisméretű kategóriákat, majd újraosztották a bennük lévő képeket releváns, nagyobb kategóriákba. A végső adathalmaz így kiegyensúlyozottabb és kutatásra alkalmasabb lett.
+            
+            Az alábbi ábrák véletlenszerű mintákat mutatnak az ImageNet1K osztályozás alapján létrejött kategóriákból:
+            
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/imagenet/airliner.png}
+                \caption{Minta az \texttt{ImageNet1K} \textit{airliner} osztályából.}
+                \label{fig:imagenet-airliner}
+            \end{figure}
+            
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/imagenet/bee.png}
+                \caption{Minta az \texttt{ImageNet1K} \textit{bee} osztályából.}
+                \label{fig:imagenet-bee}
+            \end{figure}
+            
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/imagenet/stage.png}
+                \caption{Minta az \texttt{ImageNet1K} \textit{stage} osztályából.}
+                \label{fig:imagenet-stage}
+            \end{figure}
+            
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/imagenet/gondola.png}
+                \caption{Minta az \texttt{ImageNet1K} \textit{gondola} osztályából.}
+                \label{fig:imagenet-gondola}
+            \end{figure}
+            
+        \subsection{Adatátviteli nehézségek}
+            Az elkészült adathalmaz mérete megközelítette a 10~GB-ot, és mintegy 180\,750 darab kis méretű képfájlt tartalmazott. Az ilyen mértékű, apró fájlokat tartalmazó adathalmaz átvitele komoly technikai kihívást jelentett. Bár Windows rendszeren a fájlkezelés problémamentes volt, a Google Colab felhőalapú környezetébe történő feltöltés meglehetősen körülményesnek bizonyult.
+            
+            Elsőként a Google Drive használatát próbáltam meg, ám sem a webes, sem az asztali kliens nem tudta hatékonyan kezelni az ekkora számú fájl egyidejű átvitelét. Noha végül sikerült az adathalmazt feltölteni, a Google Drive és a Colab virtuális gépe közötti kapcsolat lassúnak és bizonytalannak bizonyult: a fájlok elérése extrém hosszú időt vett igénybe, ami gyakorlatilag lehetetlenné tette az adatok közvetlen feldolgozását.
+            
+            A problémát végül az oldotta meg, hogy az egész adathalmazt ZIP formátumban tömörítettem, és így töltöttem fel a Drive-ra. A Colab környezetben Python szkriptek segítségével másoltam át, majd csomagoltam ki a ZIP-fájlt. Hasonló módszerrel végeztem a kimeneti adatok tömörítését is. Mivel a webes letöltés sem működött stabilan ekkora ZIP-fájlokra, a visszairányú adatmozgatást is Pythonból hajtottam végre: a kimeneti ZIP-fájlt visszamásoltam a Drive-ra, ahonnan az asztali kliens segítségével már megbízhatóan letölthetővé vált.
+            
+            Ez a tapasztalat jól mutatja, hogy a felhőalapú feldolgozások során nemcsak a számítási teljesítmény, hanem az adatátvitel sebessége és rugalmassága is kritikus szempont lehet.
+            
+            Ennek a műveletnek a mintakódja lentebb látható.
+            
+            \lstset{caption={Zip fájlok másolása Drive-ból - RÉSZLET.}, label=src:dive.py}
+            \begin{lstlisting}[language={Python}]
+                # Csatolas
+                drive.mount('/content/drive')
+
+                # utvonalak
+                diploma_path ="/content/drive/MyDrive/diplomamunka"
+                unsorted_zip_path = os.path.join(diploma_path, "unsorted_db.zip")
+                unsorted_dir = "/content/unsorted_db"
+                sorted_dir = "/content/imagenet_sorted_db"
+
+                # Kicsomagolas
+                with zipfile.ZipFile(unsorted_zip_path, 'r') as zip_ref:
+                    zip_ref.extractall(unsorted_dir)
+
+                print("Kicsomagolva:", unsorted_dir)
+                #------------------------------
+                print("Tomorites folyamatban...")
+                shutil.make_archive("imagenet_sorted_db", 'zip', sorted_dir)
+
+                print("Visszamasolas a Drive-ba...")
+                shutil.move("/content/imagenet_sorted_db.zip", os.path.join(diploma_path, "imagenet_sorted_db.zip"))
+
+                print("Kesz!")
+            \end{lstlisting}
+            
+        \subsection{Üres kategóriák eltávolítása}
+            Az osztályozási lépések befejezése után szükségessé vált az üres vagy irrelevánsan kisméretű kategóriák eltávolítása. Erre a célra készítettem el az \texttt{empty\_deleter.py} nevű segédprogramot, amely automatikusan bejárta a kategóriamappákat, és eltávolította azokat, amelyek nem tartalmaztak elegendő számú képet a további feldolgozáshoz.
+            
+        \subsection{Alkategóriák megszüntetése}
+            A \texttt{Places365} modell kimenete számos alkategóriát is tartalmazott, amelyek nem minden esetben voltak hasznosak, illetve gyakran redundáns vagy nehezen értelmezhető csoportokat eredményeztek. Ezek egybeolvasztására, illetve megszüntetésére külön szkripteket kellett készítenem.
+            
+            Ezek a \texttt{folder-flatten} néven szereplő szkriptek a projekt GitHub-repójában, a \texttt{scripts/db/folder\_correctors} könyvtárban találhatók. A szkriptek célja az volt, hogy a mélyebb mappaszerkezeteket laposabb, könnyebben kezelhető struktúrába szervezzék. A folyamat részeként külön programokat készítettem az almappák létezésének ellenőrzésére és a redundáns könyvtárstruktúrák azonosítására is.
+            
+        \subsection{300 kép alatti kategóriák megszüntetése}
 
         \subsection{Kézi Adattisztítás, szűrés, törlés}
+            Az autómata osztályozást kézi adattisztítás, szűrés követte, 
 
-        \subsection{Alkategóriák elminiálása}
-
-        \subsection{300 kép alatti kategóriák megszüntetése}
 
         \subsection{A rendezés finomítása, kézi és automata}
 
@@ -331,8 +476,6 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
         
         \subsection{Nagy kategóriák szétosztása}
 
-        \subsection{Üres kategóriák megszüntetése}
-        
         \subsection{Véglegesítés}
 
     \section{Kész adatbázis elemzése}
