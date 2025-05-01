@@ -1,26 +1,5 @@
 \chapter{Vizsgálati metodika}
 
-\section{A mérési környezet}
-  A méréseket Google Colab Pro környezetben végeztem el Colab (Jupyter) notebook-ok segítségével Python nyelven CUDA gyorsítással. Az adatbázis építése az automatikus rendezés kivételével (ami Colab-on történt) lokálisan történt python és shell szkriptek segítségével. 
-
-  \subsection{Az alkalmazott grafikus kártyák}
-  \begin{itemize}
-    \item NVIDIA A100-SXM4-40GB
-    \item NVIDIA L4 GPU
-  \end{itemize}
-  Az esetek többségében az L4 GPU-t használtam, ez óránként 2 számítási egységet használt fel, így gazdaságosabb volt. A különsen számításigényes tanításokhoz alkalmaztam az A100 GPU-t a sebessége miatt, de az 8 számítási egyéget fogyasztott óránként, így költséges volt használni. 
-  \note{
-  Az Inference time és az Epoch iterációs idő a két időérzékeny mérési eredmény, ilyenkor az alkalmazott GPU feltüntetésre kerül.
-  }
-
-\subsection{Az alkalmazott szoftveres környezet}
-  A méréseket Google Colab Pro környezetben végeztem el Colab (Jupyter) notebook-ok segítségével Python nyelven CUDA gyorsítással. Az adatbázis építése az automatikus rendezés kivételével lokálisan történt python és shell szkriptek segítségével. 
-  Az elkészített mérési és adatbázis építő szoftver a mellékelt tömörített fájlban, vagy a projekt Github repository-jában található.
-  A szoftverek működésének ismeretése a Melléklet B: Elkészített szoftverek részben található.
-  note {A "k" rövidítés a kilo mint ezer jelölésére szolgál}
-
-  \section{Mérésmetodika}
-
   A mérési metodika célja, hogy különböző mélytanulási modellek képességeit objektíven, összehasonlítható módon vizsgálja egy egységes, valóságból származó, sokosztályos képadatbázison. A kiválasztott modellek sokfélesége (klasszikus konvolúciós hálók, hatékonyságra optimalizált architektúrák, transzformer-alapú modellek) megköveteli, hogy az értékelés többdimenziós és fokozatosan mélyülő legyen.
   
   A vizsgálat során két osztályozás került előállításra az SBphotoThemes180K adathalmazon:

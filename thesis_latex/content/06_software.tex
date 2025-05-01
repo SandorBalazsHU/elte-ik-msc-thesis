@@ -1,10 +1,59 @@
 \chapter{Szoftveres környezet}
+    A gördülékeny munkához minden lépéshez saját egyedi szoftvereket kellett készítenem. Ezek érdekesebb részleteit kiemelem a következőkben, teljes terjedelmében a projekt GitHub repository-jában érhetőek el, bővebben pedig a mellékletben.
 
-    \section{Lokális vagy Online}
+    \section{A mérési környezet}
+    A méréseket Google Colab Pro környezetben végeztem el Colab (Jupyter) notebook-ok segítségével Python nyelven CUDA gyorsítással. Az adatbázis építése az automatikus rendezés kivételével (ami Colab-on történt) lokálisan történt python és shell szkriptek segítségével. 
+  
+    \subsection{Az alkalmazott grafikus kártyák}
+    \begin{itemize}
+      \item NVIDIA A100-SXM4-40GB
+      \item NVIDIA L4 GPU
+    \end{itemize}
+
+    Az esetek többségében az L4 GPU-t használtam, ez óránként 2 számítási egységet használt fel, így gazdaságosabb volt. A különsen számításigényes tanításokhoz alkalmaztam az A100 GPU-t a sebessége miatt, de az 8 számítási egyéget fogyasztott óránként, így költséges volt használni.
+
+    \note{
+    Az Inference time és az Epoch iterációs idő a két időérzékeny mérési eredmény, ilyenkor az alkalmazott GPU feltüntetésre kerül.
+    }
+  
+  \subsection{Az alkalmazott szoftveres környezet}
+    A méréseket Google Colab Pro környezetben végeztem el Colab (Jupyter) notebook-ok segítségével Python nyelven CUDA gyorsítással. Az adatbázis építése az automatikus rendezés kivételével lokálisan történt python és shell szkriptek segítségével. 
+    Az elkészített mérési és adatbázis építő szoftver a mellékelt tömörített fájlban, vagy a projekt Github repository-jában található.
+    A szoftverek működésének ismeretése a Melléklet B: Elkészített szoftverek részben található.
+
+    \section{Lokális vagy Online környezet}
+        A vizsgálat során döntő kérdés volt, hogy a mérések és modellfuttatások lokális gépen vagy felhőalapú (online) környezetben történjenek. A rendelkezésre álló lokális hardver nem tette lehetővé nagy számításigényű neurális hálók (pl. NASNet vagy ViT-B/16) hatékony betanítását, különösen többféle konfiguráció és adathalmaz-összeállítás mellett.
+
+        A modellek tanítása során a memóriaigény gyakran meghaladta a 10-16 GB GPU memóriát, amihez lokálisan nem állt rendelkezésre megfelelő NVIDIA grafikus kártya. Emellett a hosszú tanítási idők (akár több óra/modell) a gép folyamatos elérhetőségét igényelték volna, amit egy nem dedikált kutatói workstation nem tudott garantálni.
+        
+        Ezért az online, skálázható és CUDA-gyorsított környezetet biztosító Google Colab Pro+ megoldást választottam. Ez lehetővé tette a mérések párhuzamos, hatékony elvégzését és a különösen számításigényes szakaszokhoz rugalmasan erősebb GPU-k igénylését.
 
     \section{Google Colab lehetőségek}
+        A Google Colab Pro (és Pro+) környezet többféle GPU-típushoz biztosít hozzáférést, köztük olyan erős architektúrákhoz, mint az NVIDIA A100 és L4. Ezek a kártyák a modern neurális hálózati modellekhez tervezett csúcshardverek, és kiválóan alkalmasak mélytanulási feladatokra.
+
+        A Colab lehetővé teszi a Jupyter notebook-ok futtatását felhőben, közvetlenül Python nyelven. A Colab Pro+ előfizetéssel gyakrabban és hosszabb ideig érhetők el a prémium GPU-k, ez döntő fontosságú volt a 10 epoch-os betanításokhoz és az iteratív tanulási vizsgálatokhoz.
+        
+        A két alkalmazott GPU jellemzői:
+            \begin{itemize}          
+            \item NVIDIA L4 GPU: Gazdaságosabb, de modern architektúra, főként inference célokra optimalizálva. Egy Colab számítási egységből két L4 GPU-használati órát lehetett lefedni, így ez volt a fő választásom a kisebb modellekhez és gyorsabb kísérletekhez.
+        
+            \item NVIDIA A100-SXM4-40GB: Az egyik legerősebb, kutatásokhoz tervezett GPU. Kiemelkedő teljesítménye miatt az A100-at a legnagyobb modellek (pl. NASNet, ViT) tanításához és az időkritikus benchmarkok futtatásához alkalmaztam. Ugyanakkor egy A100-óra 8 számítási egységet igényelt, ezért korlátozottan volt használható.
+            \end{itemize}
+        
+        A Colab környezet automatizálható, újraindítható, és kódosztással dokumentálható – ez a dolgozat replikálhatósága és nyíltsága szempontjából is előnyös volt.
 
     \section{Tárolási problémák}
+        A teljes adathalmaz mintegy 180 750 darab 224x224-es JPEG kép volt, ami tömörítve is több gigabájtos állományt jelentett. A Google Colab felhasználói fiókjához csak korlátozott méretű ideiglenes tároló kapcsolódik (12-15 GB), ami nem volt elegendő a teljes adathalmaz kitömörített formában történő használatához.
+
+        A probléma megoldásához a képeket csoportosított ZIP-állományokba rendeztem, amelyeket a Google Drive-on tároltam. A Colab notebook a mérés kezdetén ezeket a ZIP fájlokat lokálisan, szakaszosan csomagolta ki, csak az éppen szükséges adatokkal dolgozva. Ez a módszer:
+        \begin{itemize}
+            \item megkerülte a fájlrendszer méretkorlátját,
+        
+            \item biztosította a Colab és Google Drive közötti gyors adatelérést,
+        
+            \item lehetővé tette az adathalmaz többlépcsős tanításához szükséges szelektív betöltést.
+        \end{itemize}
+        A megközelítés nemcsak hatékony, de rugalmas is volt: a ZIP-fájlokat könnyen lehetett újracsoportosítani a különböző tanítókészletekhez (1k, 5k, 10k, 25k stb.), és a Colab környezet indítása után percek alatt elérhetővé vált a szükséges adathalmaz-részlet.
 
     \section{Tanító és tesztelő programok}
 
@@ -25,3 +74,5 @@
             \subsubsection{NASNet optimalizáció}
             
     \section{Összefoglalás}
+
+

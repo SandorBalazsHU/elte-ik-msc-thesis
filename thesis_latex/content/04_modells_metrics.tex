@@ -79,11 +79,18 @@ Ezen modellek összehasonlítása nemcsak teljesítménybeli különbségekre vi
 
 Ezek megválaszolása elősegíti a jövőbeni adatbázis-építési, modellválasztási és tanítási stratégiák tudatosabb tervezését.
 
-
+\note{A következő részben szereplő ábrákat saját programból generáltam a torchview draw\_graph könyvtárával. A programkód megtalálható a GitHub repository notebooks/models mappában és a mellékletben.}
 
 \section{Kiválasztott modellek részletes ismertetése}
 
 \subsection{ResNet50}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/models/ResNet50_overview.png}
+    \caption{A ResNet50 szerkezete.}
+    \label{fig:ResNet50_overview}
+\end{figure}
 
 A \textbf{ResNet50} (Residual Network, 50 réteg mélységű változat) az egyik legmeghatározóbb konvolúciós neurális hálózat, amelyet a Microsoft Research mutatott be 2015-ben a Deep Residual Learning for Image Recognition című tanulmányban \cite{article_resnet50}. Az innováció lényege az ún. \textit{residual blokk}, amely lehetővé teszi a gradiens hatékony terjedését mély rétegeken keresztül.
 
@@ -108,6 +115,13 @@ A ResNet50 tehát egy rendkívül erős és megbízható kiindulópont, amely ki
 
 \subsection{DenseNet121}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/models/DenseNet121_overview.png}
+    \caption{A DenseNet121 szerkezete.}
+    \label{fig:DenseNet121_overview}
+\end{figure}
+
 A \textbf{DenseNet121} (Densely Connected Convolutional Network) szintén egy mély konvolúciós architektúra, amelyet 2017-ben mutattak be \cite{article_densenet}. A DenseNet fő újítása az, hogy minden réteg bemenete az összes korábbi réteg kimenetét is tartalmazza. Ez a „sűrű kapcsolódás” (dense connectivity) elméletileg és gyakorlatilag is javítja az információáramlást és a tanulást.
 
 \paragraph{Működési elve:} A DenseNet nem egyszerűen egymásra épülő rétegeket tartalmaz, hanem minden réteg minden korábbi réteg kimenetét megkapja inputként. Ezáltal az információ és a gradiens nagyon hatékonyan tud terjedni a hálózatban, és kevésbé fordul elő információvesztés.
@@ -130,6 +144,13 @@ A \textbf{DenseNet121} (Densely Connected Convolutional Network) szintén egy m�
 A DenseNet121 különösen hasznos olyan feladatoknál, ahol fontos a finom részletek megőrzése és hatékony gradiensáramlás, ugyanakkor a paraméterhatékonyság is számít.
 
 \subsection{EfficientNet-B0}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/models/EfficientNet-B0_overview.png}
+    \caption{A EfficientNet-B0 szerkezete.}
+    \label{fig:EfficientNet-B0_overview}
+\end{figure}
 
 Az \textbf{EfficientNet-B0} a Google Brain által bemutatott EfficientNet család legalapvetőbb és legkisebb változata \cite{article_efficientnet}. A család célja a hálózati méretezés (scaling) szisztematikus, egységesített megközelítése, amely egyszerre optimalizálja a mélységet, szélességet és felbontást egy ún. „compound scaling” képlettel.
 
@@ -154,6 +175,13 @@ Az EfficientNet-B0 egy remek választás minden olyan környezetben, ahol fontos
 
 \subsection{ConvNeXt-Tiny}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/models/ConvNeXt-Tiny_overview.png}
+    \caption{A ConvNeXt-Tiny szerkezete.}
+    \label{fig:ConvNeXt-Tiny}
+\end{figure}
+
 A \textbf{ConvNeXt-Tiny} a 2022-ben bemutatott ConvNeXt architektúra legkisebb változata, amely a konvolúciós neurális hálózatokat (\textit{CNN}) modernizálja a Vision Transformer (ViT) modellek elveinek figyelembevételével \cite{article_convnext}. A cél az volt, hogy újra felélesszék a CNN-ek relevanciáját a transformer-alapú modellek dominanciájával szemben, különösen a számítástechnikai hatékonyság szempontjából.
 
 \paragraph{Működési elve:} A ConvNeXt megőrzi a klasszikus konvolúciós rétegek használatát, de számos architekturális újítást alkalmaz: például normalizációk sorrendje, nagyobb kernelméretek ($7\times7$), LayerNorm használata BatchNorm helyett, és az aktivációk újraértelmezése. Ezek az elemek kombinálva adják az „evolved CNN” karaktert.
@@ -176,6 +204,13 @@ A \textbf{ConvNeXt-Tiny} a 2022-ben bemutatott ConvNeXt architektúra legkisebb 
 A ConvNeXt-Tiny ideális választás minden olyan feladathoz, ahol a legkorszerűbb CNN-technológia hatékonysága és egyszerűsége is előnyt jelent.
 
 \subsection{ViT-B/16}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\textwidth]{images/models/ViT-B16_overview.png}
+    \caption{A ViT-B/16 szerkezete.}
+    \label{fig:B16_overview}
+\end{figure}
 
 A \textbf{Vision Transformer Base/16} (röviden \textbf{ViT-B/16}) az első, széles körben elismert \textit{pure transformer} architektúra, amely képeket dolgoz fel a természetes nyelvfeldolgozásban használt transformer architektúra átalakításával \cite{article_vit_b16}. A modell a képeket fix méretű patch-ekre bontja, és ezeket a patch-eket sorozatként kezeli, hasonlóan a szavakhoz egy nyelvi modellben.
 
@@ -201,6 +236,13 @@ A ViT-B/16 segítségével összehasonlítható, hogy a „pure attention” ala
 
 \subsection{Inception-v3}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.35\textwidth]{images/models/Inception-v3_overview.png}
+    \caption{A Inception-v3 szerkezete.}
+    \label{fig:Inception-v3_overview}
+\end{figure}
+
 Az \textbf{Inception-v3} a Google által fejlesztett Inception-sorozat egyik legnépszerűbb és legsikeresebb verziója, amelyet 2015-ben mutattak be \cite{article_inception_v3}. A fő cél a számítási hatékonyság növelése anélkül, hogy csökkenne a pontosság. Az architektúra újdonsága az Inception-modul, amely különböző méretű konvolúciókat párhuzamosan futtat, így több skálán is képes információt kinyerni.
 
 \paragraph{Működési elve:} Az Inception-v3 egy összetett architektúra, amelyben a konvolúciós rétegeket párhuzamosan, különböző szűrőméretekkel (pl. $1\times1$, $3\times3$, $5\times5$) alkalmazzák, és ezek kimenetét egyesítik. Ez lehetővé teszi a hatékony, mély és széles jellemzők kinyerését különböző felbontásokon.
@@ -223,6 +265,13 @@ Az \textbf{Inception-v3} a Google által fejlesztett Inception-sorozat egyik leg
 Az Inception-v3 egy történetileg fontos, hatékony CNN-architektúra, amely értékes összehasonlítási alap a modernebb, komplexebb modellekhez képest.
 
 \subsection{NASNet}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\textwidth]{images/models/NASNet_overview.png}
+    \caption{A NASNet szerkezete.}
+    \label{fig:NASNet_overview}
+\end{figure}
 
 A \textbf{NASNet} (Neural Architecture Search Network) egy olyan architektúra, amelyet nem ember, hanem gépi tanulás által optimalizált keresőalgoritmus (NAS – Neural Architecture Search) hozott létre. A Google AutoML csapata mutatta be 2018-ban \cite{article_nasnet}. A cél az volt, hogy automatikusan találjanak kiemelkedően teljesítő neurális hálóarchitektúrákat.
 
