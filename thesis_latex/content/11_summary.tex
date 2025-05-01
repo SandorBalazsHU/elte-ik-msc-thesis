@@ -1,4 +1,31 @@
 \chapter{Legfontosabb eredmények}
+Ebben a zárófejezetben a teljesség igénye nélkül megismétlem a legfontosabb mérési eredményeket a négy fázisból és ezeket elemzem szövegesen a teljes kép érdekében.
+
+\section{Következtetések tanítás nélküli tesztek után kapott eredményekből.}
+
+    \subsubsection{Összehasonlító Top-1 és Top-5 diagram a tanítás nélküli tesztekről.}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase01/summary01.png}
+    \caption{sszehasonlító Top-1 és Top-5 diagram a tanítás nélküli tesztekről.}
+    \label{fig:top1zop5phase12}
+    \end{figure}
+
+    \subsubsection{Összehasonlító Precision, Recall, F1 diagram a tanítás nélküli tesztekről.}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/phase01/summary02.png}
+    \caption{sszehasonlító Precision, Recall, F1 diagram a tanítás nélküli tesztekről.}
+    \label{fig:top1zop5phase1}
+    \end{figure}
+
+    \subsubsection{Összehasonlító idő diagram a tanítás nélküli tesztekről.}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/phase01/summary03.png}
+    \caption{sszehasonlító idő diagram a tanítás nélküli tesztekről.}
+    \label{fig:timephase1}
+    \end{figure}
 
     \begin{table}[H]
         \centering
@@ -22,6 +49,87 @@
         \end{tabular}
     \end{table}
     
+    A vizsgálat során különféle előre betanított, tanítás nélküli (zero-shot) képklasszifikáló modellek teljesítményét értékeltem az SBPhotoThemes180k adathalmazon. A cél az volt, hogy felmérjem, mennyire képesek ezek a modellek az adathalmaz vizuális és tematikus sokszínűségének általános értelmezésére anélkül, hogy azokat kifejezetten ezen osztályokra tanítottuk volna.
+    \\\\
+    A Vision Transformer (ViT-B/16) érte el a legmagasabb Top-1 pontosságot (53,1\%) és F1-mutatót is (43,1\%), jelezve, hogy a nagy figyelmi mezővel dolgozó architektúra jól általánosít a komplex, valósághű témákon. Ezt szorosan követte a ConvNeXt-Tiny (F1: 41,9\%) és az EfficientNet-B0 (F1: 38,3\%), melyek hatékonyan egyensúlyozták a pontosságot és a számítási teljesítményt. A klasszikusabb modellek, mint ResNet50, DenseNet121 és Inception-v3, kissé alacsonyabb mutatókkal szerepeltek, de így is 35–38\% közötti F1-értéket produkáltak.
+    \\\\
+    A NASNet-A-Large különösen alacsony Top-1 pontosságot (28,2\%) mutatott, miközben számítási ideje kiugróan magas volt (275 s), ami gyenge hatékonyságra és a feladattal való inkompatibilitásra utal tanítás nélkül (tanítással nagyon hatékony). Ezzel szemben a saját fejlesztésű, ResNet18-alapú kísérleti modellek (Baseline, Hybrid, Deep variánsok) tanítás nélkül szinte semmilyen értelmezhető teljesítményt nem nyújtottak – F1-értékeik rendre 1\% alatt maradtak. Ez alátámasztja, hogy ezek a modellek jelenleg nem rendelkeznek megfelelő reprezentációs kapacitással, illetve nincs előzetes tudásuk az osztályozandó témákról.
+    \\\\
+    Összességében a tanítás nélküli tesztek alapján egyértelmű, hogy az erősebb, modern, pretrainelt architektúrák képesek hasznos predikciókat adni még finomhangolás nélkül is, míg a saját modellek kizárólag tanítással válhatnak versenyképessé.
+
+\section{Következtetések az iteratív tanítás után kapott eredményekből.}
+
+    \subsubsection{Összehasonlító Top-1 heatmap az iteratív tanításáról}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/phase03/top-1-heatmap.png}
+    \caption{Összehasonlító Top-1 heatmap az iteratív tanításáról.}
+    \label{fig:top1_heatmap}
+    \end{figure}
+
+    \subsubsection{Összehasonlító precision heatmap az iteratív tanításáról}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/phase03/precision_heatmap.png}
+    \caption{Összehasonlító precision heatmap az iteratív tanításáról.}
+    \label{fig:precision_heatmap}
+    \end{figure}
+
+    \begin{center}
+        \begin{longtable}{llllllll}
+        \caption{Összehasonlító táblázat az összes modell iteratív tanításáról.}\label{tab:phase4_summary_table}\\
+        \toprule
+        Modell & Minták & Top-1 & Top-5 & Precision & Recall & F1 & Time(s) \\
+        \midrule
+        \endfirsthead
+        \toprule
+        Modell & Minták & Top-1 & Top-5 & Precision & Recall & F1 & Time(s) \\
+        \midrule
+        \endhead
+        ResNet50 & 1k & 0.302 & 0.650 & 0.285 & 0.315 & 0.282 & 31.490 \\
+        ResNet50 & 5k & 0.460 & 0.777 & 0.425 & 0.476 & 0.432 & 31.720 \\
+        ResNet50 & 10k & 0.513 & 0.818 & 0.478 & 0.542 & 0.490 & 31.710 \\
+        ResNet50 & 25k & 0.550 & 0.838 & 0.531 & 0.598 & 0.544 & 31.820 \\
+        DenseNet121 & 1k & 0.265 & 0.551 & 0.264 & 0.286 & 0.254 & 25.090 \\
+        DenseNet121 & 5k & 0.431 & 0.751 & 0.396 & 0.449 & 0.405 & 24.870 \\
+        DenseNet121 & 10k & 0.479 & 0.785 & 0.439 & 0.506 & 0.454 & 25.020 \\
+        DenseNet121 & 25k & 0.537 & 0.821 & 0.500 & 0.574 & 0.517 & 24.710 \\
+        EfficientNet-B0 & 1k & 0.225 & 0.477 & 0.227 & 0.249 & 0.218 & 24.750 \\
+        EfficientNet-B0 & 5k & 0.421 & 0.750 & 0.401 & 0.463 & 0.412 & 24.640 \\
+        EfficientNet-B0 & 10k & 0.498 & 0.806 & 0.455 & 0.526 & 0.473 & 24.670 \\
+        EfficientNet-B0 & 25k & 0.563 & 0.846 & 0.521 & 0.607 & 0.546 & 24.780 \\
+        ConvNeXt-Tiny & 1k & 0.317 & 0.623 & 0.303 & 0.345 & 0.303 & 25.450 \\
+        ConvNeXt-Tiny & 5k & 0.478 & 0.794 & 0.444 & 0.490 & 0.452 & 25.450 \\
+        ConvNeXt-Tiny & 10k & 0.542 & 0.827 & 0.508 & 0.566 & 0.514 & 25.270 \\
+        ConvNeXt-Tiny & 25k & 0.569 & 0.849 & 0.560 & 0.623 & 0.568 & 25.330 \\
+        ViT-B/16 & 1k & 0.364 & 0.665 & 0.314 & 0.353 & 0.314 & 41.850 \\
+        ViT-B/16 & 5k & 0.448 & 0.733 & 0.444 & 0.480 & 0.436 & 41.930 \\
+        ViT-B/16 & 10k & 0.478 & 0.764 & 0.456 & 0.507 & 0.454 & 41.930 \\
+        ViT-B/16 & 25k & 0.533 & 0.819 & 0.519 & 0.591 & 0.531 & 42.080 \\
+        Inception-v3 & 1k & 0.352 & 0.681 & 0.331 & 0.358 & 0.322 & 33.270 \\
+        Inception-v3 & 5k & 0.460 & 0.787 & 0.447 & 0.486 & 0.447 & 33.300 \\
+        Inception-v3 & 10k & 0.489 & 0.799 & 0.467 & 0.519 & 0.473 & 33.680 \\
+        Inception-v3 & 25k & 0.560 & 0.844 & 0.525 & 0.582 & 0.534 & 33.460 \\
+        NASNet & 1k & 0.332 & 0.613 & 0.346 & 0.369 & 0.326 & 81.040 \\
+        NASNet & 5k & 0.406 & 0.691 & 0.410 & 0.428 & 0.384 & 81.540 \\
+        NASNet & 10k & 0.444 & 0.766 & 0.425 & 0.474 & 0.413 & 81.460 \\
+        NASNet & 25k & 0.475 & 0.806 & 0.481 & 0.529 & 0.469 & 81.430 \\
+        \bottomrule
+        \end{longtable}
+    \end{center}
+    
+    A különböző képosztályozó modellek iteratív tanítása során egyértelműen kirajzolódik, hogy a mintaszám növelésével minden architektúra esetében fokozatos teljesítményjavulás tapasztalható. Ez jól mutatja a tanítási adathalmaz méretének meghatározó szerepét a hálózatok tanulóképességében és általánosító erejében.
+    \\\\
+    A ResNet50, mint klasszikus és stabil alapmodell, kiegyensúlyozott fejlődést mutatott: 1 000 mintával még csak 30,2\%-os Top-1 pontosságot ért el, míg 25 000 mintával ez az érték 54,9\%-ra nőtt. A DenseNet121 szintén hasonló mintázatot mutatott, bár teljesítménye némileg elmaradt a ResNet50-től. A NASNet, noha relatív jól szerepelt kis mintaszám mellett, a későbbi fázisokban lassabban fejlődött, és végül alacsonyabb F1-értékkel zárt, miközben a számítási ideje (81 s) lényegesen magasabb maradt.
+    \\\\
+    A ConvNeXt-Tiny és az EfficientNet-B0 modern architektúrák kiváló skálázódást mutattak: utóbbi különösen 25k mintával ért el kiemelkedő Top-1 pontosságot (56,3\%) és F1-mutatót (54,6\%), miközben megtartotta alacsony számítási igényét (~25 s). A ConvNeXt-Tiny 25k mintával a legjobb F1-értéket érte el (56,8\%), ami kiemelkedő arányosságot jelez a precizitás és a recall között. A ViT-B/16, bár Transformer-alapú modellként magasabb számítási igényt igényelt (~42 s), fokozatos és stabil növekedést mutatott, viszont nem ugrotta meg a legjobb CNN-ek pontosságát. A legkiegyensúlyozottabb teljesítményt az Inception-v3 nyújtotta, amely konzisztensen fejlődött, és 25k mintával 56\%-os Top-1 pontosságot ért el, F1-mutatója pedig elérte az 53,3\%-ot.
+    \\\\
+    Általánosságban elmondható, hogy minden modell profitált az iteratív tanításból, de a teljesítményük különböző sebességgel és hatékonysággal skálázódott. A modern, könnyű modellek (pl. EfficientNet-B0, ConvNeXt-Tiny) különösen hatékonynak bizonyultak kisebb számítási költség mellett is, míg a ViT és NASNet architektúrák több erőforrást igényeltek, de nem tudtak arányosan jobban teljesíteni. A mért F1-értékek jó képet adnak arról, mennyire tudtak a modellek kiegyensúlyozottan teljesíteni a helyes pozitív felismerések és a teljes visszakeresés aránya között.
+    \\\\
+    Ezek az eredmények megerősítik, hogy az adatmennyiség növelése kulcsfontosságú, ugyanakkor a modellválasztás optimalizálása – a számítási költségek és a pontosság fényében – szintén meghatározó tényező a gyakorlati alkalmazhatóság szempontjából.
+
+\section{Következtetések a teljes tanítás után kapott eredményekből.}
+
     \begin{table}[H]
         \centering
         \caption{Teljes tanítás után elért eredmények (Top-1 szerint csökkenő sorrendben)}
@@ -47,101 +155,26 @@
     \subsubsection{Teljes tanítás utáni összesítő Top-1 pontosság.}
     \begin{figure}[H]
     \centering
+    \includegraphics[width=0.7\textwidth]{images/phase02/phase02_summary_top1.png}
+    \caption{Teljes tanítás utáni összesítő Top-1 pontosság.}
+    \label{fig:phase02_01}
+    \end{figure}
+
+    \subsubsection{Teljes tanítás utáni összehasonlító Top-1 és Top-5 pontosság.}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/phase02/phase02_summary_top1_vs_top5_pre_vs_fine.png}
+    \caption{Teljes tanítás utáni összehasonlító Top-1 és Top-5 pontosság.}
+    \label{fig:phase02_02}
+    \end{figure}
+
+    \subsubsection{Teljes tanítás utáni összesítő Top-1 pontosság.}
+    \begin{figure}[H]
+    \centering
     \includegraphics[width=1.0\textwidth]{images/sum.png}
     \caption{Teljes tanítás utáni összesítő Top-1 pontosság.}
-    \label{fig:top1_summary}
+    \label{fig:phase02_03}
     \end{figure}
-
-    \begin{center}
-        \begin{longtable}{llllllll}
-        \caption{Összehasonlító táblázat az összes modell iteratív tanításáról.}\label{tab:phase4_summary_table}\\
-        \toprule
-        Modell & Minták & Top-1 & Top-5 & Precision & Recall & F1 & Time(s) \\
-        \midrule
-        \endfirsthead
-        \toprule
-        Modell & Minták & Top-1 & Top-5 & Precision & Recall & F1 & Time(s) \\
-        \midrule
-        \endhead
-        ConvNeXt-Tiny & 25k & 0.57 & 0.85 & 0.56 & 0.62 & 0.57 & 25.33 \\
-        EfficientNet-B0 & 25k & 0.56 & 0.85 & 0.52 & 0.61 & 0.55 & 24.78 \\
-        Inception-v3 & 25k & 0.56 & 0.84 & 0.53 & 0.58 & 0.53 & 33.46 \\
-        ResNet50 & 25k & 0.55 & 0.84 & 0.53 & 0.60 & 0.54 & 31.82 \\
-        ConvNeXt-Tiny & 10k & 0.54 & 0.83 & 0.51 & 0.57 & 0.51 & 25.27 \\
-        DenseNet121 & 25k & 0.54 & 0.82 & 0.50 & 0.57 & 0.52 & 24.71 \\
-        ViT-B/16 & 25k & 0.53 & 0.82 & 0.52 & 0.59 & 0.53 & 42.08 \\
-        ResNet50 & 10k & 0.51 & 0.82 & 0.48 & 0.54 & 0.49 & 31.71 \\
-        EfficientNet-B0 & 10k & 0.50 & 0.81 & 0.46 & 0.53 & 0.47 & 24.67 \\
-        Inception-v3 & 10k & 0.49 & 0.80 & 0.47 & 0.52 & 0.47 & 33.68 \\
-        DenseNet121 & 10k & 0.48 & 0.78 & 0.44 & 0.51 & 0.45 & 25.02 \\
-        ViT-B/16 & 10k & 0.48 & 0.76 & 0.46 & 0.51 & 0.45 & 41.93 \\
-        ConvNeXt-Tiny & 5k & 0.48 & 0.79 & 0.44 & 0.49 & 0.45 & 25.45 \\
-        NASNet & 25k & 0.47 & 0.81 & 0.48 & 0.53 & 0.47 & 81.43 \\
-        Inception-v3 & 5k & 0.46 & 0.79 & 0.45 & 0.49 & 0.45 & 33.30 \\
-        ResNet50 & 5k & 0.46 & 0.78 & 0.43 & 0.48 & 0.43 & 31.72 \\
-        ViT-B/16 & 5k & 0.45 & 0.73 & 0.44 & 0.48 & 0.44 & 41.93 \\
-        NASNet & 10k & 0.44 & 0.77 & 0.43 & 0.47 & 0.41 & 81.46 \\
-        DenseNet121 & 5k & 0.43 & 0.75 & 0.40 & 0.45 & 0.40 & 24.87 \\
-        EfficientNet-B0 & 5k & 0.42 & 0.75 & 0.40 & 0.46 & 0.41 & 24.64 \\
-        NASNet & 5k & 0.41 & 0.69 & 0.41 & 0.43 & 0.38 & 81.54 \\
-        ViT-B/16 & 1k & 0.36 & 0.66 & 0.31 & 0.35 & 0.31 & 41.85 \\
-        Inception-v3 & 1k & 0.35 & 0.68 & 0.33 & 0.36 & 0.32 & 33.27 \\
-        NASNet & 1k & 0.33 & 0.61 & 0.35 & 0.37 & 0.33 & 81.04 \\
-        ConvNeXt-Tiny & 1k & 0.32 & 0.62 & 0.30 & 0.35 & 0.30 & 25.45 \\
-        ResNet50 & 1k & 0.30 & 0.65 & 0.29 & 0.31 & 0.28 & 31.49 \\
-        DenseNet121 & 1k & 0.26 & 0.55 & 0.26 & 0.29 & 0.25 & 25.09 \\
-        EfficientNet-B0 & 1k & 0.23 & 0.48 & 0.23 & 0.25 & 0.22 & 24.75 \\
-        \bottomrule
-        \end{longtable}
-    \end{center}
-        
-    \subsubsection{Összehasonlító Top-1 heatmap az iteratív tanításáról}
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/phase03/top-1-heatmap.png}
-    \caption{Összehasonlító Top-1 heatmap az iteratív tanításáról.}
-    \label{fig:top1_heatmap}
-    \end{figure}
-
-    \begin{center}
-        \begin{longtable}{llllllll}
-        \caption{Összehasonlító táblázat az összes saját modell iteratív tanításáról.}\label{tab:phase4_own_summary_table}\\
-        \toprule
-        Model & Size & Top-1 & Top-5 & Prec. & Rec. & F1 & T(s) \\
-        \midrule
-        \endfirsthead
-        \toprule
-        Model & Size & Top-1 & Top-5 & Prec. & Rec. & F1 & T(s) \\
-        \midrule
-        \endhead
-        Baseline & 144k & 0.73 & 0.91 & 0.68 & 0.65 & 0.66 & 18.54 \\
-        Hybrid & 144k & 0.73 & 0.91 & 0.68 & 0.64 & 0.65 & 16.13 \\
-        Deep & 144k & 0.72 & 0.90 & 0.67 & 0.63 & 0.65 & 16.01 \\
-        Hybrid & 25k & 0.51 & 0.79 & 0.49 & 0.56 & 0.50 & 16.06 \\
-        Deep & 25k & 0.50 & 0.78 & 0.49 & 0.55 & 0.50 & 16.05 \\
-        Baseline & 25k & 0.49 & 0.78 & 0.49 & 0.55 & 0.49 & 17.00 \\
-        Hybrid & 10k & 0.47 & 0.76 & 0.44 & 0.51 & 0.45 & 16.08 \\
-        Baseline & 10k & 0.45 & 0.75 & 0.44 & 0.49 & 0.45 & 15.90 \\
-        Deep & 10k & 0.44 & 0.72 & 0.42 & 0.47 & 0.42 & 16.19 \\
-        Hybrid & 5k & 0.41 & 0.70 & 0.38 & 0.43 & 0.39 & 15.91 \\
-        Baseline & 5k & 0.40 & 0.71 & 0.39 & 0.43 & 0.39 & 16.05 \\
-        Deep & 5k & 0.40 & 0.70 & 0.37 & 0.41 & 0.37 & 15.92 \\
-        Baseline & 1k & 0.25 & 0.53 & 0.26 & 0.27 & 0.23 & 15.69 \\
-        Hybrid & 1k & 0.23 & 0.44 & 0.21 & 0.25 & 0.21 & 15.78 \\
-        Deep & 1k & 0.18 & 0.40 & 0.26 & 0.23 & 0.17 & 16.82 \\
-        \bottomrule
-        \end{longtable}
-    \end{center}
-    
-    \subsubsection{Összehasonlító F1 heatmap a saját modellek iteratív tanításáról.}
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/phase04/phase03/sum4.png}
-    \caption{Összehasonlító F1 heatmap a saját modellek iteratív tanításáról.}
-    \label{fig:f1_heatmap}
-    \end{figure}
-
-    \section{Következtetések a teljes tanítás után kapott eredményekből.}
 
 	A teljes tanítással végzett modellek elemzése alapján több fontos és meglepő megfigyelés is levonható:
 	\\\\
@@ -151,15 +184,11 @@
 	\\\\
     Transformer-alapú modellek stabilak, de nem verhetetlenek: A ViT-B/16 transformer modell jó teljesítményt mutatott (0.7414 Top-1), de nem emelkedett ki a többi CNN modell közül. Ez arra utal, hogy nagyobb adattömeg vagy hosszabb tanítási idő szükséges a transzformerek kiemelkedő teljesítményéhez a közepes méretű feladatokon.
 	\\\\
-    Könnyű fejekkel rendelkező ResNet18-alapú modellek is versenyképesek: A ResNet18 + különböző fejek kombinációja (Baseline, Deep, Hybrid v1/v2) 0.7236–0.7303 Top-1 pontosságot hozott. Ez figyelemre méltó, tekintve az alacsony számítási igényt és egyszerű architektúrát. A Baseline fej valamivel jobb eredményt produkált, mint a Deep vagy Hybrid fejek – valószínűleg az egyszerűbb modell kevésbé hajlamos az overfittingre.
+    Könnyű fejekkel rendelkező ResNet18-alapú modellek is versenyképesek: A ResNet18 + különböző fejek kombinációja (Baseline, Deep, Hybrid v1/v2) 0.7236–0.7303 Top-1 pontosságot hozott. Ez figyelemre méltó, tekintve az alacsony számítási igényt és egyszerű architektúrát. A Baseline fej valamivel jobb eredményt produkált, mint a Deep vagy Hybrid fejek – valószínűleg az egyszerűbb modell kevésbé hajlamos az overfittingre a futási ideje viszont jelentősen jobb lett, így a Hybrid-v1 versenyképes eggyensúlyt tart a gyorsaság és a pontosság között és felveszi a versenyt a nagy modellekkel.
 	\\\\
     Inference idő és teljesítmény kompromisszuma: A ViT és NASNet modellek jelentősen lassabbak (42–275 másodperc!), míg a ResNet18 alapú modellek gyorsak (15–18 másodperc). Ebből adódóan alkalmazás-specifikusan a legjobb választás nem mindig a legpontosabb modell – valós idejű rendszerekhez például egy ResNet18 + Hybrid fej lehet ideális kompromisszum.
 	\\\\
     Top-5 pontosság is szoros versenyt mutat: A legtöbb modell 0.90 fölé emelkedett tanítás után, ami azt mutatja, hogy a modellek már nemcsak az első, hanem a legvalószínűbb néhány osztály közé is gyakran eltalálják a helyes címkét. Ez fontos többválaszos vagy javaslat-alapú rendszerek esetén.
-
-    \section{Következtetések az iteratív tanítás után kapott eredményekből.}
-
-    \section{Következtetések a saját modellekről.}
 
 \chapter{Összefoglaló}
 \label{ch:summary}
