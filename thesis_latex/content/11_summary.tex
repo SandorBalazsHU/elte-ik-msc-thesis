@@ -1,25 +1,25 @@
 \chapter{Legfontosabb eredmények}
 
-\begin{table}[H]
-    \centering
-    \caption{Tanítás nélküli modellek teljesítménye (Top-1 szerint csökkenő sorrendben)}
-    \begin{tabular}{|l|c|c|c|c|c|c|}
-    \hline
-    \textbf{Modell} & \textbf{Top-1} & \textbf{Top-5} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{Idő (s)} \\
-    \hline
-    ViT-B/16 & 0.5308 & 0.8582 & 0.4629 & 0.4419 & 0.4307 & 92.13 \\
-    ConvNeXt-Tiny & 0.5048 & 0.8471 & 0.4917 & 0.4369 & 0.4194 & 38.40 \\
-    EfficientNet-B0 & 0.4802 & 0.8217 & 0.4137 & 0.4039 & 0.3829 & 28.89 \\
-    Inception-v3 & 0.4763 & 0.8008 & 0.3833 & 0.3896 & 0.3683 & 38.06 \\
-    ResNet50 & 0.4698 & 0.7962 & 0.3934 & 0.3797 & 0.3592 & 25.21 \\
-    DenseNet121 & 0.4498 & 0.7806 & 0.3874 & 0.3611 & 0.3408 & 25.15 \\
-    NASNet-A-Large & 0.2820 & 0.5408 & 0.3204 & 0.2799 & 0.2696 & 275.30 \\
-    ResNet18 + Hybrid v2 & 0.0054 & 0.0379 & 0.0026 & 0.0063 & 0.0020 & 17.89 \\
-    ResNet18 + Baseline & 0.0052 & 0.0304 & 0.0093 & 0.0072 & 0.0011 & 18.48 \\
-    ResNet18 + Deep & 0.0050 & 0.0265 & 0.0003 & 0.0071 & 0.0006 & 15.54 \\
-    ResNet18 + Hybrid v1 & 0.0047 & 0.0286 & 0.0041 & 0.0076 & 0.0014 & 15.54 \\
-    \hline
-    \end{tabular}
+    \begin{table}[H]
+        \centering
+        \caption{Tanítás nélküli modellek teljesítménye (Top-1 szerint csökkenő sorrendben)}
+        \begin{tabular}{|l|c|c|c|c|c|c|}
+        \hline
+        \textbf{Modell} & \textbf{Top-1} & \textbf{Top-5} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{Idő (s)} \\
+        \hline
+        ViT-B/16 & 0.5308 & 0.8582 & 0.4629 & 0.4419 & 0.4307 & 92.13 \\
+        ConvNeXt-Tiny & 0.5048 & 0.8471 & 0.4917 & 0.4369 & 0.4194 & 38.40 \\
+        EfficientNet-B0 & 0.4802 & 0.8217 & 0.4137 & 0.4039 & 0.3829 & 28.89 \\
+        Inception-v3 & 0.4763 & 0.8008 & 0.3833 & 0.3896 & 0.3683 & 38.06 \\
+        ResNet50 & 0.4698 & 0.7962 & 0.3934 & 0.3797 & 0.3592 & 25.21 \\
+        DenseNet121 & 0.4498 & 0.7806 & 0.3874 & 0.3611 & 0.3408 & 25.15 \\
+        NASNet-A-Large & 0.2820 & 0.5408 & 0.3204 & 0.2799 & 0.2696 & 275.30 \\
+        ResNet18 + Hybrid v2 & 0.0054 & 0.0379 & 0.0026 & 0.0063 & 0.0020 & 17.89 \\
+        ResNet18 + Baseline & 0.0052 & 0.0304 & 0.0093 & 0.0072 & 0.0011 & 18.48 \\
+        ResNet18 + Deep & 0.0050 & 0.0265 & 0.0003 & 0.0071 & 0.0006 & 15.54 \\
+        ResNet18 + Hybrid v1 & 0.0047 & 0.0286 & 0.0041 & 0.0076 & 0.0014 & 15.54 \\
+        \hline
+        \end{tabular}
     \end{table}
     
     \begin{table}[H]
@@ -43,7 +43,104 @@
         \hline
         \end{tabular}
     \end{table}
+
+    \subsubsection{Teljes tanítás utáni összesítő Top-1 pontosság.}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/sum.png}
+    \caption{Teljes tanítás utáni összesítő Top-1 pontosság.}
+    \label{fig:top1_summary}
+    \end{figure}
+
+    \begin{center}
+        \begin{longtable}{llllllll}
+        \caption{Összehasonlító táblázat az összes modell iteratív tanításáról.}\label{tab:phase4_summary_table}\\
+        \toprule
+        Modell & Minták & Top-1 & Top-5 & Precision & Recall & F1 & Time(s) \\
+        \midrule
+        \endfirsthead
+        \toprule
+        Modell & Minták & Top-1 & Top-5 & Precision & Recall & F1 & Time(s) \\
+        \midrule
+        \endhead
+        ConvNeXt-Tiny & 25k & 0.57 & 0.85 & 0.56 & 0.62 & 0.57 & 25.33 \\
+        EfficientNet-B0 & 25k & 0.56 & 0.85 & 0.52 & 0.61 & 0.55 & 24.78 \\
+        Inception-v3 & 25k & 0.56 & 0.84 & 0.53 & 0.58 & 0.53 & 33.46 \\
+        ResNet50 & 25k & 0.55 & 0.84 & 0.53 & 0.60 & 0.54 & 31.82 \\
+        ConvNeXt-Tiny & 10k & 0.54 & 0.83 & 0.51 & 0.57 & 0.51 & 25.27 \\
+        DenseNet121 & 25k & 0.54 & 0.82 & 0.50 & 0.57 & 0.52 & 24.71 \\
+        ViT-B/16 & 25k & 0.53 & 0.82 & 0.52 & 0.59 & 0.53 & 42.08 \\
+        ResNet50 & 10k & 0.51 & 0.82 & 0.48 & 0.54 & 0.49 & 31.71 \\
+        EfficientNet-B0 & 10k & 0.50 & 0.81 & 0.46 & 0.53 & 0.47 & 24.67 \\
+        Inception-v3 & 10k & 0.49 & 0.80 & 0.47 & 0.52 & 0.47 & 33.68 \\
+        DenseNet121 & 10k & 0.48 & 0.78 & 0.44 & 0.51 & 0.45 & 25.02 \\
+        ViT-B/16 & 10k & 0.48 & 0.76 & 0.46 & 0.51 & 0.45 & 41.93 \\
+        ConvNeXt-Tiny & 5k & 0.48 & 0.79 & 0.44 & 0.49 & 0.45 & 25.45 \\
+        NASNet & 25k & 0.47 & 0.81 & 0.48 & 0.53 & 0.47 & 81.43 \\
+        Inception-v3 & 5k & 0.46 & 0.79 & 0.45 & 0.49 & 0.45 & 33.30 \\
+        ResNet50 & 5k & 0.46 & 0.78 & 0.43 & 0.48 & 0.43 & 31.72 \\
+        ViT-B/16 & 5k & 0.45 & 0.73 & 0.44 & 0.48 & 0.44 & 41.93 \\
+        NASNet & 10k & 0.44 & 0.77 & 0.43 & 0.47 & 0.41 & 81.46 \\
+        DenseNet121 & 5k & 0.43 & 0.75 & 0.40 & 0.45 & 0.40 & 24.87 \\
+        EfficientNet-B0 & 5k & 0.42 & 0.75 & 0.40 & 0.46 & 0.41 & 24.64 \\
+        NASNet & 5k & 0.41 & 0.69 & 0.41 & 0.43 & 0.38 & 81.54 \\
+        ViT-B/16 & 1k & 0.36 & 0.66 & 0.31 & 0.35 & 0.31 & 41.85 \\
+        Inception-v3 & 1k & 0.35 & 0.68 & 0.33 & 0.36 & 0.32 & 33.27 \\
+        NASNet & 1k & 0.33 & 0.61 & 0.35 & 0.37 & 0.33 & 81.04 \\
+        ConvNeXt-Tiny & 1k & 0.32 & 0.62 & 0.30 & 0.35 & 0.30 & 25.45 \\
+        ResNet50 & 1k & 0.30 & 0.65 & 0.29 & 0.31 & 0.28 & 31.49 \\
+        DenseNet121 & 1k & 0.26 & 0.55 & 0.26 & 0.29 & 0.25 & 25.09 \\
+        EfficientNet-B0 & 1k & 0.23 & 0.48 & 0.23 & 0.25 & 0.22 & 24.75 \\
+        \bottomrule
+        \end{longtable}
+    \end{center}
         
+    \subsubsection{Összehasonlító Top-1 heatmap az iteratív tanításáról}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase03/top-1-heatmap.png}
+    \caption{Összehasonlító Top-1 heatmap az iteratív tanításáról.}
+    \label{fig:top1_heatmap}
+    \end{figure}
+
+    \begin{center}
+        \begin{longtable}{llllllll}
+        \caption{Összehasonlító táblázat az összes saját modell iteratív tanításáról.}\label{tab:phase4_own_summary_table}\\
+        \toprule
+        Model & Size & Top-1 & Top-5 & Prec. & Rec. & F1 & T(s) \\
+        \midrule
+        \endfirsthead
+        \toprule
+        Model & Size & Top-1 & Top-5 & Prec. & Rec. & F1 & T(s) \\
+        \midrule
+        \endhead
+        Baseline & 144k & 0.73 & 0.91 & 0.68 & 0.65 & 0.66 & 18.54 \\
+        Hybrid & 144k & 0.73 & 0.91 & 0.68 & 0.64 & 0.65 & 16.13 \\
+        Deep & 144k & 0.72 & 0.90 & 0.67 & 0.63 & 0.65 & 16.01 \\
+        Hybrid & 25k & 0.51 & 0.79 & 0.49 & 0.56 & 0.50 & 16.06 \\
+        Deep & 25k & 0.50 & 0.78 & 0.49 & 0.55 & 0.50 & 16.05 \\
+        Baseline & 25k & 0.49 & 0.78 & 0.49 & 0.55 & 0.49 & 17.00 \\
+        Hybrid & 10k & 0.47 & 0.76 & 0.44 & 0.51 & 0.45 & 16.08 \\
+        Baseline & 10k & 0.45 & 0.75 & 0.44 & 0.49 & 0.45 & 15.90 \\
+        Deep & 10k & 0.44 & 0.72 & 0.42 & 0.47 & 0.42 & 16.19 \\
+        Hybrid & 5k & 0.41 & 0.70 & 0.38 & 0.43 & 0.39 & 15.91 \\
+        Baseline & 5k & 0.40 & 0.71 & 0.39 & 0.43 & 0.39 & 16.05 \\
+        Deep & 5k & 0.40 & 0.70 & 0.37 & 0.41 & 0.37 & 15.92 \\
+        Baseline & 1k & 0.25 & 0.53 & 0.26 & 0.27 & 0.23 & 15.69 \\
+        Hybrid & 1k & 0.23 & 0.44 & 0.21 & 0.25 & 0.21 & 15.78 \\
+        Deep & 1k & 0.18 & 0.40 & 0.26 & 0.23 & 0.17 & 16.82 \\
+        \bottomrule
+        \end{longtable}
+    \end{center}
+    
+    \subsubsection{Összehasonlító F1 heatmap a saját modellek iteratív tanításáról.}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/phase04/phase03/sum4.png}
+    \caption{Összehasonlító F1 heatmap a saját modellek iteratív tanításáról.}
+    \label{fig:f1_heatmap}
+    \end{figure}
+
     \section{Következtetések a teljes tanítás után kapott eredményekből}
 
 	A teljes tanítással végzett modellek elemzése alapján több fontos és meglepő megfigyelés is levonható:

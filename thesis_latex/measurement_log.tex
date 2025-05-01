@@ -160,27 +160,6 @@
         \item Az átlagos új képméret: 44kb
       \end{itemize}
 
-  \section{EXIF statisztika}
-    \subsection{Fényképezőgép gyártók}
-    \subsection{Fényképezőgép modellek}
-    \subsection{ISO érzékenység}
-    \subsection{Záridő}
-    \subsection{Rekesz (Blende)}
-    \subsection{Fókusztávolság}
-    \subsection{Expozíciós mód}
-    \subsection{Fénymérés}
-    \subsection{Vaku}
-    \subsection{Készítés ideje}
-    \subsection{Hibák}
-  \section{Osztályozások}
-    \subsection{Places365 osztályozás}
-    \subsection{Places365 osztályozás, eloszlás elemzés}
-    \subsection{ImageNet1k osztályozás}
-    \subsection{ImageNet1k osztályozás, eloszlás elemzés}
-  \section{Train, Val, Test halmazok }
-    \subsection{Places365 felosztás}
-    \subsection{ImageNet1k felosztás}
-
 \chapter{Az ismert modellek tesztelése}
   \section{I.Mérési fázis: Modellek tesztelése tanítás nélkül}
     Az első mérési fázis. A hét ismert modell tanítás nélküli eredeti élsúlyokkal történő vizsgálata történt meg a saját sb-photothemes-imagenet114 osztályozású adathalmazomon ami összesen 180750 képet tartalmaz 114 imagenet osztályba sorolva ahol nincs 300 képnél kisebb kategória Train, Val, Test halmazokra osztva 80, 10, 10 arányban. Így a Test halmaz 18172 képet tartalmaz szintén 114 kategóriára osztva. Ezen történt a hét ismert modell első fázisú tesztelése saját tanítás nélküli eredeti ImageNet1k-n előtanított súlyokkal. Nézzük most ennek a vizsgáltnak az eredményeit.
@@ -245,23 +224,6 @@
 
   \section{III. Mérési fázis: Összefoglaló}
     \input{measurement_log/phase03/summary.tex}
-
-\chapter{Saját modellek tesztelése}
-  \section{Saját modellek ismertetése}
-  \section{I. Mérési fázis: Modellek tesztelése tanítás nélkül}
-  \section{I. Mérési fázis: Összefoglaló}
-  \section{II.Mérési fázis: Modellek tesztelése teljes tanítással}
-  \section{II. Mérési fázis: Összefoglaló}
-  \section{III. Mérési fázis: Modellek résztanítási eredményei. (1k,5k,10k,25k)}
-  \section{III. Mérési fázis: Összefoglaló}
-
-\chapter{Modellek méreteinek elemzése}
-  \section{Modellek elérhetőségei}
-  \section{Modellméretek}
-
-\chapter{Lezárás}
-  \section{Jövőbeli mérési lehetőségek}
-  \section{Lezárás}
 
 \listoffigures
 \listoftables
