@@ -606,7 +606,7 @@
 
 Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből álló sb-photothemes180k ImageNet1k cimkék szerint címkézett adathalmazon tanítottam, ahol 114 kategória van ebben a második vizsgálati fázisban a 144000 kategorizált tanító és 18000 validáló kép segítségével végeztem teljes tanítást 10 epoch-on keresztül, majd a 18000 képet tartalmazó teszt halmazon teszteltem le a modelleket ugyanazon amin az első fázisban a tanítás nélküli teszteket is végeztem. 
 
-\subsection{Összefoglaló táblázat a második fázis mért értékeiről.}
+\subsubsection{Összefoglaló táblázat a második fázis mért értékeiről.}
     \begin{center}
         \begin{longtable}{lllllll}
         \caption{Összefoglaló táblázat a második fázis mért értékeiről}\label{tab:phase2_summary_table_01}\\
@@ -629,7 +629,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \end{longtable}
     \end{center}
 
-\subsection{Top 1 pontosságok összehasonlítása teljes tanítás után.}
+\subsubsection{Top 1 pontosságok összehasonlítása teljes tanítás után.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_top1.png}
@@ -637,7 +637,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \label{fig:phase02_summary_top1}
     \end{figure}
 
-\subsection{F1 értékek összehasonlítása teljes tanítás után.}
+\subsubsection{F1 értékek összehasonlítása teljes tanítás után.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_f1.png}
@@ -645,7 +645,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \label{fig:phase02_summary_top1}
     \end{figure}
 
-\subsection{Futási idők összehasonlítása teljes tanítás után a teszt halmazon.}
+\subsubsection{Futási idők összehasonlítása teljes tanítás után a teszt halmazon.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_time.png}
@@ -653,7 +653,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \label{fig:phase02_summary_time}
     \end{figure}
 
-\subsection{Top 1 és Top 5 pontosságok összehasonlítása teljes tanítás után a teszt halmazon.}
+\subsubsection{Top 1 és Top 5 pontosságok összehasonlítása teljes tanítás után a teszt halmazon.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_top1vstop5.png}
@@ -661,7 +661,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \label{fig:phase02_summary_top1vstop5}
     \end{figure}
 
-\subsection{Precision, Recall és F1 összehasonlítása teljes tanítás után a teszt halmazon.}
+\subsubsection{Precision, Recall és F1 összehasonlítása teljes tanítás után a teszt halmazon.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_prec_rec_f1.png}
@@ -669,7 +669,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \label{fig:phase02_summary_prec_rec_f1}
     \end{figure}
 
-\subsection{Összehasonlító táblázat az első és a második fázis mért értékeiről.}
+\subsubsection{Összehasonlító táblázat az első és a második fázis mért értékeiről.}
     \begin{center}
         \begin{longtable}{lllll}
         \caption{Összehasonlító táblázat az első és a második fázis mért értékeiről – Alapvető metrikák}\label{tab:phase2_summary_table_02_basic}\\
@@ -735,7 +735,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \end{longtable}
     \end{center}
 
-    \subsection{Top 1 és Top 5 pontosság összehasonlítása Pretrained és a Finetuned mérések között.}
+    \subsubsection{Top 1 és Top 5 pontosság összehasonlítása Pretrained és a Finetuned mérések között.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_top1_vs_top5_pre_vs_fine.png}
@@ -743,7 +743,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \label{fig:phase02_summary_top1_vs_top5_pre_vs_fine}
     \end{figure}
 
-\subsection{Precision és Recall összehasonlítása Pretrained és a Finetuned mérések között.}
+\subsubsection{Precision és Recall összehasonlítása Pretrained és a Finetuned mérések között.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_prec_vs_rec_pre_vs_fine.png}
@@ -751,7 +751,7 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \label{fig:phase02_summary_prec_vs_rec_pre_vs_fine}
     \end{figure}
 
-\subsection{F1 score összehasonlítása Pretrained és a Finetuned mérések között.}
+\subsubsection{F1 score összehasonlítása Pretrained és a Finetuned mérések között.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase02_summary_F1_pre_vs_fine.png}
@@ -759,14 +759,14 @@ Ebben a fázisban a hét ismert modellt teszteltem úgy, hogy a 180750 képből 
         \label{fig:phase02_summary_F1_pre_vs_fine}
     \end{figure}
 
-\subsection{A Precision és a Fine-tuned modellek értékelése}
+\subsubsection{A Precision és a Fine-tuned modellek értékelése}
     A fenti eredmények alapján megállapítható, hogy a finomhangolt (fine-tuned) modellek jelentős teljesítményjavulást mutatnak a kiindulási, előképzett (pretrained) állapothoz képest. Különösen az EfficientNet-B0 és a ConvNeXt-Tiny modellek emelkednek ki, amelyek a legmagasabb Top-1 és Top-5 pontosságot érték el a finomhangolás után.
 
     A Precision, Recall és F1-score metrikák szintén javulást mutatnak minden modell esetében a finomhangolás hatására. Ez arra utal, hogy a modellek nemcsak pontosabbak lettek, hanem jobban képesek felismerni a releváns jellemzőket az adathalmazon.
 
     Az inference idő tekintetében a ViT-B-16 modell jelentősen hosszabb időt igényel
 
-\subsection{Tanítási ciklusok elemzése}
+\subsubsection{Tanítási ciklusok elemzése}
 Általános megfigyelések:
 Tanítási pontosságban (Train Accuracy) ResNet50 (96.51\%) és ConvNeXt-Tiny (95.77\%) szerepeltek kiemelkedően.
 Validációs pontosságban (Validation Accuracy) az EfficientNet-B0 (76.58\%) és NASNet (75.98\%) mutatták a legjobb eredményt.
@@ -790,7 +790,7 @@ Stabil, de szintén overfitting jelei.
 NASNet: 
 Gyors, kevés epoch alatti hatékony tanulás. Figyelemre méltóan jó validációs pontosság.
 
-\subsection{A Train és Validation loss alakulása modellenként.}
+\subsubsection{A Train és Validation loss alakulása modellenként.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase2_summary_learning_stat_last_01.png}
@@ -798,7 +798,7 @@ Gyors, kevés epoch alatti hatékony tanulás. Figyelemre méltóan jó validác
         \label{fig:phase2_summary_learning_stat_last_01.png}
     \end{figure}
 
-\subsection{A Train és Validation accuracy alakulása modellenként.}
+\subsubsection{A Train és Validation accuracy alakulása modellenként.}
     \begin{figure}[H]
         \centering
         \includegraphics[width=1.0\textwidth]{images/phase02/phase2_summary_learning_stat_last_02.png}

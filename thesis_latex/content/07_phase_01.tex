@@ -225,7 +225,7 @@
     Összefoglaló az első mérési fázis eredményeiről. A hét ismert modell tanítás nélküli eredeti élsúlyokkal történő vizsgálata történt meg a saját ImageNet1k osztályozású adathalmazomon ami összesen 180750 képet tartalmaz 114 imagenet osztályba sorolva ahol nincs 300 képnél kisebb kategória Train, Val, Test halmazokra osztva 80, 10, 10 arányban. Így a Test halmaz 18172 képet tartalmaz szintén 114 kategóriára osztva. Ezen történt a hét ismert modell első fázisú tesztelése saját tanítás nélküli eredeti ImageNet1k-n előtanított súlyokkal. Nézzük most ennek a vizsgáltnak az eredményeit.
 
 
-\subsection{Összefoglaló táblázat az első fázis mért értékeiről}
+\subsubsection{Összefoglaló táblázat az első fázis mért értékeiről}
     \begin{center}
         \begin{longtable}{lllllll}
         \caption{Modellek összefoglaló értékei tanítás nélkül}\label{tab:phase1_summary_table}\\
@@ -248,7 +248,7 @@
         \end{longtable}
         \end{center}
 
-    \subsection{Top 1 és Top 5 pontosságok összehasonlítása modellenként tanítás nélkül.}
+    \subsubsection{Top 1 és Top 5 pontosságok összehasonlítása modellenként tanítás nélkül.}
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\textwidth]{images/phase01/summary01.png}
@@ -256,7 +256,7 @@
             \label{fig:phase01_summary01}
         \end{figure}
 
-    \subsection{Precision, Recall, F1-score összehasonlítása modellenként tanítás nélkül.}
+    \subsubsection{Precision, Recall, F1-score összehasonlítása modellenként tanítás nélkül.}
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\textwidth]{images/phase01/summary02.png}
@@ -264,7 +264,7 @@
             \label{fig:phase01_summary02}
         \end{figure}
 
-    \subsection{Teszt lefutási idejének összehasonlítása modellenként tanítás nélkül.}
+    \subsubsection{Teszt lefutási idejének összehasonlítása modellenként tanítás nélkül.}
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\textwidth]{images/phase01/summary03.png}
@@ -272,7 +272,7 @@
             \label{fig:phase01_summary03}
         \end{figure}
 
-    \subsection{Az első fázis rövid szöveges értékelése}
+    \subsubsection{Az első fázis rövid szöveges értékelése}
     Az első mérési fázis során hét különböző, előre betanított modellt teszteltem a saját sb-photothemes-imagenet114 adatbázis 18000 képből álló, 114 kategóriát tartalmazó teszthalmazán. A modelleket itt az első fázisban tanítás nélkül, a gyári súlyokkal értékeltem.
 
     Pontosság tekintetében a ViT-B/16 modell érte el a legjobb Top-1 (53,08\%) és Top-5 (85,82\%) pontosságot, szorosan követi a ConvNeXt-Tiny és az EfficientNet-B0. Ezek az eredmények azt mutatják, hogy a transformer-alapú és modern CNN architektúrák jobban teljesítenek a hagyományosabb modelleknél, mint például a ResNet50 vagy a DenseNet121. A NASNet jelentősen alacsonyabb pontosságot ért el, ami arra utalhat, hogy nem optimalizált az adott teszthalmazra.
