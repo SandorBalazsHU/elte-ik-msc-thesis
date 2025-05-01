@@ -463,24 +463,86 @@ print("Kesz!")
             A \texttt{Places365} modell kimenete számos alkategóriát is tartalmazott, amelyek nem minden esetben voltak hasznosak, illetve gyakran redundáns vagy nehezen értelmezhető csoportokat eredményeztek. Ezek egybeolvasztására, illetve megszüntetésére külön szkripteket kellett készítenem.
             
             Ezek a \texttt{folder-flatten} néven szereplő szkriptek a projekt GitHub-repójában, a \texttt{scripts/db/folder\_correctors} könyvtárban találhatók. A szkriptek célja az volt, hogy a mélyebb mappaszerkezeteket laposabb, könnyebben kezelhető struktúrába szervezzék. A folyamat részeként külön programokat készítettem az almappák létezésének ellenőrzésére és a redundáns könyvtárstruktúrák azonosítására is.
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/scripts/folder-flatter-py.png}
+                \caption{Az alkategóriák megszüntetése}
+                \label{fig:folder-flatter}
+            \end{figure}
             
         \subsection{300 képnél kisebb kategóriák eltávolítása}
-            Az üres kategóriák eltávolítását követően sor került a kevés példányt tartalmazó osztályok szűrésére is. Azokat a kategóriákat, amelyek kevesebb mint 300 képet tartalmaztak, eltávolítottam. Ennek célja az volt, hogy az adatbázis 80-10-10 arányú (Train–Validation–Test) felosztása után is minden halmazban elegendő számú kép maradjon az értelmezhető és hasznos modelltanításhoz. Az újraosztás során figyelembe vettem a leggyakoribb osztályok eloszlását, így a kis kategóriák megszüntetése a teljes osztályspektrum arányait nem torzította jelentősen.
-            
+            Az üres kategóriák eltávolítását követően sor került a kevés példányt tartalmazó osztályok szűrésére is. Azokat a kategóriákat, amelyek kevesebb mint 300 képet tartalmaztak, eltávolítottam. Ennek célja az volt, hogy az adatbázis 80-10-10 arányú (Train-Validation-Test) felosztása után is minden halmazban elegendő számú kép maradjon az értelmezhető és hasznos modelltanításhoz. Az újraosztás során figyelembe vettem a leggyakoribb osztályok eloszlását, így a kis kategóriák megszüntetése a teljes osztályspektrum arányait nem torzította jelentősen.
+
+            \subsubsection{300 képnél kissebb kategóriák újraosztása.}
+            \lstset{caption={300 képnél kissebb kategóriák újraosztása.}, label=src:resorting.py}
+            \begin{lstlisting}[language={Python}]
+# Kategoriak szurese
+valid_classes = {cls for cls, count in class_counts.items() if count >= 300}
+print(f"Maradt {len(valid_classes)} nagy osztaly.")
+
+# Ujraosztas: elso kor fajlmozgatas
+for img_path, cls in tqdm(image_map.items()):
+    if cls in valid_classes:
+        target_dir = os.path.join(sorted_dir, cls)
+    else:
+        target_dir = other_dir
+    os.makedirs(target_dir, exist_ok=True)
+    shutil.copy2(img_path, os.path.join(target_dir, os.path.basename(img_path)))
+            \end{lstlisting}
+
         \subsection{Kézi adattisztítás, szűrés és törlés}
             Az automatikus osztályozást követően többnapos, kézi adattisztítási fázis következett, melynek során heurisztikus alapon átvizsgáltam a kategóriákba sorolt képeket. A nem releváns, tévesen besorolt vagy minőségileg nem megfelelő képeket eltávolítottam, hogy a tanítókészlet minősége minél homogénebb és megbízhatóbb legyen. Ez a lépés kiemelkedően fontos volt az adatbázis végső használhatósága szempontjából.
             
         \subsection{Arcfelismerés alkalmazása}
             A képek között jelentős számban akadtak portrék vagy embereket ábrázoló jelenetek, amelyeket az automatikus osztályozás nem minden esetben kezelt megfelelően. Ennek megoldására az OpenCV beépített arcfelismerő algoritmusát alkalmaztam, amellyel automatizáltan kiszűrtem azokat a képeket, amelyek emberi arcot tartalmaztak. Ez nagy segítséget jelentett a kézi szűrés során, különösen az olyan osztályokban, ahol az arctartalom zavaró vagy irreleváns lett volna.
+
+            \subsection{OpenCV arcfelismerő szűrő.}
+            \lstset{caption={OpenCV arcfelismerő szűrő.}, label=src:face-filter.py}
+            \begin{lstlisting}[language={Python}]
+def move_images_with_faces(folder_path):
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    faces_dir = os.path.join(folder_path, "faces")
+    os.makedirs(faces_dir, exist_ok=True)
+    image_files = [f for f in os.listdir(folder_path)
+                   if os.path.isfile(os.path.join(folder_path, f)) and f.lower().endswith(('.jpg', '.jpeg', '.png'))]
+    print(f"Vizsgalt kepek szama: {len(image_files)}")
+    moved_count = 0
+    for filename in tqdm(image_files, desc="Arcok keresese"):
+        file_path = os.path.join(folder_path, filename)
+        try:
+            img = cv2.imread(file_path)
+            if img is None:
+                continue
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
+            if len(faces) > 0:
+                shutil.move(file_path, os.path.join(faces_dir, filename))
+                moved_count += 1
+        except Exception as e:
+            print(f"Hiba a kepnel: {filename} - {e}")
+    print(f"athelyezett kepek szama: {moved_count}")
+#Automatikusan abban a mappaban fut, ahol a szkript van
+if __name__ == "__main__":
+    current_folder = os.path.dirname(os.path.abspath(__file__))
+    print(f"Futtatas helye: {current_folder}")
+    move_images_with_faces(current_folder)
+            \end{lstlisting}
             
         \subsection{Nagy elemszámú kategóriák szétosztása}
             Egyes kategóriák kiemelkedően nagy elemszámot mutattak, ami torzíthatta volna az osztályeloszlást, és ronthatta volna a modell általánosító képességét. Ezeket a kategóriákat, amennyiben lehetséges volt, kézi heurisztika alapján tovább bontottam altípusokra. Ez a művelet segített az egyensúly fenntartásában, és lehetővé tette a finomabb szemantikai megkülönböztetést.
             
         \subsection{Felosztás és véglegesítés}
-            Az adatbázis felépítésének utolsó lépése a 80-10-10 arányú Train–Validation–Test felosztás volt. Ennek megvalósításához saját Python szkriptet készítettem, amely garantálta a véletlenszerű, mégis osztályonként kiegyensúlyozott elosztást. 
+            Az adatbázis felépítésének utolsó lépése a 80-10-10 arányú Train-Validation-Test felosztás volt. Ennek megvalósításához saját Python szkriptet készítettem, amely garantálta a véletlenszerű, mégis osztályonként kiegyensúlyozott elosztást. 
             
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/db/scripts/db-splitter.png}
+                \caption{Az adatbázis felosztása.}
+                \label{fig:imagenet-gondola}
+            \end{figure}
+
             A felosztást követően minden készletet ZIP-formátumba tömörítettem, és feltöltöttem az elkészült adatbázisokat a további felhasználás vagy megosztás céljából.
-            
 
     \section{Kész adatbázis elemzése}
 
