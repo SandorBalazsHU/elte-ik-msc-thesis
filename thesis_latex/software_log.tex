@@ -114,153 +114,153 @@
     \subsection{convert.bat képkonverziós program.}
     \lstset{caption={convert.bat párhuzamos egy mappán belüli képkonverziós szkript.}, label=src:convert-bat}
     \begin{lstlisting}[language={[x86masm]Assembler}]
-      @echo off
-      setlocal enabledelayedexpansion
-      
-      :: -------------------- Settings --------------------
-      set "iview=C:\Program Files\IrfanView\i_view64.exe"
-      set "magick=magick"
-      set "inputFolder=%~dp0"
-      set "outputFolder=%inputFolder%resized"
-      
-      :: -------------------- Create output folder --------------------
-      if not exist "%outputFolder%" (
-          echo [INFO] Creating 'resized' folder...
-          mkdir "%outputFolder%"
-      )
-      
-      :: -------------------- Count input files --------------------
-      echo.
-      echo [STEP 1] Counting input files...
-      
-      set /a count=0
-      for %%f in ("%inputFolder%*.nef") do set /a count+=1
-      for %%f in ("%inputFolder%*.jpg") do set /a count+=1
-      
-      echo Found !count! images to process.
-      
-      :: -------------------- Resize in parallel --------------------
-      echo.
-      echo [STEP 2] Converting all to resized JPG (short side = 224 px)...
-      
-      set /a i=0
-      for %%f in ("%inputFolder%*.nef") do (
-          set /a i+=1
-          start /b "" "%iview%" "%%f" /resize_short=224 /aspectratio /resample /jpgq=80 /convert="%outputFolder%\%%~nf_nef.jpg"
-          call :progress !i! !count! "Converting"
-      )
-      
-      for %%f in ("%inputFolder%*.jpg") do (
-          set /a i+=1
-          start /b "" "%iview%" "%%f" /resize_short=224 /aspectratio /resample /jpgq=80 /convert="%outputFolder%\%%~nf_jpg.jpg"
-          call :progress !i! !count! "Converting"
-      )
-      
-      echo.
-      echo Waiting for all IrfanView conversions to finish...
-      call :wait_irfan
-      
-      :: -------------------- Crop in parallel --------------------
-      echo.
-      echo [STEP 3] Cropping to center 224x224 (parallel)...
-      
-      set /a totalCrop=0
-      for %%f in ("%outputFolder%\*.jpg") do (
-          set /a totalCrop+=1
-      )
-      
-      set /a i=0
-      for %%f in ("%outputFolder%\*.jpg") do (
-          set /a i+=1
-          start /b "" cmd /c %magick% "%%f" -gravity center -crop 224x224+0+0 +repage "%%f"
-          call :progress !i! !totalCrop! "Cropping"
-      )
-      
-      echo.
-      echo Waiting for all cropping to finish...
-      call :wait_magick
-      
-      echo.
-      echo [DONE] All images processed to 224x224 JPG in 'resized' folder.
-      endlocal
-      pause
-      exit /b
-      
-      :: -------------------- Progress display --------------------
-      :progress
-      setlocal
-      set "current=%~1"
-      set "total=%~2"
-      set "label=%~3"
-      set /a percent=(current*100)/total
-      echo [%label%] !percent!%% (!current! / !total!)
-      endlocal
-      exit /b
-      
-      :: -------------------- Wait for IrfanView jobs to finish --------------------
-      :wait_irfan
-      tasklist | find /I "i_view64.exe" >nul
-      if not errorlevel 1 (
-          timeout /t 1 >nul
-          goto wait_irfan
-      )
-      exit /b
-      
-      :: -------------------- Wait for ImageMagick jobs to finish --------------------
-      :wait_magick
-      tasklist | find /I "magick.exe" >nul
-      if not errorlevel 1 (
-          timeout /t 1 >nul
-          goto wait_magick
-      )
-      exit /b
+@echo off
+setlocal enabledelayedexpansion
+
+:: -------------------- Settings --------------------
+set "iview=C:\Program Files\IrfanView\i_view64.exe"
+set "magick=magick"
+set "inputFolder=%~dp0"
+set "outputFolder=%inputFolder%resized"
+
+:: -------------------- Create output folder --------------------
+if not exist "%outputFolder%" (
+    echo [INFO] Creating 'resized' folder...
+    mkdir "%outputFolder%"
+)
+
+:: -------------------- Count input files --------------------
+echo.
+echo [STEP 1] Counting input files...
+
+set /a count=0
+for %%f in ("%inputFolder%*.nef") do set /a count+=1
+for %%f in ("%inputFolder%*.jpg") do set /a count+=1
+
+echo Found !count! images to process.
+
+:: -------------------- Resize in parallel --------------------
+echo.
+echo [STEP 2] Converting all to resized JPG (short side = 224 px)...
+
+set /a i=0
+for %%f in ("%inputFolder%*.nef") do (
+    set /a i+=1
+    start /b "" "%iview%" "%%f" /resize_short=224 /aspectratio /resample /jpgq=80 /convert="%outputFolder%\%%~nf_nef.jpg"
+    call :progress !i! !count! "Converting"
+)
+
+for %%f in ("%inputFolder%*.jpg") do (
+    set /a i+=1
+    start /b "" "%iview%" "%%f" /resize_short=224 /aspectratio /resample /jpgq=80 /convert="%outputFolder%\%%~nf_jpg.jpg"
+    call :progress !i! !count! "Converting"
+)
+
+echo.
+echo Waiting for all IrfanView conversions to finish...
+call :wait_irfan
+
+:: -------------------- Crop in parallel --------------------
+echo.
+echo [STEP 3] Cropping to center 224x224 (parallel)...
+
+set /a totalCrop=0
+for %%f in ("%outputFolder%\*.jpg") do (
+    set /a totalCrop+=1
+)
+
+set /a i=0
+for %%f in ("%outputFolder%\*.jpg") do (
+    set /a i+=1
+    start /b "" cmd /c %magick% "%%f" -gravity center -crop 224x224+0+0 +repage "%%f"
+    call :progress !i! !totalCrop! "Cropping"
+)
+
+echo.
+echo Waiting for all cropping to finish...
+call :wait_magick
+
+echo.
+echo [DONE] All images processed to 224x224 JPG in 'resized' folder.
+endlocal
+pause
+exit /b
+
+:: -------------------- Progress display --------------------
+:progress
+setlocal
+set "current=%~1"
+set "total=%~2"
+set "label=%~3"
+set /a percent=(current*100)/total
+echo [%label%] !percent!%% (!current! / !total!)
+endlocal
+exit /b
+
+:: -------------------- Wait for IrfanView jobs to finish --------------------
+:wait_irfan
+tasklist | find /I "i_view64.exe" >nul
+if not errorlevel 1 (
+    timeout /t 1 >nul
+    goto wait_irfan
+)
+exit /b
+
+:: -------------------- Wait for ImageMagick jobs to finish --------------------
+:wait_magick
+tasklist | find /I "magick.exe" >nul
+if not errorlevel 1 (
+    timeout /t 1 >nul
+    goto wait_magick
+)
+exit /b
     \end{lstlisting}
 
     \subsection{convert-runner.py párhuzamos többmappás képkonvertáló.}
     \lstset{caption={convert-runner.py párhuzamos sokmappás képkonverziós szkript.}, label=src:convert-runner-bat}
     \begin{lstlisting}[language={Python}]
-      import os
-      import shutil
-      import subprocess
-      import sys
-      
-      def main():
-          # A szkript konyvtara
-          base_dir = os.path.dirname(os.path.abspath(__file__))
-          convert_bat = os.path.join(base_dir, 'convert.bat')
-      
-          if not os.path.isfile(convert_bat):
-              print(f"[ERROR] 'convert.bat' nincs megtalalhato a {base_dir} konyvtarban.")
-              sys.exit(1)
-      
-          # 1) Mappaterkep keszitese (elozetesen, hogy a kesobbi 'resized' mappakat ne talalja meg)
-          directories = []
-          for root, dirs, _ in os.walk(base_dir):
-              # Ha a mappa neve 'resized', ugorjuk at
-              if os.path.basename(root).lower() == 'resized':
-                  continue
-              directories.append(root)
-      
-          print(f"[INFO] Felderitett {len(directories)} konyvtarat.")
-      
-          # 2) convert.bat masolasa minden mappaba
-          for d in directories:
-              dest = os.path.join(d, 'convert.bat')
-              try:
-                  shutil.copy2(convert_bat, dest)
-                  print(f"[COPY] {dest}")
-              except Exception as e:
-                  print(f"[ERROR] Nem sikerult masolni ide: {d} ({e})")
-      
-          # 3) A batch fajl futtatasa minden mappaban
-          for d in directories:
-              bat_path = os.path.join(d, 'convert.bat')
-              print(f"[RUN] {bat_path}")
-              # Windows-on futtatashoz
-              subprocess.run(['cmd', '/c', bat_path], cwd=d)
-      
-      if __name__ == '__main__':
-          main()      
+import os
+import shutil
+import subprocess
+import sys
+
+def main():
+    # A szkript konyvtara
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    convert_bat = os.path.join(base_dir, 'convert.bat')
+
+    if not os.path.isfile(convert_bat):
+        print(f"[ERROR] 'convert.bat' nincs megtalalhato a {base_dir} konyvtarban.")
+        sys.exit(1)
+
+    # 1) Mappaterkep keszitese (elozetesen, hogy a kesobbi 'resized' mappakat ne talalja meg)
+    directories = []
+    for root, dirs, _ in os.walk(base_dir):
+        # Ha a mappa neve 'resized', ugorjuk at
+        if os.path.basename(root).lower() == 'resized':
+            continue
+        directories.append(root)
+
+    print(f"[INFO] Felderitett {len(directories)} konyvtarat.")
+
+    # 2) convert.bat masolasa minden mappaba
+    for d in directories:
+        dest = os.path.join(d, 'convert.bat')
+        try:
+            shutil.copy2(convert_bat, dest)
+            print(f"[COPY] {dest}")
+        except Exception as e:
+            print(f"[ERROR] Nem sikerult masolni ide: {d} ({e})")
+
+    # 3) A batch fajl futtatasa minden mappaban
+    for d in directories:
+        bat_path = os.path.join(d, 'convert.bat')
+        print(f"[RUN] {bat_path}")
+        # Windows-on futtatashoz
+        subprocess.run(['cmd', '/c', bat_path], cwd=d)
+
+if __name__ == '__main__':
+    main()      
     \end{lstlisting}
 
   \section{Átnevezés és ismétlődések szűrése}
@@ -297,81 +297,81 @@
   \subsection{A rename2.py MD5 átnevező szkript.}
     \lstset{caption={A rename2.py MD5 átnevező szkript.}, label=src:rename2.py}
     \begin{lstlisting}[language={Python}]
-      import os
-      import random
-      import string
-      import hashlib
-      from tqdm import tqdm
-      
-      # --- Beallitasok ---
-      NAME_LENGTH = 25                        # Valtoztathato nevhossz (pl. 20-25)
-      USE_MD5 = True                          # Ha True, az uj nev az MD5 hash lesz
-      TARGET_EXTENSIONS = {'.jpg', '.jpeg', '.png'}  # Feldolgozando kiterjesztesek
-      
-      # A szkript konyvtara lesz az alapertelmezett gyoker
-      BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-      
-      # --- Random nev generalasa ---
-      def generate_random_name(length):
-          chars = string.ascii_letters + string.digits
-          return ''.join(random.choices(chars, k=length))
-      
-      # --- MD5 hash generalasa ---
-      def generate_md5(filepath):
-          with open(filepath, 'rb') as f:
-              return hashlib.md5(f.read()).hexdigest()
-      
-      # --- Konyvtarak felderitese ---
-      directories = []
-      for root, dirs, _ in os.walk(BASE_DIR):
-          directories.append(root)
-      
-      print(f"[INFO] Felderitett konyvtarak szama: {len(directories)}")
-      for d in directories:
-          print(f"  - {os.path.relpath(d, BASE_DIR)}")
-      
-      # --- Minden konyvtar feldolgozasa ---
-      for FOLDER in directories:
-          # Fajlok listazasa a celkiterjesztesekkel
-          files = [
-              f for f in os.listdir(FOLDER)
-              if os.path.isfile(os.path.join(FOLDER, f))
-                 and os.path.splitext(f)[1].lower() in TARGET_EXTENSIONS
-          ]
-      
-          if not files:
-              print(f"[INFO] {os.path.relpath(FOLDER, BASE_DIR)}: nincs megfelelo fajl.")
-              continue
-      
-          print(f"[INFO] {os.path.relpath(FOLDER, BASE_DIR)}: {len(files)} fajl atnevezese...")
-      
-          for filename in tqdm(files, desc=f"Renaming in {os.path.relpath(FOLDER, BASE_DIR)}"):
-              full_path = os.path.join(FOLDER, filename)
-              ext = os.path.splitext(filename)[1].lower()
-      
-              # uj nev generalasa
-              if USE_MD5:
-                  newname = generate_md5(full_path)
-              else:
-                  newname = generate_random_name(NAME_LENGTH)
-      
-              new_filename = f"{newname}{ext}"
-              new_path = os.path.join(FOLDER, new_filename)
-      
-              # utkozes elkerulese
-              while os.path.exists(new_path):
-                  if USE_MD5:
-                      newname += '_1'
-                  else:
-                      newname = generate_random_name(NAME_LENGTH)
-                  new_filename = f"{newname}{ext}"
-                  new_path = os.path.join(FOLDER, new_filename)
-      
-              os.rename(full_path, new_path)
-      
-          print(f"[DONE] {os.path.relpath(FOLDER, BASE_DIR)}: minden fajl atnevezve.")
-      
-      print("[ALL DONE] Az osszes konyvtarban vegezve.") 
+import os
+import random
+import string
+import hashlib
+from tqdm import tqdm
+
+# --- Beallitasok ---
+NAME_LENGTH = 25                        # Valtoztathato nevhossz (pl. 20-25)
+USE_MD5 = True                          # Ha True, az uj nev az MD5 hash lesz
+TARGET_EXTENSIONS = {'.jpg', '.jpeg', '.png'}  # Feldolgozando kiterjesztesek
+
+# A szkript konyvtara lesz az alapertelmezett gyoker
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# --- Random nev generalasa ---
+def generate_random_name(length):
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choices(chars, k=length))
+
+# --- MD5 hash generalasa ---
+def generate_md5(filepath):
+    with open(filepath, 'rb') as f:
+        return hashlib.md5(f.read()).hexdigest()
+
+# --- Konyvtarak felderitese ---
+directories = []
+for root, dirs, _ in os.walk(BASE_DIR):
+    directories.append(root)
+
+print(f"[INFO] Felderitett konyvtarak szama: {len(directories)}")
+for d in directories:
+    print(f"  - {os.path.relpath(d, BASE_DIR)}")
+
+# --- Minden konyvtar feldolgozasa ---
+for FOLDER in directories:
+    # Fajlok listazasa a celkiterjesztesekkel
+    files = [
+        f for f in os.listdir(FOLDER)
+        if os.path.isfile(os.path.join(FOLDER, f))
+            and os.path.splitext(f)[1].lower() in TARGET_EXTENSIONS
+    ]
+
+    if not files:
+        print(f"[INFO] {os.path.relpath(FOLDER, BASE_DIR)}: nincs megfelelo fajl.")
+        continue
+
+    print(f"[INFO] {os.path.relpath(FOLDER, BASE_DIR)}: {len(files)} fajl atnevezese...")
+
+    for filename in tqdm(files, desc=f"Renaming in {os.path.relpath(FOLDER, BASE_DIR)}"):
+        full_path = os.path.join(FOLDER, filename)
+        ext = os.path.splitext(filename)[1].lower()
+
+        # uj nev generalasa
+        if USE_MD5:
+            newname = generate_md5(full_path)
+        else:
+            newname = generate_random_name(NAME_LENGTH)
+
+        new_filename = f"{newname}{ext}"
+        new_path = os.path.join(FOLDER, new_filename)
+
+        # utkozes elkerulese
+        while os.path.exists(new_path):
+            if USE_MD5:
+                newname += '_1'
+            else:
+                newname = generate_random_name(NAME_LENGTH)
+            new_filename = f"{newname}{ext}"
+            new_path = os.path.join(FOLDER, new_filename)
+
+        os.rename(full_path, new_path)
+
+    print(f"[DONE] {os.path.relpath(FOLDER, BASE_DIR)}: minden fajl atnevezve.")
+
+print("[ALL DONE] Az osszes konyvtarban vegezve.") 
     \end{lstlisting}
 
   \section{Az elkészült képek összemásolása}
@@ -387,56 +387,56 @@
   \subsection{sumcopy.py - Az elkészült képek összemásolása}
   \lstset{caption={A sumcopy.py - Az elkészült képek összemásolása.}, label=src:sumcopy.py}
   \begin{lstlisting}[language={Python}]
-    import os
-    import shutil
-    import sys
+import os
+import shutil
+import sys
 
-    def main():
-        # A szkript konyvtara lesz a gyoker
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        
-        # Celmappa a full_resized
-        full_resized_dir = os.path.join(base_dir, 'full_resized')
-        if not os.path.exists(full_resized_dir):
-            os.makedirs(full_resized_dir)
-            print(f"[INFO] Letrehozva: {full_resized_dir}")
-        else:
-            print(f"[INFO] Mar letezik: {full_resized_dir}")
+def main():
+    # A szkript konyvtara lesz a gyoker
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Celmappa a full_resized
+    full_resized_dir = os.path.join(base_dir, 'full_resized')
+    if not os.path.exists(full_resized_dir):
+        os.makedirs(full_resized_dir)
+        print(f"[INFO] Letrehozva: {full_resized_dir}")
+    else:
+        print(f"[INFO] Mar letezik: {full_resized_dir}")
 
-        # 1) Keressuk meg az osszes 'resized' mappat
-        resized_dirs = []
-        for root, dirs, files in os.walk(base_dir):
-            # ha a root mappa neve 'resized', vegyuk fel
-            if os.path.basename(root).lower() == 'resized':
-                resized_dirs.append(root)
+    # 1) Keressuk meg az osszes 'resized' mappat
+    resized_dirs = []
+    for root, dirs, files in os.walk(base_dir):
+        # ha a root mappa neve 'resized', vegyuk fel
+        if os.path.basename(root).lower() == 'resized':
+            resized_dirs.append(root)
 
-        print(f"[INFO] {len(resized_dirs)} darab 'resized' mappa talalhato.")
+    print(f"[INFO] {len(resized_dirs)} darab 'resized' mappa talalhato.")
 
-        # 2) Masolas full_resized-be, nevutkozesnel kihagyjuk
-        for rd in resized_dirs:
-            print(f"[PROCESS] {rd} tartalmanak masolasa...")
-            for fname in os.listdir(rd):
-                src = os.path.join(rd, fname)
-                dst = os.path.join(full_resized_dir, fname)
+    # 2) Masolas full_resized-be, nevutkozesnel kihagyjuk
+    for rd in resized_dirs:
+        print(f"[PROCESS] {rd} tartalmanak masolasa...")
+        for fname in os.listdir(rd):
+            src = os.path.join(rd, fname)
+            dst = os.path.join(full_resized_dir, fname)
 
-                # csak fajlokat masolunk
-                if not os.path.isfile(src):
-                    continue
+            # csak fajlokat masolunk
+            if not os.path.isfile(src):
+                continue
 
-                if os.path.exists(dst):
-                    print(f"  [SKIP] Mar letezik: {fname}")
-                    continue
+            if os.path.exists(dst):
+                print(f"  [SKIP] Mar letezik: {fname}")
+                continue
 
-                try:
-                    shutil.copy2(src, dst)
-                    print(f"  [COPY] {fname}")
-                except Exception as e:
-                    print(f"  [ERROR] Nem sikerult masolni {fname}: {e}")
+            try:
+                shutil.copy2(src, dst)
+                print(f"  [COPY] {fname}")
+            except Exception as e:
+                print(f"  [ERROR] Nem sikerult masolni {fname}: {e}")
 
-        print("[DONE] Minden 'resized' mappa feldolgozva.")
+    print("[DONE] Minden 'resized' mappa feldolgozva.")
 
-    if __name__ == '__main__':
-        main()
+if __name__ == '__main__':
+    main()
   \end{lstlisting}
 
   \section{}

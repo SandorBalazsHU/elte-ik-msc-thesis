@@ -339,26 +339,26 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             \subsubsection{Programkód az autómata szortírozáshoz. (Részlet)}
             \lstset{caption={Auomatikus ImageNet1k szortírozás - RÉSZLET}, label=src:autosort.py}
             \begin{lstlisting}[language={Python}]
-                os.makedirs(sorted_dir, exist_ok=True)
-                class_counts = defaultdict(int)
-                image_map = dict()
-                other_dir = os.path.join(sorted_dir, "other")
-                os.makedirs(other_dir, exist_ok=True)
+os.makedirs(sorted_dir, exist_ok=True)
+class_counts = defaultdict(int)
+image_map = dict()
+other_dir = os.path.join(sorted_dir, "other")
+os.makedirs(other_dir, exist_ok=True)
 
-                image_paths = [os.path.join(unsorted_dir, f) for f in os.listdir(unsorted_dir) if f.lower().endswith(".jpg")]
+image_paths = [os.path.join(unsorted_dir, f) for f in os.listdir(unsorted_dir) if f.lower().endswith(".jpg")]
 
-                # Elso kor: top-1 kategoria hozzarendeles
-                print("Elso koros predikcio es ideiglenes hozzarendeles...")
-                for img_path in tqdm(image_paths):
-                    img = Image.open(img_path).convert("RGB")
-                    inp = transform(img).unsqueeze(0).cuda()
-                    with torch.no_grad():
-                        out = model(inp)
-                    pred_idx = torch.argmax(out, dim=1).item()
-                    pred_label = idx_to_label[pred_idx]
+# Elso kor: top-1 kategoria hozzarendeles
+print("Elso koros predikcio es ideiglenes hozzarendeles...")
+for img_path in tqdm(image_paths):
+    img = Image.open(img_path).convert("RGB")
+    inp = transform(img).unsqueeze(0).cuda()
+    with torch.no_grad():
+        out = model(inp)
+    pred_idx = torch.argmax(out, dim=1).item()
+    pred_label = idx_to_label[pred_idx]
 
-                    image_map[img_path] = pred_label
-                    class_counts[pred_label] += 1
+    image_map[img_path] = pred_label
+    class_counts[pred_label] += 1
             \end{lstlisting}
             
         \subsection{Places365 alapú kategorizálás}
@@ -432,28 +432,28 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             
             \lstset{caption={Zip fájlok másolása Drive-ból - RÉSZLET.}, label=src:dive.py}
             \begin{lstlisting}[language={Python}]
-                # Csatolas
-                drive.mount('/content/drive')
+# Csatolas
+drive.mount('/content/drive')
 
-                # utvonalak
-                diploma_path ="/content/drive/MyDrive/diplomamunka"
-                unsorted_zip_path = os.path.join(diploma_path, "unsorted_db.zip")
-                unsorted_dir = "/content/unsorted_db"
-                sorted_dir = "/content/imagenet_sorted_db"
+# utvonalak
+diploma_path ="/content/drive/MyDrive/diplomamunka"
+unsorted_zip_path = os.path.join(diploma_path, "unsorted_db.zip")
+unsorted_dir = "/content/unsorted_db"
+sorted_dir = "/content/imagenet_sorted_db"
 
-                # Kicsomagolas
-                with zipfile.ZipFile(unsorted_zip_path, 'r') as zip_ref:
-                    zip_ref.extractall(unsorted_dir)
+# Kicsomagolas
+with zipfile.ZipFile(unsorted_zip_path, 'r') as zip_ref:
+    zip_ref.extractall(unsorted_dir)
 
-                print("Kicsomagolva:", unsorted_dir)
-                #------------------------------
-                print("Tomorites folyamatban...")
-                shutil.make_archive("imagenet_sorted_db", 'zip', sorted_dir)
+print("Kicsomagolva:", unsorted_dir)
+#------------------------------
+print("Tomorites folyamatban...")
+shutil.make_archive("imagenet_sorted_db", 'zip', sorted_dir)
 
-                print("Visszamasolas a Drive-ba...")
-                shutil.move("/content/imagenet_sorted_db.zip", os.path.join(diploma_path, "imagenet_sorted_db.zip"))
+print("Visszamasolas a Drive-ba...")
+shutil.move("/content/imagenet_sorted_db.zip", os.path.join(diploma_path, "imagenet_sorted_db.zip"))
 
-                print("Kesz!")
+print("Kesz!")
             \end{lstlisting}
             
         \subsection{Üres kategóriák eltávolítása}
@@ -464,19 +464,23 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             
             Ezek a \texttt{folder-flatten} néven szereplő szkriptek a projekt GitHub-repójában, a \texttt{scripts/db/folder\_correctors} könyvtárban találhatók. A szkriptek célja az volt, hogy a mélyebb mappaszerkezeteket laposabb, könnyebben kezelhető struktúrába szervezzék. A folyamat részeként külön programokat készítettem az almappák létezésének ellenőrzésére és a redundáns könyvtárstruktúrák azonosítására is.
             
-        \subsection{300 kép alatti kategóriák megszüntetése}
-
-        \subsection{Kézi Adattisztítás, szűrés, törlés}
-            Az autómata osztályozást kézi adattisztítás, szűrés követte, 
-
-
-        \subsection{A rendezés finomítása, kézi és automata}
-
-        \subsection{Arcfelismerés}
-        
-        \subsection{Nagy kategóriák szétosztása}
-
-        \subsection{Véglegesítés}
+        \subsection{300 képnél kisebb kategóriák eltávolítása}
+            Az üres kategóriák eltávolítását követően sor került a kevés példányt tartalmazó osztályok szűrésére is. Azokat a kategóriákat, amelyek kevesebb mint 300 képet tartalmaztak, eltávolítottam. Ennek célja az volt, hogy az adatbázis 80-10-10 arányú (Train–Validation–Test) felosztása után is minden halmazban elegendő számú kép maradjon az értelmezhető és hasznos modelltanításhoz. Az újraosztás során figyelembe vettem a leggyakoribb osztályok eloszlását, így a kis kategóriák megszüntetése a teljes osztályspektrum arányait nem torzította jelentősen.
+            
+        \subsection{Kézi adattisztítás, szűrés és törlés}
+            Az automatikus osztályozást követően többnapos, kézi adattisztítási fázis következett, melynek során heurisztikus alapon átvizsgáltam a kategóriákba sorolt képeket. A nem releváns, tévesen besorolt vagy minőségileg nem megfelelő képeket eltávolítottam, hogy a tanítókészlet minősége minél homogénebb és megbízhatóbb legyen. Ez a lépés kiemelkedően fontos volt az adatbázis végső használhatósága szempontjából.
+            
+        \subsection{Arcfelismerés alkalmazása}
+            A képek között jelentős számban akadtak portrék vagy embereket ábrázoló jelenetek, amelyeket az automatikus osztályozás nem minden esetben kezelt megfelelően. Ennek megoldására az OpenCV beépített arcfelismerő algoritmusát alkalmaztam, amellyel automatizáltan kiszűrtem azokat a képeket, amelyek emberi arcot tartalmaztak. Ez nagy segítséget jelentett a kézi szűrés során, különösen az olyan osztályokban, ahol az arctartalom zavaró vagy irreleváns lett volna.
+            
+        \subsection{Nagy elemszámú kategóriák szétosztása}
+            Egyes kategóriák kiemelkedően nagy elemszámot mutattak, ami torzíthatta volna az osztályeloszlást, és ronthatta volna a modell általánosító képességét. Ezeket a kategóriákat, amennyiben lehetséges volt, kézi heurisztika alapján tovább bontottam altípusokra. Ez a művelet segített az egyensúly fenntartásában, és lehetővé tette a finomabb szemantikai megkülönböztetést.
+            
+        \subsection{Felosztás és véglegesítés}
+            Az adatbázis felépítésének utolsó lépése a 80-10-10 arányú Train–Validation–Test felosztás volt. Ennek megvalósításához saját Python szkriptet készítettem, amely garantálta a véletlenszerű, mégis osztályonként kiegyensúlyozott elosztást. 
+            
+            A felosztást követően minden készletet ZIP-formátumba tömörítettem, és feltöltöttem az elkészült adatbázisokat a további felhasználás vagy megosztás céljából.
+            
 
     \section{Kész adatbázis elemzése}
 
