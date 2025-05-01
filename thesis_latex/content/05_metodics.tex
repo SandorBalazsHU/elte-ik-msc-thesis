@@ -32,7 +32,7 @@
     \item Fény derülhet arra, hogy bizonyos architektúrák már a pre-trainelt állapotban is előnyt élveznek.
   \end{itemize}
   
-  Ez különösen fontos volt az SBphotoThemes180K adathalmaz esetén, mivel az osztályok egy része átfedést mutat az ImageNet1k alap kategóriáival.
+  Ez különösen fontos volt az SBphotoThemes180K adathalmaz esetén, mivel az osztályok átfedést mutatnak az ImageNet1k alap kategóriáival.
   
   %---
   
@@ -55,7 +55,7 @@
   
   \section{III. Fázis: Iteratív tanítás}
   
-  Ebben a vizsgálati lépésben azt kutattam, hogyan alakul a modellek teljesítménye különböző méretű tanítóhalmazok mellett. Minden modell négy lépésben tanult: 1k, 5k, 10k, és 25k méretű tanítóhalmazokon, külön-külön. Minden esetben 10 epochon keresztül történt a tréning, kivéve a NASNet esetében, ahol az erőforrásigények miatt csökkentett epoch számokat alkalmaztam.
+  Ebben a vizsgálati lépésben azt kutattam, hogyan alakul a modellek teljesítménye különböző méretű tanítóhalmazok mellett. Minden modell négy lépésben tanult: 1k, 5k, 10k, és 25k méretű tanítóhalmazokon, külön-külön. Minden esetben 10 epochon keresztül történt a tréning, kivéve a NASNet esetében, ahol az erőforrásigények miatt csökkentett epoch számokat alkalmaztam (5-5-3-2 epoch).
   
   \textbf{Cél:} A modellek tanulási görbéjének és érzékenységének vizsgálata eltérő adatmennyiség mellett.
   

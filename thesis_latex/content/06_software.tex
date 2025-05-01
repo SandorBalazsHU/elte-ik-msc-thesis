@@ -26,12 +26,12 @@
 
         A modellek tanítása során a memóriaigény gyakran meghaladta a 10-16 GB GPU memóriát, amihez lokálisan nem állt rendelkezésre megfelelő NVIDIA grafikus kártya. Emellett a hosszú tanítási idők (akár több óra/modell) a gép folyamatos elérhetőségét igényelték volna, amit egy nem dedikált kutatói workstation nem tudott garantálni.
         
-        Ezért az online, skálázható és CUDA-gyorsított környezetet biztosító Google Colab Pro+ megoldást választottam. Ez lehetővé tette a mérések párhuzamos, hatékony elvégzését és a különösen számításigényes szakaszokhoz rugalmasan erősebb GPU-k igénylését.
+        Ezért az online, skálázható és CUDA-gyorsított környezetet biztosító Google Colab Pro megoldást választottam. Ez lehetővé tette a mérések párhuzamos, hatékony elvégzését és a különösen számításigényes szakaszokhoz rugalmasan erősebb GPU-k igénylését.
 
     \section{Google Colab lehetőségek}
-        A Google Colab Pro (és Pro+) környezet többféle GPU-típushoz biztosít hozzáférést, köztük olyan erős architektúrákhoz, mint az NVIDIA A100 és L4. Ezek a kártyák a modern neurális hálózati modellekhez tervezett csúcshardverek, és kiválóan alkalmasak mélytanulási feladatokra.
+        A Google Colab Pro környezet többféle GPU-típushoz biztosít hozzáférést, köztük olyan erős architektúrákhoz, mint az NVIDIA A100 és L4. Ezek a kártyák a modern neurális hálózati modellekhez tervezett csúcshardverek, és kiválóan alkalmasak mélytanulási feladatokra.
 
-        A Colab lehetővé teszi a Jupyter notebook-ok futtatását felhőben, közvetlenül Python nyelven. A Colab Pro+ előfizetéssel gyakrabban és hosszabb ideig érhetők el a prémium GPU-k, ez döntő fontosságú volt a 10 epoch-os betanításokhoz és az iteratív tanulási vizsgálatokhoz.
+        A Colab lehetővé teszi a Jupyter notebook-ok futtatását felhőben, közvetlenül Python nyelven. A Colab Pro előfizetéssel gyakrabban és hosszabb ideig érhetők el a prémium GPU-k, ez döntő fontosságú volt a 10 epoch-os betanításokhoz és az iteratív tanulási vizsgálatokhoz.
         
         A két alkalmazott GPU jellemzői:
             \begin{itemize}          
@@ -53,26 +53,6 @@
         
             \item lehetővé tette az adathalmaz többlépcsős tanításához szükséges szelektív betöltést.
         \end{itemize}
-        A megközelítés nemcsak hatékony, de rugalmas is volt: a ZIP-fájlokat könnyen lehetett újracsoportosítani a különböző tanítókészletekhez (1k, 5k, 10k, 25k stb.), és a Colab környezet indítása után percek alatt elérhetővé vált a szükséges adathalmaz-részlet.
-
-    \section{Tanító és tesztelő programok}
-
-        \subsection{Tesztelés}
-
-        \subsection{Tanítás}
-
-        \subsection{Mérés}
-
-        \subsection{Problémák és megoldások}
-
-            \subsubsection{Sablon notebook-ok}
-
-            \subsubsection{LaTeX táblázatok}
-
-            \subsubsection{Confusion mátrixok}
-
-            \subsubsection{NASNet optimalizáció}
-            
-    \section{Összefoglalás}
+        A megközelítés nemcsak hatékony, de rugalmas is volt.
 
 

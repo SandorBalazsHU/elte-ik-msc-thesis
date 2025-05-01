@@ -48,7 +48,7 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
             
             A képek átlagos mérete körülbelül 7~MB volt. Az adathalmaz feldolgozása során kézi, majd gépi szűrés segítségével eltávolítottam az ismétlődő képeket, így végül 180\,750 egyedi fotót azonosítottam. Ezen képek konvertálása, átméretezése, tömörítése és középre vágása után jött létre a végső adatbázis, amely 9{,}44~GB méretű lett. 
             
-            Mivel az eredeti képek átlagosan körülbelül 7~MB méretűek voltak, míg az előkészített képek átlagosan 44~kB méretűek, így az összesített adattömörítési arány meghaladja a 60\%-ot. Ez a tömörítés jelentős tárhely-megtakarítást jelentett, miközben a neurális hálózatokhoz szükséges releváns vizuális információ megmaradt.
+            Mivel az eredeti képek átlagosan körülbelül 7~MB méretűek voltak, míg az előkészített képek átlagosan 44~kB méretűek, így az összesített adattömörítési arány nagyon jelentős. Ez a tömörítés komoly tárhely-megtakarítást jelentett, miközben a neurális hálózatokhoz szükséges releváns vizuális információ megmaradt.
             
         \subsection{Tematikus kategóriák}
             
@@ -212,7 +212,7 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
 
             A következő lépésben az adatok automatikus és kézi osztályozása, valamint a végső utófeldolgozás következett. E szakaszokat a következőkben részletezem.
 
-        \subsection{A képfeldolgozó futószalag}
+        \section{A képfeldolgozó futószalag}
             Tekintsük most át az előbb megismert képfeldolgozó futószalag elemeit részleteiben.
 
         \subsection{Konvertálás, Méretezés, Vágás}
@@ -500,7 +500,7 @@ for img_path, cls in tqdm(image_map.items()):
         \subsection{Arcfelismerés alkalmazása}
             A képek között jelentős számban akadtak portrék vagy embereket ábrázoló jelenetek, amelyeket az automatikus osztályozás nem minden esetben kezelt megfelelően. Ennek megoldására az OpenCV beépített arcfelismerő algoritmusát alkalmaztam, amellyel automatizáltan kiszűrtem azokat a képeket, amelyek emberi arcot tartalmaztak. Ez nagy segítséget jelentett a kézi szűrés során, különösen az olyan osztályokban, ahol az arctartalom zavaró vagy irreleváns lett volna.
 
-            \subsection{OpenCV arcfelismerő szűrő.}
+            \subsubsection{OpenCV arcfelismerő szűrő.}
             \lstset{caption={OpenCV arcfelismerő szűrő.}, label=src:face-filter.py}
             \begin{lstlisting}[language={Python}]
 def move_images_with_faces(folder_path):
@@ -665,7 +665,7 @@ if __name__ == "__main__":
             
             \begin{itemize}
                 \item Kategóriák listázása és egyenkénti képszámának kiértékelése
-                \item Top 30 legnépesebb kategória grafikus megjelenítése (balkdiagram formájában)
+                \item Top 30 legnépesebb kategória grafikus megjelenítése (diagram formájában)
                 \item Méretkategóriák eloszlásának kiszámítása és vizualizálása
                 \item A teljes adathalmazra vonatkozó részletes statisztikai mutatók számítása (átlag, medián, szórás, entrópia, Gini-index, stb.)
             \end{itemize}
@@ -674,7 +674,7 @@ if __name__ == "__main__":
             
             A kategorizálást vizsgáló szkript forráskódja megtalálható:
             \begin{itemize}
-                \item a projekt \textbf{GitHub repository-jában} \texttt{scripts/tools/} útvonalon,
+                \item a projekt \textbf{GitHub repository-jában} \texttt{scripts/db/db\_analyzers} útvonalon,
                 \item valamint mellékletként a dolgozat végén.
             \end{itemize}
             
@@ -715,7 +715,7 @@ if __name__ == "__main__":
 
         \begin{table}[H]
         \centering
-        \caption{Osztálykategóriák méretszerinti eloszlása (kép ezerfő/kategória szerint)}
+        \caption{Osztálykategóriák méretszerinti eloszlása (kép ezerfő/kategória)}
         \begin{tabular}{|c|c|}
         \hline
         \textbf{Méretkategória (kép x 1000)} & \textbf{Kategóriák száma} \\
@@ -813,7 +813,7 @@ if __name__ == "__main__":
         
         \begin{table}[H]
         \centering
-        \caption{Osztálykategóriák méretszerinti eloszlása (kép ezerfő/kategória szerint)}
+        \caption{Osztálykategóriák méretszerinti eloszlása (kép ezerfő/kategória)}
         \begin{tabular}{|c|c|}
         \hline
         \textbf{Méretkategória (kép x 1000)} & \textbf{Kategóriák száma} \\
@@ -911,11 +911,10 @@ if __name__ == "__main__":
     %EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
 
         \subsection{EXIF Statisztika szkript}
-
-            \subsubsection{Tulajdonságok}
+            A konverzió során fontos szempont volt az EXIF adatok megőrzése. Ezen adatok elemzésére külön programot fejlesztettem három verzióban. Ez párhuzamos feldolgozással fut végig a kijelölt mappák képein majd a megadott statisztikák szerint gyűjti az adatokat CSV formátumba amiből később python srgítségével készítettem grafikonokat. Ezek a programkódok a projekt GitHub repository-jában érhetőek el.
 
         \subsection{EXIF statisztika}
-
+            Ebben a részben gyűjtöttem össze az EXIF adatok érdekesebb statisztikáit.
             \begin{figure}[H]
                 \centering
                 \includegraphics[width=0.7\textwidth]{images/db/exif/exif_stat_10.png}
@@ -946,23 +945,21 @@ if __name__ == "__main__":
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/exif/exif_stat_04_BLENDE.png}
+                \includegraphics[width=0.8\textwidth]{images/db/exif/exif_stat_04_BLENDE.png}
                 \caption{A fényképek rekesz eloszlása.}
                 \label{fig:exif-blende}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/exif/exif_stat_04_SPEED.png}
+                \includegraphics[width=0.8\textwidth]{images/db/exif/exif_stat_04_SPEED.png}
                 \caption{A fényképek záridő eloszlása.}
                 \label{fig:exif-speed}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/exif/exif_stat_05_MM.png}
+                \includegraphics[width=0.8\textwidth]{images/db/exif/exif_stat_05_MM.png}
                 \caption{Az objektívek eloszlása.}
                 \label{fig:exif-mm}
             \end{figure}
-
-    \section{Az elkészült adatbázis értékelése}
