@@ -1,9 +1,110 @@
 \chapter{Vizsgálati metodika}
 
-    \section{I. Fázis: Tanítás nélküli tesztelés}
+\section{A mérési környezet}
+  A méréseket Google Colab Pro környezetben végeztem el Colab (Jupyter) notebook-ok segítségével Python nyelven CUDA gyorsítással. Az adatbázis építése az automatikus rendezés kivételével (ami Colab-on történt) lokálisan történt python és shell szkriptek segítségével. 
 
-    \section{II. Fázis: Teljes tanítás}
+  \subsection{Az alkalmazott grafikus kártyák}
+  \begin{itemize}
+    \item NVIDIA A100-SXM4-40GB
+    \item NVIDIA L4 GPU
+  \end{itemize}
+  Az esetek többségében az L4 GPU-t használtam, ez óránként 2 számítási egységet használt fel, így gazdaságosabb volt. A különsen számításigényes tanításokhoz alkalmaztam az A100 GPU-t a sebessége miatt, de az 8 számítási egyéget fogyasztott óránként, így költséges volt használni. 
+  \note{
+  Az Inference time és az Epoch iterációs idő a két időérzékeny mérési eredmény, ilyenkor az alkalmazott GPU feltüntetésre kerül.
+  }
 
-    \section{III. Fázis: Iteratív tanítás}
-    
-    \section{IV. Fázis: Saját modell fejlesztése}
+\subsection{Az alkalmazott szoftveres környezet}
+  A méréseket Google Colab Pro környezetben végeztem el Colab (Jupyter) notebook-ok segítségével Python nyelven CUDA gyorsítással. Az adatbázis építése az automatikus rendezés kivételével lokálisan történt python és shell szkriptek segítségével. 
+  Az elkészített mérési és adatbázis építő szoftver a mellékelt tömörített fájlban, vagy a projekt Github repository-jában található.
+  A szoftverek működésének ismeretése a Melléklet B: Elkészített szoftverek részben található.
+  note {A "k" rövidítés a kilo mint ezer jelölésére szolgál}
+
+  \section{Mérésmetodika}
+
+  A mérési metodika célja, hogy különböző mélytanulási modellek képességeit objektíven, összehasonlítható módon vizsgálja egy egységes, valóságból származó, sokosztályos képadatbázison. A kiválasztott modellek sokfélesége (klasszikus konvolúciós hálók, hatékonyságra optimalizált architektúrák, transzformer-alapú modellek) megköveteli, hogy az értékelés többdimenziós és fokozatosan mélyülő legyen.
+  
+  A vizsgálat során két osztályozás került előállításra az SBphotoThemes180K adathalmazon:
+  \begin{itemize}
+    \item \textbf{ImageNet1k osztályozás}: 114 kategóriába sorolt képek – ez a vizsgálatok fő fókusza.
+    \item \textbf{Places365 osztályozás}: 121 kategória – ez jövőbeli kutatások alapja lesz.
+  \end{itemize}
+  
+  Az adatbázis három részre lett osztva:
+  \begin{itemize}
+    \item \textbf{Train (80\%)}: 144600 kép – a tanítási adathalmaz.
+    \item \textbf{Validation (10\%)}: 18075 kép – a validációs teljesítmény mérése a tanítás alatt.
+    \item \textbf{Test (10\%)}: 18075 kép – minden mérés azonos, változatlan teszthalmazon történt.
+  \end{itemize}
+  
+  A méréseket négy, külön célt szolgáló fázisban hajtottam végre. Mindegyik fázis eltérő megközelítést képvisel, és más-más szempontból szolgáltat információt a modellek viselkedéséről.
+  
+  %---
+  
+  \section{I. Fázis: Tanítás nélküli tesztelés}
+  
+  Ebben a fázisban minden kiválasztott modellt úgy teszteltem a teljes teszthalmazon, hogy nem történt semmiféle finomhangolás vagy tanítás – vagyis a modellek előtanított állapotban, az ImageNet súlyokkal kerültek kiértékelésre.
+  
+  \textbf{Cél:} A kiindulási teljesítmény meghatározása, amely megmutatja, hogy a modellek milyen mértékben képesek generalizálni az új, de hasonló doménből származó képekre a tanítás nélkül.
+  
+  \textbf{Jelentősége:}
+  \begin{itemize}
+    \item Segít megérteni, mennyire adaptálható egy adott modell nulladik lépésben.
+    \item Alapvető referenciaértékeket biztosít a későbbi tanítások eredményének értelmezéséhez.
+    \item Fény derülhet arra, hogy bizonyos architektúrák már a pre-trainelt állapotban is előnyt élveznek.
+  \end{itemize}
+  
+  Ez különösen fontos volt az SBphotoThemes180K adathalmaz esetén, mivel az osztályok egy része átfedést mutat az ImageNet1k alap kategóriáival.
+  
+  %---
+  
+  \section{II. Fázis: Teljes tanítás}
+  
+  Ebben a fázisban minden modellt teljesen betanítottam a teljes 144600 képet tartalmazó tanítóhalmazon. A tanítás során 10 epochon keresztül zajlott a modell optimalizálása, kivéve a NASNet modellt, ahol a számítási kapacitás korlátai miatt csak 2 epochig tartott a tréning.
+  
+  \textbf{Cél:} A modellek maximális, hosszú távú tanulási potenciáljának feltérképezése az egész adathalmazon.
+  
+  \textbf{Jelentősége:}
+  \begin{itemize}
+    \item Megmutatja, hogyan képesek a modellek a teljes adathalmaz információtartalmát kihasználni.
+    \item Objektív összehasonlítást nyújt a különböző architektúrák generalizációs és tanulási képességeiről.
+    \item Részletes metrikák (Top-1, Top-5, Precision, Recall, F1, Train/Val loss) segítségével pontosan mérhető a tanulás dinamikája.
+  \end{itemize}
+  
+  A tanítás után minden modell ugyanazon a teszthalmazon került kiértékelésre, így közvetlen összehasonlítás vált lehetővé.
+  
+  %---
+  
+  \section{III. Fázis: Iteratív tanítás}
+  
+  Ebben a vizsgálati lépésben azt kutattam, hogyan alakul a modellek teljesítménye különböző méretű tanítóhalmazok mellett. Minden modell négy lépésben tanult: 1k, 5k, 10k, és 25k méretű tanítóhalmazokon, külön-külön. Minden esetben 10 epochon keresztül történt a tréning, kivéve a NASNet esetében, ahol az erőforrásigények miatt csökkentett epoch számokat alkalmaztam.
+  
+  \textbf{Cél:} A modellek tanulási görbéjének és érzékenységének vizsgálata eltérő adatmennyiség mellett.
+  
+  \textbf{Jelentősége:}
+  \begin{itemize}
+    \item Segít meghatározni, mely modellek tanulnak hatékonyan már kisebb adathalmazon is.
+    \item Rávilágít a modellek adatéhségére és generalizációs képességeire az adatméret függvényében.
+    \item Lehetővé teszi a modellválasztás optimalizálását korlátozott adatkészletek esetén.
+  \end{itemize}
+  
+  Az iteratív mérések alapján tanulási görbék és részletes statisztikai kimutatások készültek, amelyek jól szemléltetik az architektúrák különbségeit a korai fázisú tanulásban.
+  
+  %---
+  
+  \section{IV. Fázis: Saját modell fejlesztése}
+  
+  A méréssorozat negyedik fázisában saját, egyedileg kialakított modell kifejlesztésére és kiértékelésére került sor, a korábbi eredmények és tanulságok alapján.
+  
+  \textbf{Cél:} Egy hatékony, célzottan az SBphotoThemes180K adathalmazhoz optimalizált neurális háló létrehozása.
+  
+  \textbf{Jelentősége:}
+  \begin{itemize}
+    \item A vizsgálatok tapasztalataira építve lehetőség nyílik egy könnyű, mégis pontos osztályozó modell kialakítására.
+    \item Az egyedi modell összehasonlítása a „nagy” modellekkel segít feltárni, hogy az adaptált architektúrák mikor tudnak versenyképesek lenni.
+    \item Az ilyen fejlesztések irányt mutathatnak jövőbeli alacsony számítási igényű, valós idejű alkalmazások számára.
+  \end{itemize}
+  
+  Ez a fázis különösen fontos abban az esetben, ha a cél egy deployálható, hatékony rendszer létrehozása, nem csupán kutatási célú összehasonlítás.
+  
+  %---
+  
