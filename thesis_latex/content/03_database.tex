@@ -683,7 +683,7 @@ if __name__ == "__main__":
     \subsection{Kategóriák, statisztikák, méretek}
         A \textbf{SBphotoThemes180K} adatbázsban lévő 180750 képet a \textbf{Places365} kategorizálással \textbf{121 kategóriába} soroltam, a \textbf{ImageNet1K} kategorizálással pedig \textbf{114 osztályba}. Most elemezzük ezeket a kategorizálásokat részletesen.
 
-    \subsection{SBphotoThemes180K - Places365 osztályozás statisztikái}
+    \subsection{SBphotoThemes180K - Places365 statisztikái}
 
         A \textbf{Places365} modellre épülő automatikus osztályozás során az SBphotoThemes180K adathalmaz képeit \textbf{121 kategóriába} sikerült besorolni. A leggyakoribb 12 osztály az alábbi táblázatban látható:
 
@@ -781,7 +781,7 @@ if __name__ == "__main__":
         \end{figure}
 
 
-    \subsection{SBphotoThemes180K - ImageNet1K osztályozás statisztikái}
+    \subsection{SBphotoThemes180K - ImageNet1K statisztikái}
 
         Az \textbf{ImageNet1K} modellre épülő automatikus osztályozás során az SBphotoThemes180K adathalmaz képeit összesen \textbf{114 osztályba} soroltam. Az alábbi táblázat a tizenkét leggyakoribb kategóriát mutatja:
         
@@ -884,12 +884,19 @@ if __name__ == "__main__":
             \caption{SBphotoThemes180K - ImageNet1K osztályozás hőtérképes eloszlása halmazonként.}
             \label{fig:imagenet-heatmap}
         \end{figure}
-        
+        \cleardoublepage
+
     \subsection{A Train/Val/Test halmazok eloszlása}
         A statisztikák során ellenőrizem a Train/Val/Test halmazok eloszlását is.
+        A halmazok elemszáma mindkét osztályozás esetén az allábbiak szerint alakult:
+        \begin{itemize}
+            \item Train: 144 000 db kép
+            \item Val:   18 000 db kép
+            \item Test:  18 000 db kép
+        \end{itemize}
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.6\textwidth]{images/db/stat/db_stat_imagenet_03.png}
+            \includegraphics[width=0.7\textwidth]{images/db/stat/db_stat_imagenet_03.png}
             \caption{SBphotoThemes180K - mindkét osztály T/V/T eloszlása}
             \label{fig:imagenet-tvt-eloszlas}
         \end{figure}
