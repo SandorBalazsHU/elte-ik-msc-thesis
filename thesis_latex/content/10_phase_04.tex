@@ -96,10 +96,117 @@ Mind a négy fej logikusan kapcsolódott a ResNet18 backbone-hoz, és jól illes
 
 
     \section{Mérések}
+        A saját modelleimen ugyanazokat a méréseket hajtottam végre mint a nagy modelleken. Tekintsük meg ezek eredményeit.
 
         \subsection{I. Fázis: Tanítás nélküli tesztelés}
 
+        \begin{table}[H]
+            \centering
+            \caption{Tanítás nélküli modellek teljesítménye (Top-1 szerint csökkenő sorrendben)}
+            \begin{tabular}{|l|c|c|c|c|c|c|}
+            \hline
+            \textbf{Modell} & \textbf{Top-1} & \textbf{Top-5} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{Idő (s)} \\
+            \hline
+            ResNet18 + Baseline & 0.0052 & 0.0304 & 0.0093 & 0.0072 & 0.0011 & 18.48 \\
+            ResNet18 + Deep & 0.0050 & 0.0265 & 0.0003 & 0.0071 & 0.0006 & 15.54 \\
+            ResNet18 + Hybrid v1 & 0.0047 & 0.0286 & 0.0041 & 0.0076 & 0.0014 & 15.54 \\
+            ResNet18 + Hybrid v2 & 0.0054 & 0.0379 & 0.0026 & 0.0063 & 0.0020 & 17.89 \\
+            \hline
+            \end{tabular}
+        \end{table}
+
+        \subsubsection{Saját modellek tanítás nélküli Confusion Mátrixai.}
+        \begin{figure}[H]
+            \centering
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/phase04/phase01/conf01.png}
+                \caption{Baseline head}
+                \label{fig:own_empty_b}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/phase04/phase01/conf02.png}
+                \caption{Deep head}
+                \label{fig:own_empty_d}
+            \end{subfigure}
+            
+            \vspace{0.5cm}
+        
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/phase04/phase01/conf03.png}
+                \caption{Hybrid v1}
+                \label{fig:own_empty_hv1}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/phase04/phase01/conf04.png}
+                \caption{Hybrid v2}
+                \label{fig:own_empty_hv2}
+            \end{subfigure}
+    
+    
+            \caption{Saját modellek tanítás nélküli Confusion Mátrixai.}
+            \label{fig:own-empty-conf}
+        \end{figure}
+
         \subsection{II. Fázis: Teljes tanítás}
+
+        \begin{table}[H]
+            \centering
+            \caption{Teljes tanítás után elért eredmények (Top-1 szerint csökkenő sorrendben)}
+            \begin{tabular}{|l|c|c|c|c|c|c|}
+            \hline
+            \textbf{Modell} & \textbf{Top-1} & \textbf{Top-5} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{Idő (s)} \\
+            \hline
+            ResNet18 + Baseline & 0.7303 & 0.9099 & 0.6777 & 0.6490 & 0.6568 & 18.54 \\
+            ResNet18 + Hybrid v1 & 0.7276 & 0.9074 & 0.6828 & 0.6369 & 0.6536 & 16.13 \\
+            ResNet18 + Deep & 0.7247 & 0.9000 & 0.6673 & 0.6336 & 0.6455 & 16.01 \\
+            ResNet18 + Hybrid v2 & 0.7236 & 0.9011 & 0.6669 & 0.6391 & 0.6469 & 15.62 \\
+            \hline
+            \end{tabular}
+        \end{table}
+
+        \subsubsection{Saját modellek teljes tanítás utáni Confusion Mátrixai.}
+        \begin{figure}[H]
+            \centering
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/phase04/phase02/conf01.png}
+                \caption{Baseline head}
+                \label{fig:own_full_b}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/phase04/phase02/conf02.png}
+                \caption{Deep head}
+                \label{fig:own_full_d}
+            \end{subfigure}
+            
+            \vspace{0.5cm}
+        
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/phase04/phase02/conf03.png}
+                \caption{Hybrid v1}
+                \label{fig:own_full_hv1}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{images/phase04/phase02/conf04.png}
+                \caption{Hybrid v2}
+                \label{fig:own_full_hv2}
+            \end{subfigure}
+    
+    
+            \caption{Saját modellek tanítás nélküli Confusion Mátrixai.}
+            \label{fig:own-empty-conf}
+        \end{figure}
 
         \subsection{III. Fázis: Iteratív tanítás}
         
