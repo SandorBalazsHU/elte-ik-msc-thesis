@@ -1,8 +1,87 @@
 \chapter{Modellek és metrikák kiválasztása}
 
-    \section{Metodika}
+\section{Kiválasztási és vizsgálati metodika}
 
-    \section{Kiválasztott modellek}
+A modellek kiválasztásánál elsődleges szempont volt, hogy a különböző mélységi tanulási irányzatok és architekturális paradigmák reprezentálva legyenek. A cél nem pusztán a pontossági versenyeztetés volt, hanem annak megértése is, hogy eltérő típusú architektúrák miként teljesítenek egy valósághű, heterogén, több ezer képből álló, különböző tematikájú képeket tartalmazó adathalmazon (SBphotoThemes180K). A kiválasztott modellek együttesen lefedik:
+
+\begin{itemize}
+    \item a klasszikus \textbf{konvolúciós} hálózatokat (pl. \textit{ResNet50}, \textit{Inception-v3}),
+    \item a \textbf{sűrű kapcsolatokra építő} architektúrákat (pl. \textit{DenseNet121}),
+    \item a \textbf{méretezhető hatékonyságra optimalizált} modelleket (pl. \textit{EfficientNet-B0}),
+    \item a \textbf{modern konvolúciós továbbfejlesztéseket} (pl. \textit{ConvNeXt-Tiny}),
+    \item a \textbf{transzformer-alapú vizuális feldolgozást} (pl. \textit{ViT-B/16}),
+    \item valamint a \textbf{neurális architektúra keresés eredményét} (pl. \textit{NASNet}).
+\end{itemize}
+
+Ez a változatosság lehetővé teszi, hogy a vizsgálatokból mélyebb következtetéseket vonjunk le arra vonatkozóan, hogyan skálázhatók, milyen erőforrásigényűek és mennyire robusztusak ezek az architektúrák változatos képi bemenetekkel szemben.
+
+\section{Vizsgált modellek áttekintése és indoklása}
+
+\subsection{ResNet50}
+A ResNet50 a „Deep Residual Learning” család legismertebb és legszélesebb körben használt tagja. A residual blokk architektúra bevezetésével sikerült megoldani a mély hálózatokban jelentkező gradienseltűnés problémáját. A ResNet egyfajta „alapvonalat” (baseline) is képez, amivel szinte minden új architektúrát össze szoktak vetni, így természetes választás volt a vizsgálathoz.
+
+\textbf{Kategória:} klasszikus konvolúciós hálózat  
+\textbf{Fő technológia:} residual kapcsolatok (skip connections), mély konvolúciós blokkok  
+\textbf{Miért fontos:} etalonmodell a CNN-ek között, stabil és jól skálázható teljesítmény
+
+\subsection{DenseNet121}
+A DenseNet egy innovatív megközelítés, amely minden réteget összekapcsol az összes korábbi réteggel (dense connectivity). Ez hatékonyabb információáramlást és gradiens-terjedést biztosít, miközben csökkenti a paraméterszámot a ResNethez képest.
+
+\textbf{Kategória:} sűrű kapcsolású konvolúciós hálózat  
+\textbf{Fő technológia:} dense block-ok, átvitt jellemzőtér-bővítés  
+\textbf{Miért fontos:} kiváló teljesítmény kisebb hálózati méretek mellett, paraméterhatékony
+
+\subsection{EfficientNet-B0}
+Az EfficientNet család az architektúrák méretezésének egy új paradigmáját vezette be, ahol a háló mélységét, szélességét és bemeneti felbontását egyidejűleg optimalizálják (compound scaling). Az \textit{B0} verzió a család legkisebb tagja, mégis meglepően jó teljesítményt nyújt alacsony számítási igény mellett.
+
+\textbf{Kategória:} skálázható CNN  
+\textbf{Fő technológia:} compound scaling, MBConv blokkok  
+\textbf{Miért fontos:} erőforrástakarékos, mégis kiváló pontosságú, ideális mobileszközökre
+
+\subsection{ConvNeXt-Tiny}
+A ConvNeXt a klasszikus CNN-ek modernizálását célozza, a transzformer architektúrák (főként a Swin Transformer) inspirációival. A ConvNeXt-Tiny modell teljesítményben közel áll a ViT modellekhez, miközben a CNN-ek előnyeit – például hatékony konvolúciót – megőrzi.
+
+\textbf{Kategória:} modern CNN  
+\textbf{Fő technológia:} layer normalization, nagyobb kernellek, transzformerszerű blokkok  
+\textbf{Miért fontos:} a CNN-ek új generációja, amelyek megközelítik a transzformerek teljesítményét
+
+\subsection{ViT-B/16 (Vision Transformer)}
+A Vision Transformer a képfeldolgozás egy paradigmaváltó modellje, amely teljesen mellőzi a konvolúciókat. A képet nem pixelenként, hanem patch-enként (16×16) kezeli, és ezekre alkalmaz transzformer blokkokat. Bár hatalmas adatigénye van, érdekes összehasonlítási alapot kínál a CNN-ekhez képest.
+
+\textbf{Kategória:} transzformer-alapú képfeldolgozó modell  
+\textbf{Fő technológia:} attention mechanizmus, patch embedding  
+\textbf{Miért fontos:} CNN-ek nélküli, tisztán transzformer architektúra; új irány a képfeldolgozásban
+
+\subsection{Inception-v3}
+Az Inception-v3 a Google által fejlesztett, „Network-in-Network” koncepcióra épülő modell, amely párhuzamosan többféle konvolúciós szűrőt alkalmaz egy rétegen belül. Célja a paraméterhatékonyság és a hálózat komplexitásának optimalizálása.
+
+\textbf{Kategória:} moduláris konvolúciós hálózat  
+\textbf{Fő technológia:} inception blokkok, factorized convolutions  
+\textbf{Miért fontos:} jól optimalizált, kiegyensúlyozott teljesítmény, mégis alacsony erőforrásigény
+
+\subsection{NASNet}
+A NASNet (Neural Architecture Search Network) teljesen automatikusan generált architektúra, amely neurális hálózat kereséssel (AutoML) jött létre. Az emberi tervezés helyett algoritmus döntötte el a hálózat blokkjait és struktúráját.
+
+\textbf{Kategória:} automatikusan generált CNN (AutoML)  
+\textbf{Fő technológia:} reinforcement learning alapú architektúra keresés  
+\textbf{Miért fontos:} betekintést ad az algoritmusok által optimalizált struktúrák előnyeibe és hátrányaiba
+
+\section{Mit tanulhatunk a vizsgálatból?}
+
+Ezen modellek összehasonlítása nemcsak teljesítménybeli különbségekre világít rá, hanem arra is, hogy különböző architektúrák miként kezelik a valósághű, kategória- és témagazdag képi adatokat. A tanulmány során választ kapunk az alábbi kérdésekre:
+
+\begin{itemize}
+    \item Mely architektúra típus a leghatékonyabb különböző adatdisztribúciók mellett?
+    \item Hogyan teljesítenek a konvolúciós modellek a transzformerekkel szemben?
+    \item Érdemes-e automatikusan generált modellekhez nyúlni kézi tervezésű helyett?
+    \item Mely modellek mutatnak nagyobb robusztusságot a kisebb elemszámú vagy heterogén kategóriákkal szemben?
+\end{itemize}
+
+Ezek megválaszolása elősegíti a jövőbeni adatbázis-építési, modellválasztási és tanítási stratégiák tudatosabb tervezését.
+
+
+
+    \section{Kiválasztott modellek részletes ismertetése.}
 
         \subsection{ResNet50}
 
