@@ -635,68 +635,273 @@ if __name__ == "__main__":
         \label{fig:SBphotoThemes180K-ImageNet1k-classes}
     \end{figure}
 
-    %EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
-
-    %Rövid értelmezés a vett mintákról.
-
-    \section{Statisztikák}
-
-        \subsection{Darabszámok, méretek}
-
-        \subsection{Mappavizsgáló szkript}
-
-        \subsection{Kategóriák, statisztikák, méretek}
+    \section{Adatbázis statisztikák}
+        Az SBphotoThemes180K adatbázis építése során és azt követően is folyamatos méréseket, ellenőrzéseket és statisztikai vizsgálatokat végeztem. Ezek célja az adathalmaz minőségének, struktúrájának és használhatóságának mélyebb megértése volt. A vizsgálatokhoz saját fejlesztésű Python szkripteket alkalmaztam, melyek a projekt GitHub repository-jában és a dolgozathoz csatolt mellékletben is elérhetők.
         
-        \subsubsection{SBphotoThemes180K - Places365 osztályozása}
+        \subsection{Darabszámok és fájlméretek}
+            Az alábbi táblázat az elkészült adatbázis legfontosabb összesítő metrikáit mutatja be:
+            
+            \begin{table}[H]
+            \centering
+            \caption{Az SBphotoThemes180K adatbázis összesítő jellemzői}
+            \begin{tabular}{|l|r|}
+            \hline
+            \textbf{Tulajdonság} & \textbf{Érték} \\
+            \hline
+            Fájlok száma         & 180\,750 \\
+            Összes fájlméret     & 9\,672 MB (~ 9.45 GB) \\
+            Átlagos fájlméret    & 50 KB \\
+            Képméret             & 224 px x 224 px \\
+            Fájltípus            & \texttt{.jpg} \\
+            \hline
+            \end{tabular}
+            \label{tab:db-summary}
+            \end{table}
+            
+            Az egységes képméret és fájlformátum lehetővé teszi a gyors feldolgozást és egyszerű betölthetőséget a legtöbb gépi tanulási keretrendszerben. A viszonylag kis fájlméret ellenére az adatbázis mérete miatt az adatok mozgatása, tárolása és kezelése nem volt triviális feladat, különösen felhőalapú környezetekben.
+        
+        \subsection{Kategorizálást vizsgáló szkript}
+            A kategóriák struktúrájának és egyensúlyának ellenőrzésére egy saját készítésű, többfunkciós Python szkriptet fejlesztettem. A szkript párhuzamosan dolgozik az összes kategóriával, és az alábbi feladatokat látja el:
+            
+            \begin{itemize}
+                \item Kategóriák listázása és egyenkénti képszámának kiértékelése
+                \item Top 30 legnépesebb kategória grafikus megjelenítése (balkdiagram formájában)
+                \item Méretkategóriák eloszlásának kiszámítása és vizualizálása
+                \item A teljes adathalmazra vonatkozó részletes statisztikai mutatók számítása (átlag, medián, szórás, entrópia, Gini-index, stb.)
+            \end{itemize}
+            
+            A szkript eredményei nemcsak a kategóriák kiegyensúlyozottságának ellenőrzésére szolgálnak, hanem segítséget nyújtanak a 80–10–10 Train–Val–Test felosztás optimalizálásában is, különösen kis elemszámú kategóriák esetén.
+            
+            A kategorizálást vizsgáló szkript forráskódja megtalálható:
+            \begin{itemize}
+                \item a projekt \textbf{GitHub repository-jában} \texttt{scripts/tools/} útvonalon,
+                \item valamint mellékletként a dolgozat végén.
+            \end{itemize}
+            
+            A szkript futtatása során készült vizualizációk közül több is szerepel a következő alfejezetekben, ahol az ImageNet1K és a Places365 osztályozások részletes elemzését mutatjuk be.
+    
+    \subsection{Kategóriák, statisztikák, méretek}
+        A \textbf{SBphotoThemes180K} adatbázsban lévő 180750 képet a \textbf{Places365} kategorizálással \textbf{121 kategóriába} soroltam, a \textbf{ImageNet1K} kategorizálással pedig \textbf{114 osztályba}. Most elemezzük ezeket a kategorizálásokat részletesen.
+
+    \subsection{SBphotoThemes180K - Places365 osztályozás statisztikái}
+
+        A \textbf{Places365} modellre épülő automatikus osztályozás során az SBphotoThemes180K adathalmaz képeit \textbf{121 kategóriába} sikerült besorolni. A leggyakoribb 12 osztály az alábbi táblázatban látható:
+
+        \begin{table}[H]
+        \centering
+        \caption{A tizenkét leggyakoribb kategória a Places365 osztályozásban}
+        \begin{tabular}{|l|r|}
+        \hline
+        \textbf{Kategória} & \textbf{Képszám} \\
+        \hline
+        stage              & 24 404 \\
+        sky                & 13 092 \\
+        orchestra\_pit      & 9 962 \\
+        arena              & 6 460 \\
+        music\_studio       & 4 032 \\
+        airfield           & 3 996 \\
+        florist\_shop       & 3 824 \\
+        field\_road         & 3 524 \\
+        discotheque        & 3 116 \\
+        heliport           & 2 934 \\
+        botanical\_garden   & 2 844 \\
+        canal              & 2 597 \\
+        \hline
+        \end{tabular}
+        \label{tab:places365-top12}
+        \end{table}
+
+        A kategóriák méretszerinti eloszlása (ezer kép szerinti csoportosítással):
+
+        \begin{table}[H]
+        \centering
+        \caption{Osztálykategóriák méretszerinti eloszlása (kép ezerfő/kategória szerint)}
+        \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Méretkategória (kép x 1000)} & \textbf{Kategóriák száma} \\
+        \hline
+        10+     & 2 \\
+        9-10    & 1 \\
+        8-9     & 0 \\
+        7-8     & 0 \\
+        6-7     & 1 \\
+        4-6     & 4 \\
+        3-4     & 5 \\
+        2-3     & 12 \\
+        1-2     & 21 \\
+        0.3-1   & 75 \\
+        \hline
+        \end{tabular}
+        \label{tab:places365-size-dist}
+        \end{table}
+
+        \vspace{1em}
+        \textbf{Alapstatisztikák:}
+
+        \begin{itemize}
+        \item Átlagos elemszám kategóriánként: \textbf{1\,493,80 kép}
+        \item Medián: \textbf{760 kép}
+        \item Szórás: \textbf{2\,650,96 kép}
+        \item Aszimmetria (skewness): \textbf{6,36} - erősen jobbra ferde eloszlás
+        \item Gini-index: \textbf{0,5110} - meglehetősen egyenlőtlen kategóriaeloszlás
+        \item Entrópia: \textbf{4,1766} - közepes diverzitást mutat
+        \item Minimum elemszám: \textbf{378 kép}
+        \item Maximum elemszám: \textbf{24\,404 kép}
+        \item Üres kategóriák száma: \textbf{0}
+        \item 300 alatti kategóriák száma: \textbf{0}
+        \end{itemize}
+
+        \vspace{1em}
+        \textbf{Elemzés:}
+
+        A Places365 osztályozás eredményei hasonló eloszlást mutatnak az ImageNet1K modellhez képest: néhány nagy elemszámú kategória dominálja az adatbázist, míg a legtöbb osztály közepes vagy kis elemszámban van jelen.
+
+        A \texttt{stage}, \texttt{sky} és \texttt{orchestra\_pit} kategóriák kiemelkedő elemszámukkal együttesen több mint a teljes adathalmaz 38\%-át fedik le, ami hozzájárul az erős szóráshoz és az aszimmetrikus eloszláshoz. Ez a tendencia a Gini-indexen is meglátszik, amely meghaladja az 50\%-ot, jelezve az egyenlőtlenséget.
+
+        A medián ismét jelentősen az átlag alatt található, ami szintén a nagy torzító hatású osztályok jelenlétére utal. Az entrópia értéke viszont mutatja, hogy az adathalmaz nem teljesen torzult - elegendő számú, különféle kategória is szerepel benne ahhoz, hogy változatos tanítókészletet biztosítson.
+
+        A legkisebb kategória is 378 képet tartalmaz, így az \textbf{adatbázis gépi tanuláshoz használható felosztása biztosítható volt minden osztályban}. Az adattisztítási lépéseknek köszönhetően üres vagy túlságosan kicsi kategóriák nem maradtak a végleges halmazban.
+
+        \subsubsection{SBphotoThemes180K - Places365 osztályozás vizuális elemzése}
+
+        Az alábbi ábrák segítségével grafikusan is szemügyre vehetjük a Places365 osztályozás megoszlását:
+
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\textwidth]{images/db/stat/db_stat_places_01.png}
-            \caption{SBphotoThemes180K - Places365 osztályozása}
+            \caption{SBphotoThemes180K - Places365 osztályozása kategóriánként.}
             \label{fig:places365-osztalyozas}
         \end{figure}
 
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\textwidth]{images/db/stat/db_stat_places_02.png}
-            \caption{SBphotoThemes180K - Places365 eloszlása}
+            \caption{SBphotoThemes180K - Places365 osztályeloszlása.}
             \label{fig:places365-eloszlas}
         \end{figure}
 
-        \subsubsection{SBphotoThemes180K - ImageNet1k osztályozása}
+
+    \subsection{SBphotoThemes180K - ImageNet1K osztályozás statisztikái}
+
+        Az \textbf{ImageNet1K} modellre épülő automatikus osztályozás során az SBphotoThemes180K adathalmaz képeit összesen \textbf{114 osztályba} soroltam. Az alábbi táblázat a tizenkét leggyakoribb kategóriát mutatja:
+        
+        \begin{table}[H]
+        \centering
+        \caption{A tizenkét legnagyobb elemszámú osztály az ImageNet1K osztályozásban}
+        \begin{tabular}{|l|r|}
+        \hline
+        \textbf{Kategória} & \textbf{Képszám} \\
+        \hline
+        stage            & 33 788 \\
+        warplane         & 8 705 \\
+        lakeside         & 8 003 \\
+        electric\_guitar  & 6 863 \\
+        microphone       & 5 951 \\
+        balloon          & 3 366 \\
+        valley           & 2 950 \\
+        seashore         & 2 882 \\
+        groom            & 2 838 \\
+        pot              & 2 540 \\
+        gondola          & 2 265 \\
+        bee              & 2 115 \\
+        \hline
+        \end{tabular}
+        \label{tab:imagenet-top12}
+        \end{table}
+        
+        A kategóriák méretszerinti eloszlását az alábbi táblázat mutatja (ezer képenként csoportosítva):
+        
+        \begin{table}[H]
+        \centering
+        \caption{Osztálykategóriák méretszerinti eloszlása (kép ezerfő/kategória szerint)}
+        \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Méretkategória (kép x 1000)} & \textbf{Kategóriák száma} \\
+        \hline
+        10+     & 1 \\
+        9-10    & 1 \\
+        8-9     & 1 \\
+        7-8     & 1 \\
+        6-7     & 1 \\
+        3-6     & 5 \\
+        2-3     & 6 \\
+        1-2     & 41 \\
+        0.3-1   & 57 \\
+        \hline
+        \end{tabular}
+        \label{tab:imagenet-size-dist}
+        \end{table}
+        
+        \vspace{1em}
+        \textbf{Alapstatisztikák:}
+        
+        \begin{itemize}
+          \item Átlagos elemszám kategóriánként: \textbf{1\,585,53 kép}
+          \item Medián: \textbf{999,5 kép}
+          \item Szórás: \textbf{3\,293,05 kép}
+          \item Aszimmetria (skewness): \textbf{8,41} - az eloszlás erősen jobbra ferde, néhány kiemelkedően nagy kategória dominálja
+          \item Gini-index: \textbf{0,4675} - közepesen egyenlőtlen eloszlás, de nem extrém
+          \item Entrópia: \textbf{4,0923} - a kategóriák diverzitása és kiegyensúlyozottsága mérsékelt
+          \item Minimum elemszám: \textbf{350 kép}
+          \item Maximum elemszám: \textbf{33\,788 kép}
+          \item Üres kategóriák száma: \textbf{0}
+          \item 300 alatti kategóriák száma: \textbf{0}
+        \end{itemize}
+        
+        \vspace{1em}
+        \textbf{Elemzés:}
+        
+        A 114 kategória közül néhány kiemelkedően sok képet tartalmaz - különösen a \texttt{stage} kategória, amely egyedül az összes adat közel 19\%-át fedi le. Ez jelentős torzulást okoz az eloszlásban, amit a magas szórás, az aszimmetria és a viszonylag magas Gini-index is jól tükröz. A medián messze az átlag alatt helyezkedik el, ami arra utal, hogy a legtöbb osztály lényegesen kisebb, mint a néhány domináns kategória.
+        
+        Mindezek ellenére az adathalmaz viszonylag jól használható maradt gépi tanulási célokra, mivel:
+        \begin{itemize}
+          \item Az összes kategória tartalmaz legalább 350 képet, ami bőven elég a 80/10/10 felosztáshoz.
+          \item Az entrópia értéke jelzi, hogy az adathalmaz nem túl homogén, de nem is extrém módon koncentrált.
+          \item A feldolgozás során kis elemszámú osztályokat és üres kategóriákat sikeresen kiszűrtem.
+        \end{itemize}
+        
+        \subsubsection{SBphotoThemes180K - ImageNet1K osztályozás vizuális elemzése}
+        
+        A következő ábrák grafikus formában mutatják be az osztályozás szerkezetét és eloszlását:
+        
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\textwidth]{images/db/stat/db_stat_imagenet_01.png}
-            \caption{SBphotoThemes180K - ImageNet1k osztályozása}
+            \caption{SBphotoThemes180K - ImageNet1K osztályozás kategóriái.}
             \label{fig:imagenet-osztalyozas}
         \end{figure}
-
+        
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\textwidth]{images/db/stat/db_stat_imagenet_02.png}
-            \caption{SBphotoThemes180K - ImageNet1k eloszlása}
+            \caption{SBphotoThemes180K - ImageNet1K osztályeloszlás.}
             \label{fig:imagenet-eloszlas}
         \end{figure}
-
+        
         \begin{figure}[H]
             \centering
             \includegraphics[width=1.0\textwidth]{images/db/stat/db_stat_imagenet_08.png}
-            \caption{SBphotoThemes180K - ImageNet1k eloszlása halmazonként.}
-            \label{fig:imagenet-gondola}
+            \caption{SBphotoThemes180K - ImageNet1K osztályozás hőtérképes eloszlása halmazonként.}
+            \label{fig:imagenet-heatmap}
         \end{figure}
-
+        
+    \subsection{A Train/Val/Test halmazok eloszlása}
+        A statisztikák során ellenőrizem a Train/Val/Test halmazok eloszlását is.
         \begin{figure}[H]
             \centering
             \includegraphics[width=0.6\textwidth]{images/db/stat/db_stat_imagenet_03.png}
             \caption{SBphotoThemes180K - mindkét osztály T/V/T eloszlása}
-            \label{fig:imagenet-gondola}
+            \label{fig:imagenet-tvt-eloszlas}
         \end{figure}
 
         \begin{figure}[H]
             \centering
             \includegraphics[width=0.6\textwidth]{images/db/stat/db_stat_imagenet_04.png}
             \caption{SBphotoThemes180K - mindkét osztály T/V/T darabszámai}
-            \label{fig:imagenet-gondola}
+            \label{fig:imagenet-tvt-db}
         \end{figure}
+
+    %EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
 
         \subsection{EXIF Statisztika szkript}
 
