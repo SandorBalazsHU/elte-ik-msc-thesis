@@ -319,7 +319,7 @@ A képadatbázis építése közben számos saját fejlesztésű segédprogram k
 
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/scripts/sumcopy-py.png}
+                \includegraphics[width=0.7\textwidth]{images/db/scripts/sumcopy-py.png}
                 \caption{A \texttt{sumcopy.py} szkript futása.}
                 \label{fig:03-sumcopy.py}
             \end{figure}
@@ -367,18 +367,21 @@ for img_path in tqdm(image_paths):
             
             A modell automatikusan elvégezte a kategóriák hozzárendelését, de az üres vagy csak néhány képet tartalmazó mappákat nem szűrte ki, így ezeket később manuálisan és külön szkriptek segítségével kellett eltávolítani.
             
-            Az alábbi ábrák néhány példát mutatnak a Places365 modell által létrehozott kategóriákból:
+            Az alábbi ábrák néhány példát mutatnak a Places365 modell által létrehozott kategóriákból. Később az ImageNet1k kategóriákból is megnézünk pár mintavételt. Az első airfield mintán látható eredmény jól jellemzi mindkét osztályozást. 
+            \\
+            \\
+            Az automatikus osztályozó különösen jól teljesített a repülőgépeket vagy jól azonosítható objektumokat ábrázoló képek felismerésében. Megbízhatóan azonosította a repülőgépeket akkor is, ha azok közeli felvételeken domináns motívumként jelentek meg, és akkor is, ha csak a kép egy kisebb részletét alkották - például távolban látható repülőgépek az égbolt vagy a tájkép háttérében. A modell az ilyen vizuálisan kevésbé hangsúlyos, de jellegzetes alakzatokat is sikeresen kategorizálta, ami jól mutatja a tanítás során szerzett robusztus általánosító képességét. Ez mindkét osztályozást jól jellemzi.
             
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/places/airfield.png}
+                \includegraphics[width=0.7\textwidth]{images/db/places/airfield.png}
                 \caption{Minta a \texttt{Places365} \textit{airfield} osztályából.}
                 \label{fig:places365-airfield}
             \end{figure}
             
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/places/skypng.png}
+                \includegraphics[width=0.7\textwidth]{images/db/places/skypng.png}
                 \caption{Minta a \texttt{Places365} \textit{sky} osztályából.}
                 \label{fig:places365-sky}
             \end{figure}
@@ -389,32 +392,32 @@ for img_path in tqdm(image_paths):
             
             Ebben az esetben már beépítettem az automatizált utófeldolgozást is: a szkriptek kiszűrték az üres és a túl kisméretű kategóriákat, majd újraosztották a bennük lévő képeket releváns, nagyobb kategóriákba. A végső adathalmaz így kiegyensúlyozottabb és kutatásra alkalmasabb lett.
             
-            Az alábbi ábrák véletlenszerű mintákat mutatnak az ImageNet1K osztályozás alapján létrejött kategóriákból:
+            Az alábbi ábrák véletlenszerű mintákat mutatnak az ImageNet1K osztályozás alapján létrejött kategóriákból amik egy általam készített mintavevő készültek:
             
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/imagenet/airliner.png}
+                \includegraphics[width=0.7\textwidth]{images/db/imagenet/airliner.png}
                 \caption{Minta az \texttt{ImageNet1K} \textit{airliner} osztályából.}
                 \label{fig:imagenet-airliner}
             \end{figure}
             
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/imagenet/bee.png}
+                \includegraphics[width=0.7\textwidth]{images/db/imagenet/bee.png}
                 \caption{Minta az \texttt{ImageNet1K} \textit{bee} osztályából.}
                 \label{fig:imagenet-bee}
             \end{figure}
             
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/imagenet/stage.png}
+                \includegraphics[width=0.7\textwidth]{images/db/imagenet/stage.png}
                 \caption{Minta az \texttt{ImageNet1K} \textit{stage} osztályából.}
                 \label{fig:imagenet-stage}
             \end{figure}
             
             \begin{figure}[H]
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/db/imagenet/gondola.png}
+                \includegraphics[width=0.7\textwidth]{images/db/imagenet/gondola.png}
                 \caption{Minta az \texttt{ImageNet1K} \textit{gondola} osztályából.}
                 \label{fig:imagenet-gondola}
             \end{figure}
@@ -544,9 +547,87 @@ if __name__ == "__main__":
 
             A felosztást követően minden készletet ZIP-formátumba tömörítettem, és feltöltöttem az elkészült adatbázisokat a további felhasználás vagy megosztás céljából.
 
+    %EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
     \section{Kész adatbázis elemzése}
+    
+    % Első 2 kép egymás mellett
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/db/places/heliport.png}
+            \caption{Heliport}
+            \label{fig:heliport}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/db/places/stage.png}
+            \caption{Stage}
+            \label{fig:stage}
+        \end{subfigure}
+        \caption{Két kép egymás mellett}
+        \label{fig:2_side_by_side}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{images/db/places/orchestra_pit.png}
+        \caption{Minta a \texttt{Places365} \textit{airfield} osztályából.}
+        \label{fig:places365-airfield}
+    \end{figure}
 
+    % Következő 4 kép: 2x2 mátrixban
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/db/imagenet/Egyptian_cat.png}
+            \caption{Egyptian cat}
+            \label{fig:egyptian_cat}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/db/imagenet/church.png}
+            \caption{Church}
+            \label{fig:church}
+        \end{subfigure}
+        
+        \vspace{0.5cm} % Kis függőleges térköz a sorok között
+    
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/db/imagenet/lakeside.png}
+            \caption{Lakeside}
+            \label{fig:lakeside}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/db/imagenet/cabbage_butterfly.png}
+            \caption{Cabbage butterfly}
+            \label{fig:butterfly}
+        \end{subfigure}
 
+        \vspace{0.5cm} % Kis függőleges térköz a sorok között
+    
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/db/imagenet/dragonfly.png}
+            \caption{dragonfly}
+            \label{fig:lakeside}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/db/imagenet/missile.png}
+            \caption{missile}
+            \label{fig:butterfly}
+        \end{subfigure}
+        \caption{Képek 2x2 mátrixban}
+        \label{fig:2x2}
+    \end{figure}
 
     \section{Statisztikák}
 
@@ -663,4 +744,3 @@ if __name__ == "__main__":
             \end{figure}
 
     \section{Az elkészült adatbázis értékelése}
-%EDDIG MEGÍRT, DE MÉG NEM ELLENŐRZÖTT -------------------------------------
