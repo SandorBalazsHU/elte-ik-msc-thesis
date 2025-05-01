@@ -1,5 +1,65 @@
 \chapter{Legfontosabb eredmények}
 
+\begin{table}[H]
+    \centering
+    \caption{Tanítás nélküli modellek teljesítménye (Top-1 szerint csökkenő sorrendben)}
+    \begin{tabular}{|l|c|c|c|c|c|c|}
+    \hline
+    \textbf{Modell} & \textbf{Top-1} & \textbf{Top-5} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{Idő (s)} \\
+    \hline
+    ViT-B/16 & 0.5308 & 0.8582 & 0.4629 & 0.4419 & 0.4307 & 92.13 \\
+    ConvNeXt-Tiny & 0.5048 & 0.8471 & 0.4917 & 0.4369 & 0.4194 & 38.40 \\
+    EfficientNet-B0 & 0.4802 & 0.8217 & 0.4137 & 0.4039 & 0.3829 & 28.89 \\
+    Inception-v3 & 0.4763 & 0.8008 & 0.3833 & 0.3896 & 0.3683 & 38.06 \\
+    ResNet50 & 0.4698 & 0.7962 & 0.3934 & 0.3797 & 0.3592 & 25.21 \\
+    DenseNet121 & 0.4498 & 0.7806 & 0.3874 & 0.3611 & 0.3408 & 25.15 \\
+    NASNet-A-Large & 0.2820 & 0.5408 & 0.3204 & 0.2799 & 0.2696 & 275.30 \\
+    ResNet18 + Hybrid v2 & 0.0054 & 0.0379 & 0.0026 & 0.0063 & 0.0020 & 17.89 \\
+    ResNet18 + Baseline & 0.0052 & 0.0304 & 0.0093 & 0.0072 & 0.0011 & 18.48 \\
+    ResNet18 + Deep & 0.0050 & 0.0265 & 0.0003 & 0.0071 & 0.0006 & 15.54 \\
+    ResNet18 + Hybrid v1 & 0.0047 & 0.0286 & 0.0041 & 0.0076 & 0.0014 & 15.54 \\
+    \hline
+    \end{tabular}
+    \end{table}
+    
+    \begin{table}[H]
+        \centering
+        \caption{Teljes tanítás után elért eredmények (Top-1 szerint csökkenő sorrendben)}
+        \begin{tabular}{|l|c|c|c|c|c|c|}
+        \hline
+        \textbf{Modell} & \textbf{Top-1} & \textbf{Top-5} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{Idő (s)} \\
+        \hline
+        EfficientNet-B0 & 0.7649 & 0.9421 & 0.7130 & 0.6950 & 0.7001 & 25.26 \\
+        NASNet-A-Large & 0.7626 & 0.9470 & 0.7180 & 0.6875 & 0.6955 & 34.03 \\
+        ConvNeXt-Tiny & 0.7624 & 0.9357 & 0.7168 & 0.6841 & 0.6947 & 25.67 \\
+        ResNet50 & 0.7553 & 0.9351 & 0.7110 & 0.6808 & 0.6908 & 25.11 \\
+        Inception-v3 & 0.7518 & 0.9320 & 0.6963 & 0.6787 & 0.6827 & 33.62 \\
+        ViT-B/16 & 0.7414 & 0.9257 & 0.6935 & 0.6636 & 0.6730 & 42.40 \\
+        DenseNet121 & 0.7400 & 0.9266 & 0.6811 & 0.6680 & 0.6696 & 25.23 \\
+        ResNet18 + Baseline & 0.7303 & 0.9099 & 0.6777 & 0.6490 & 0.6568 & 18.54 \\
+        ResNet18 + Hybrid v1 & 0.7276 & 0.9074 & 0.6828 & 0.6369 & 0.6536 & 16.13 \\
+        ResNet18 + Deep & 0.7247 & 0.9000 & 0.6673 & 0.6336 & 0.6455 & 16.01 \\
+        ResNet18 + Hybrid v2 & 0.7236 & 0.9011 & 0.6669 & 0.6391 & 0.6469 & 15.62 \\
+        \hline
+        \end{tabular}
+    \end{table}
+        
+    \section{Következtetések a teljes tanítás után kapott eredményekből}
+
+	A teljes tanítással végzett modellek elemzése alapján több fontos és meglepő megfigyelés is levonható:
+	\\\\
+    EfficientNet-B0 vezeti a mezőnyt: Bár eredetileg egy kompakt, mobilbarát hálózatként lett tervezve, az EfficientNet-B0 a legmagasabb Top-1 pontosságot (0.7649) és egyben az egyik legjobb F1-score értéket (0.7001) érte el. Ez kiemeli az architekturális hatékonyság és a méretezés szerepét a transfer learning során.
+	\\\\
+    NASNet-A-Large jelentős javulása: Tanítás nélkül a NASNet alulteljesített (0.2820 Top-1), de tanítással 0.7626 Top-1 pontosságot ért el. Ez azt mutatja, hogy bizonyos hálózatok „alvó potenciállal” rendelkeznek, és megfelelő finomhangolással rendkívül versenyképesek lehetnek.
+	\\\\
+    Transformer-alapú modellek stabilak, de nem verhetetlenek: A ViT-B/16 transformer modell jó teljesítményt mutatott (0.7414 Top-1), de nem emelkedett ki a többi CNN modell közül. Ez arra utal, hogy nagyobb adattömeg vagy hosszabb tanítási idő szükséges a transzformerek kiemelkedő teljesítményéhez a közepes méretű feladatokon.
+	\\\\
+    Könnyű fejekkel rendelkező ResNet18-alapú modellek is versenyképesek: A ResNet18 + különböző fejek kombinációja (Baseline, Deep, Hybrid v1/v2) 0.7236–0.7303 Top-1 pontosságot hozott. Ez figyelemre méltó, tekintve az alacsony számítási igényt és egyszerű architektúrát. A Baseline fej valamivel jobb eredményt produkált, mint a Deep vagy Hybrid fejek – valószínűleg az egyszerűbb modell kevésbé hajlamos az overfittingre.
+	\\\\
+    Inference idő és teljesítmény kompromisszuma: A ViT és NASNet modellek jelentősen lassabbak (42–275 másodperc!), míg a ResNet18 alapú modellek gyorsak (15–18 másodperc). Ebből adódóan alkalmazás-specifikusan a legjobb választás nem mindig a legpontosabb modell – valós idejű rendszerekhez például egy ResNet18 + Hybrid fej lehet ideális kompromisszum.
+	\\\\
+    Top-5 pontosság is szoros versenyt mutat: A legtöbb modell 0.90 fölé emelkedett tanítás után, ami azt mutatja, hogy a modellek már nemcsak az első, hanem a legvalószínűbb néhány osztály közé is gyakran eltalálják a helyes címkét. Ez fontos többválaszos vagy javaslat-alapú rendszerek esetén.
+
 \chapter{Összefoglaló}
 \label{ch:summary}
 

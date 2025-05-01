@@ -1,14 +1,99 @@
-\chapter{ IV. Fázis: Saját modell fejlesztése}
+\chapter{IV. Fázis: Saját modell fejlesztése}
 
-    \section{A ResNet18}
+A méréssorozat negyedik fázisában egy egyedileg kialakított neurális háló kifejlesztésére és kiértékelésére került sor. A cél olyan modell létrehozása volt, amely a nagy, erőforrás-igényes hálózatok (pl. ViT, ConvNeXt, EfficientNet) pontosságát megközelíti, de lényegesen kisebb számítási igény mellett. Ez lehetővé teszi a modell lokális, valós idejű, alacsony költségű alkalmazását is.
 
-    \section{A Base fej}
+A fejlesztés alapját a jól bevált \textbf{ResNet18} architektúra képezte, amely megfelelő egyensúlyt nyújt a taníthatóság és a teljesítmény között. A modell \texttt{backbone} része változatlan maradt, míg az utolsó teljesen összekapcsolt (fully-connected) réteg helyére különféle saját fejrészek (head-ek) kerültek.
 
-    \section{A Deep fej}
+A következőkben részletesen bemutatjuk az alkalmazott ResNet18 modellt, valamint a négy vizsgált fejváltozatot: \textbf{Baseline, Deep, Hybrid-v1, Hybrid-v2}.
 
-    \section{A Hybrid-v1 fej}
+\section{A ResNet18 ismertetése}
+A személyes kötődés miatt választottam ezt a modellt. Ez volt az első amivel az egyetemen dolgoztam, így jól ismerem.
+A ResNet18 az egyik legismertebb és legszélesebb körben alkalmazott konvolúciós neurális hálózat, melyet a \textit{Microsoft Research} fejlesztett ki. A modell fő innovációja a \textbf{residual connection} használata, amely lehetővé teszi a mély hálók hatékony tanítását a gradiens-visszaterjedés során fellépő problémák enyhítésével.
 
-    \section{A Hybrid-v2 fej}
+A ResNet18 a következő fő komponensekből áll:
+\begin{itemize}
+  \item Kezdeti konvolúciós réteg + batch normalizáció + max pooling
+  \item Négy egymásra épülő blokk (2-2 residual egységgel)
+  \item Átlagos leképezés (global average pooling)
+  \item Fully connected kimeneti réteg (ez került eltávolításra a vizsgálathoz)
+\end{itemize}
+
+A \texttt{fc} és \texttt{avgpool} rétegek helyére került be az egyedileg tervezett fejrészek egyike.
+
+\section{A Baseline fej ismertetése}
+
+A Baseline fej a legegyszerűbb, mégis hatékony megoldás. Lényege egy kétlépcsős, lineáris osztályozó blokk, amely gyors konvergenciát és stabil tanulást biztosít, különösen kis méretű adathalmazokon. Ez a fej alacsony paraméterszámú és kevéssé túlilleszkedésre hajlamos, ezért kiváló kiindulópontként szolgált.
+
+\begin{verbatim}
+nn.Sequential(
+    nn.Linear(in_features, 256),
+    nn.ReLU(),
+    nn.Dropout(0.3),
+    nn.Linear(256, num_classes)
+)
+\end{verbatim}
+
+A Dropout alkalmazása segít a generalizációs képesség javításában, míg a ReLU aktiváció gyors tanulást tesz lehetővé.
+
+\section{A Deep fej ismertetése}
+
+A Deep fej mélyebb, háromrétegű architektúra, amely nagyobb reprezentációs kapacitással bír. Célja a tanulási képesség növelése mélyebb jellemzők segítségével, különösen bonyolultabb osztályok esetén.
+
+\begin{verbatim}
+nn.Sequential(
+    nn.Linear(in_features, 512),
+    nn.ReLU(),
+    nn.Dropout(0.3),
+    nn.Linear(512, 256),
+    nn.ReLU(),
+    nn.Dropout(0.3),
+    nn.Linear(256, num_classes)
+)
+\end{verbatim}
+
+Ez a fejváltozat kifejezetten akkor bizonyult előnyösnek, ha nagyobb adathalmazon (pl. 25k train minta) történik a tanítás, mivel képes mélyebb döntési határokat megtanulni.
+
+\section{A Hybrid-v1 fej ismertetése}
+
+A Hybrid-v1 fej egy újszerű megközelítést alkalmaz: a ResNet18 utolsó konvolúciós kimenetére egy 1x1-es konvolúciós réteg kerül, amely lekicsinyíti a csatornaszámot. Ezután jön egy adaptív átlagolás, normalizálás és egy nemlineáris aktiváció (GELU). A végeredményt egy teljesen összekapcsolt réteg végzi el.
+
+\begin{verbatim}
+nn.Sequential(
+    nn.Conv2d(512, 256, kernel_size=1),
+    nn.AdaptiveAvgPool2d((1, 1)),
+    nn.LayerNorm([256, 1, 1]),
+    nn.GELU(),
+    nn.Flatten(),
+    nn.Linear(256, num_classes)
+)
+\end{verbatim}
+
+A LayerNorm javítja a tanítási stabilitást, míg a GELU finomabb nemlinearitást biztosít. Ez a fejváltozat nagyon jó egyensúlyt mutatott a teljesítmény és a számítási igény között.
+
+\section{A Hybrid-v2 fej ismertetése}
+
+A Hybrid-v2 fej a v1 továbbfejlesztett változata. Itt a 1x1-es konvolúciót lecseréltük két egymásra épülő, klasszikus 3x3-as konvolúciós blokkra (BatchNorm + GELU aktivációval), így a fej mélyebb, de még mindig könnyen tanítható maradt.
+
+\begin{verbatim}
+nn.Sequential(
+    nn.Conv2d(512, 256, kernel_size=3, padding=1),
+    nn.BatchNorm2d(256),
+    nn.GELU(),
+    nn.Conv2d(256, 128, kernel_size=3, padding=1),
+    nn.BatchNorm2d(128),
+    nn.GELU(),
+    nn.AdaptiveAvgPool2d((1, 1)),
+    nn.Flatten(),
+    nn.Linear(128, num_classes)
+)
+\end{verbatim}
+
+Ez a kialakítás a legjobb teljesítményt nyújtotta a saját modellek között, miközben továbbra is gyorsan futott és jól skálázódott GPU-n és akár CPU-n is.
+
+\bigskip
+
+Mind a négy fej logikusan kapcsolódott a ResNet18 backbone-hoz, és jól illeszkedett a projekt céljához: egy könnyű, de pontos modell kifejlesztéséhez. A fázis eredményei azt mutatták, hogy megfelelő architektúra választásával a mély modellek pontosságát akár egy ResNet18-alapú saját háló is megközelítheti.
+
 
     \section{Mérések}
 
