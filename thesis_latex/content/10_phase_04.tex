@@ -7,6 +7,15 @@ A fejlesztés alapját a jól bevált \textbf{ResNet18} architektúra képezte, 
 A következőkben részletesen bemutatjuk az alkalmazott ResNet18 modellt, valamint a négy vizsgált fejváltozatot: \textbf{Baseline, Deep, Hybrid-v1, Hybrid-v2}.
 
 \section{A ResNet18 ismertetése}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/models/ResNet18_overview.png}
+    \caption{A ResNet18 szerkezete.}
+    \label{fig:ResNet18_overview}
+\end{figure}
+
+\cleardoublepage
 A személyes kötődés miatt választottam ezt a modellt. Ez volt az első amivel az egyetemen dolgoztam, így jól ismerem.
 A ResNet18 az egyik legismertebb és legszélesebb körben alkalmazott konvolúciós neurális hálózat, melyet a \textit{Microsoft Research} fejlesztett ki. A modell fő innovációja a \textbf{residual connection} használata, amely lehetővé teszi a mély hálók hatékony tanítását a gradiens-visszaterjedés során fellépő problémák enyhítésével.
 
@@ -22,6 +31,13 @@ A \texttt{fc} és \texttt{avgpool} rétegek helyére került be az egyedileg ter
 
 \section{A Baseline fej ismertetése}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{images/models/head_baseline.png}
+    \caption{A Baseline fej szerkezete.}
+    \label{fig:baseline_head_overview}
+\end{figure}
+
 A Baseline fej a legegyszerűbb, mégis hatékony megoldás. Lényege egy kétlépcsős, lineáris osztályozó blokk, amely gyors konvergenciát és stabil tanulást biztosít, különösen kis méretű adathalmazokon. Ez a fej alacsony paraméterszámú és kevéssé túlilleszkedésre hajlamos, ezért kiváló kiindulópontként szolgált.
 
 \begin{verbatim}
@@ -36,6 +52,13 @@ nn.Sequential(
 A Dropout alkalmazása segít a generalizációs képesség javításában, míg a ReLU aktiváció gyors tanulást tesz lehetővé.
 
 \section{A Deep fej ismertetése}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/models/head_deep.png}
+    \caption{A Deep fej szerkezete.}
+    \label{fig:deep_head_overview}
+\end{figure}
 
 A Deep fej mélyebb, háromrétegű architektúra, amely nagyobb reprezentációs kapacitással bír. Célja a tanulási képesség növelése mélyebb jellemzők segítségével, különösen bonyolultabb osztályok esetén.
 
@@ -55,7 +78,14 @@ Ez a fejváltozat kifejezetten akkor bizonyult előnyösnek, ha nagyobb adathalm
 
 \section{A Hybrid-v1 fej ismertetése}
 
-A Hybrid-v1 fej egy újszerű megközelítést alkalmaz: a ResNet18 utolsó konvolúciós kimenetére egy 1x1-es konvolúciós réteg kerül, amely lekicsinyíti a csatornaszámot. Ezután jön egy adaptív átlagolás, normalizálás és egy nemlineáris aktiváció (GELU). A végeredményt egy teljesen összekapcsolt réteg végzi el.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/models/head_hybrid_v1.png}
+    \caption{A Hybrid-v1 fej szerkezete.}
+    \label{fig:hybridv1_head_overview}
+\end{figure}
+
+A Hybrid-v1 fej egy újszerű megközelítést alkalmaz: a ResNet18 utolsó konvolúciós kimenetére egy 1x1-es konvolúciós réteg kerül, amely lekicsinyíti a csatornaszámot. Ezután jön egy adaptív átlagolás, normalizálás és egy nemlineáris aktiváció (GELU). A végeredményt egy teljesen összekapcsolt réteg adja meg.
 
 \begin{verbatim}
 nn.Sequential(
@@ -71,6 +101,13 @@ nn.Sequential(
 A LayerNorm javítja a tanítási stabilitást, míg a GELU finomabb nemlinearitást biztosít. Ez a fejváltozat nagyon jó egyensúlyt mutatott a teljesítmény és a számítási igény között.
 
 \section{A Hybrid-v2 fej ismertetése}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/models/head_hybrid_v2.png}
+    \caption{A Hybrid-v2 fej szerkezete.}
+    \label{fig:hybridv2_head_overview}
+\end{figure}
 
 A Hybrid-v2 fej a v1 továbbfejlesztett változata. Itt a 1x1-es konvolúciót lecseréltük két egymásra épülő, klasszikus 3x3-as konvolúciós blokkra (BatchNorm + GELU aktivációval), így a fej mélyebb, de még mindig könnyen tanítható maradt.
 
@@ -88,11 +125,11 @@ nn.Sequential(
 )
 \end{verbatim}
 
-Ez a kialakítás a legjobb teljesítményt nyújtotta a saját modellek között, miközben továbbra is gyorsan futott és jól skálázódott GPU-n és akár CPU-n is.
+Ez a kialakítás a legjobb teljesítményt nyújtotta a sebesség terén a saját modellek között, miközben továbbra is gyorsan tanult, bár alacsonyabb pontossággal, de jól skálázódott GPU-n és akár CPU-n is.
 
 \bigskip
 
-Mind a négy fej logikusan kapcsolódott a ResNet18 backbone-hoz, és jól illeszkedett a projekt céljához: egy könnyű, de pontos modell kifejlesztéséhez. A fázis eredményei azt mutatták, hogy megfelelő architektúra választásával a mély modellek pontosságát akár egy ResNet18-alapú saját háló is megközelítheti.
+Mind a négy fej logikusan kapcsolódott a ResNet18 backbone-hoz, és jól illeszkedett a projekt céljához: egy könnyű, de pontos modell kifejlesztéséhez. A fázis eredményei azt mutatták, hogy megfelelő architektúra választásával a mély modellek pontosságát akár egy ResNet18-alapú saját háló is megközelítheti. Végül a Hybrid-v1nyújtotta a legjobb kompromisszumot a sebesség és a pontosság között. Most lássuk a mérési eredményeket.
 
 
     \section{Mérések}
@@ -152,6 +189,8 @@ Mind a négy fej logikusan kapcsolódott a ResNet18 backbone-hoz, és jól illes
             \caption{Saját modellek tanítás nélküli Confusion Mátrixai.}
             \label{fig:own-empty-conf}
         \end{figure}
+
+A modellek tanítatlanok, így szinte teljesen hibás osztályozást adtak, mivel a gyári súlyok ellenére a legvégső réteget lecseréltük. Lássuk, hogyan alakulnak ezek a metrikák a teljes tanítás után.
 
         \subsection{II. Fázis: Teljes tanítás}
 
@@ -370,7 +409,7 @@ Mind a négy fej logikusan kapcsolódott a ResNet18 backbone-hoz, és jól illes
         \label{fig:phase04_03_sum_h204}
         \end{figure}    
 
-
+    \cleardoublepage
     \section{Összefoglalás}
 
         \subsubsection{Saját modellek összefoglaló grafikonja 1.}
